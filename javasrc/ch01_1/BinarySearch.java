@@ -23,7 +23,7 @@
  *  
  ******************************************************************************/
 
-package jav.src.ch01_1;
+package javasrc.ch01_1;
 
 import java.util.Arrays;
 import lib.StdIn;
