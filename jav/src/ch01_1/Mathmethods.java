@@ -7,11 +7,11 @@ public class Mathmethods {
       return Double.NaN;
     }
     double err = 1e-15;
-    double t = x;
-    while (Math.abs(t - x / t) > err * t) {
-      t = (x / t + t) / 2.0;
+    double result = x;
+    while (Math.abs(result - x / result) > err * result) {
+      result = (x / result + result) / 2.0;
     }
-    return t;
+    return result;
   }
 
   public static int abs(int x) {
@@ -43,6 +43,6 @@ public class Mathmethods {
   }
 
   public static void main(String[] args) {
-    System.out.println(sqrt(9));
+    System.out.println(sqrt(2));
   }
 }

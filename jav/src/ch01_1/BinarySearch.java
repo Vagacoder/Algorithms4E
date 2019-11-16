@@ -26,10 +26,9 @@
 package jav.src.ch01_1;
 
 import java.util.Arrays;
-import jav.lib.StdIn;
-import jav.lib.StdOut;
-import jav.lib.In;
-
+import lib.StdIn;
+import lib.StdOut;
+import edu.princeton.cs.algs4.In;
 public class BinarySearch {
 
   public static int rank(int key, int[] a) {

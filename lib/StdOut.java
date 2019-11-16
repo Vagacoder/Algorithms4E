@@ -1,4 +1,4 @@
-package jav.lib;
+package lib;
 
 /******************************************************************************
  *  Compilation:  javac StdOut.java
