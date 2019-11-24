@@ -27,4 +27,6 @@ install in anaconda
 
     `conda install -c anaconda pycairo`
 
+Home page is [here](https://pycairo.readthedocs.io/en/latest/)
+
 
