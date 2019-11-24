@@ -17,3 +17,14 @@ in **windows bash**, if the classpath is not defined, we have a compiled file,
 
     `java -cp ./\;./lib/algs4.jar javasrc/ch01_1/BinarySearch data/tinyW.txt < data/tinyT.txt`
 
+#### 2019-11-23
+3. Add Pycairo for 2d drawing in Python:
+install in python
+
+    `pip install pycairo`
+
+install in anaconda
+
+    `conda install -c anaconda pycairo`
+
+
