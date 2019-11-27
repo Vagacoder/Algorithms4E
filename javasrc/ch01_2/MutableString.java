@@ -1,3 +1,4 @@
+package javasrc.ch01_2;
 
 /******************************************************************************
  *  Compilation:  javac MutableString.java
@@ -9,6 +10,7 @@
  ******************************************************************************/
 
 import java.lang.reflect.Field;
+import lib.StdOut;
 
 public class MutableString {
 
