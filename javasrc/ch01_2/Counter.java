@@ -1,29 +1,29 @@
-package javasrc.ch01_1;
+package javasrc.ch01_2;
 
 import lib.StdOut;
 
-public class Counter{
+public class Counter {
 
     private final String name;
     private int count;
 
-    public Counter(String id){
+    public Counter(String id) {
         name = id;
     }
 
-    public void increment(){
+    public void increment() {
         count++;
     }
 
-    public int tally(){
+    public int tally() {
         return count;
     }
 
-    public String toString(){
+    public String toString() {
         return count + " " + name;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Counter heads = new Counter("heads");
         Counter tails = new Counter("tails");
 
