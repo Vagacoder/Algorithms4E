@@ -7,7 +7,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class Whitelist {
 
     public static void main(String[] args) {
-        int[] w = In.readInts(args[0]);
+        int[] w = new In(args[0]).readAllInts();
         StaticSETofInts set = new StaticSETofInts(w);
         while (!StdIn.isEmpty()) {
             int key = StdIn.readInt();

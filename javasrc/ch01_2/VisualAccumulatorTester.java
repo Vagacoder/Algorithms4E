@@ -10,7 +10,7 @@ public class VisualAccumulatorTester {
         int input = 2000;
         VisualAccumulator va = new VisualAccumulator(input, 1);
         for (int i = 0; i < input; i++) {
-            va.addDataValue(StdRandom.random());
+            va.addDataValue(StdRandom.uniform());
         }
         StdOut.println(va);
     }
