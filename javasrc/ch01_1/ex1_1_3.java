@@ -6,7 +6,7 @@ equal if all three are equal, and not equal otherwise.
 */
 import lib.StdOut;
 
-public class ex1_3 {
+public class ex1_1_3 {
 
   public static void main(String[] args) {
       int a = Integer.parseInt(args[0]);

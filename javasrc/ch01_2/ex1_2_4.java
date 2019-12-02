@@ -2,7 +2,7 @@ package javasrc.ch01_2;
 
 import lib.StdOut;
 
-public class ex2_4 {
+public class ex1_2_4 {
 
     public static void main(String[] args) {
         String s1 = "hello";

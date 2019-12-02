@@ -2,18 +2,21 @@ package javasrc.ch01_2;
 
 import edu.princeton.cs.algs4.StdOut;
 
-public class ex2_6 {
+public class ex1_2_6 {
 
     public static void main(String[] args) {
         String s1 = "actgacg";
         String s2 = "tgacgac";
         StdOut.println(isCircularRotation(s1, s2));
+        StdOut.println(isCircularRotation2(s1, s2));
         s1 = "a";
         s2 = "tgacgac";
         StdOut.println(isCircularRotation(s1, s2));
+        StdOut.println(isCircularRotation2(s1, s2));
         s1 = "acttacg";
         s2 = "tgacgtc";
         StdOut.println(isCircularRotation(s1, s2));
+        StdOut.println(isCircularRotation2(s1, s2));
     }
 
     private static boolean isCircularRotation(String s1, String s2) {
@@ -30,5 +33,10 @@ public class ex2_6 {
         }
 
         return false;
+    }
+
+    // More concise
+    private static boolean isCircularRotation2(String s1, String s2){
+        return (s1.length() == s2.length())&&((s1 + s1).indexOf(s2) >= 0);
     }
 }
