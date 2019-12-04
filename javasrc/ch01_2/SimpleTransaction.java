@@ -14,6 +14,16 @@ public class SimpleTransaction {
         this.amount = amount;
     }
 
+    public SimpleTransaction(String who, String when, double amount){
+        this.who = who;
+        String[] dateInfo = when.split("/");
+        int month = Integer.parseInt(dateInfo[0]);
+        int day = Integer.parseInt(dateInfo[1]);
+        int year = Integer.parseInt(dateInfo[2]);
+        this.when = new Date(month, day, year);
+        this.amount = amount;
+    }
+
     public String who() {
         return this.who;
     }
