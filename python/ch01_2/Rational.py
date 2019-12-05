@@ -1,16 +1,21 @@
-from .python.lib.Functions import *
+import os
+import sys
+sys.path.append('..')
+from ..lib.Functions import gcd
+from ..lib.Functions import abs
+
 
 class Rational:
 
-    def __init__ (self, numerator: int, denominator : int):
+    def __init__(self, numerator: int, denominator: int):
         if denominator == 0:
             raise Exception('Denominator cannot be zero')
-        
-        gcd: int = Functions.gcd(numerator, denominator)
-        if gcd != 1:
-            numerator /= gcd
-            denominator /= gcd
-        
+
+        cd: int = gcd(numerator, denominator)
+        if cd != 1:
+            numerator /= cd
+            denominator /= cd
+
         if (numerator > 0 and denominator < 0):
             numerator = -numerator
             denominator = -denominator
@@ -18,7 +23,7 @@ class Rational:
         self.numerator = numerator
         self.denominator = denominator
 
-    def __repr__ (self):
+    def __repr__(self):
         return numerator + "/" + denominator
 
 
