@@ -1,9 +1,8 @@
 # Algorithms 4th Edition
 ### Exercises and practicing projectes
 #### using java and python
-#### 2019-11-05
 
-#### updated at 2019-12-06
+#### 201-11-05, 2019-12-06
 1. How to complie .java file in command line:
 1.1. in **Windows shell**, 
 if the classpath is not defined, we have a source file, 
@@ -39,7 +38,7 @@ Same situation in 2.1.
     `java -cp "./:./lib/algs4.jar" javasrc/ch01_1/BinarySearch data/tinyW.txt < data/tinyT.txt`
 
 
-3. SUMMARY: 
+3. SUMMARY of compiling and running using command line: 
 3.1. For `javac` or `javac` commands, `-cp` defines the class path, followed with a string 
 of paths.
 
@@ -50,7 +49,7 @@ not quoted, if not quoted, `;` need be escaped: `\;`.
 
 
 #### 2019-11-23
-3. Add Pycairo for 2d drawing in Python:
+4. Add Pycairo for 2d drawing in Python:
 install in python
 
     `pip install pycairo`
@@ -60,5 +59,31 @@ install in anaconda
     `conda install -c anaconda pycairo`
 
 Home page is [here](https://pycairo.readthedocs.io/en/latest/)
+
+
+#### 2019-12-07
+5. How to input EOF "End Of File" in command line.
+In **Windows shell**, it is `Ctrl+Z`
+In **Linux bash**, its is `Ctrl+D`
+
+6. How to create generic array in java
+There are *Strong Typing* and *Weak Typing*, we talk *Weak Typing* here
+
+    public class FixedCapacityStack<T> {
+
+        private T[] a;
+        private int N;
+
+        public FixedCapacityStack(int capacity) {
+            @SuppressWarnings("unchecked")
+            T[] a = (T[]) new Object[capacity];
+            this.a = a;
+        }
+    }
+
+6.1. You need annotation: @SuppressWarnings("unchecked"),
+6.2. Create an array of object (new Object[capacity]) first,
+6.3. Then, cast it to generic type,
+6.4. casted generic array can not be directly assigned to instance variable, use a template variable to transfer.
 
 
