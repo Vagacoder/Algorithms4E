@@ -24,6 +24,8 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+// import java.util.LinkedList;
+// import java.util.Queue;
 
 /**
  *  <i>Input</i>. This class provides methods for reading strings
@@ -594,6 +596,20 @@ public final class In {
      */
     @Deprecated
     public static int[] readInts(String filename) {
+
+        // In in = new In(filename);
+        // Queue<Integer> q = new LinkedList<Integer>();
+        // while(!in.isEmpty()){
+        //     q.add(in.readInt());
+        // }
+
+        // int N = q.size();
+        // int[] a = new int[N];
+        // for (int i=0; i< N; i++){
+        //     a[i] = q.remove();
+        // }
+        // return a;
+
         return new In(filename).readAllInts();
     }
 
