@@ -34,7 +34,7 @@ public class ResizableArrayQueue<T> implements Iterable<T> {
         @SuppressWarnings("unchecked")
         T[] newArray = (T[]) new Object[newCapacity];
         for (int i = 0; i < numberInQueue; i++) {
-            newArray[this.firstIndex + i] = this.queue[i];
+            newArray[i] = this.queue[this.firstIndex + i];
         }
         this.queue = newArray;
         this.firstIndex = 0;

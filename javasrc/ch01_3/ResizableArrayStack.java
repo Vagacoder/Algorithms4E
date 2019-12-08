@@ -6,7 +6,7 @@ import lib.StdIn;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ResizableArrayStack<T> {
+public class ResizableArrayStack<T> implements Iterable<T> {
 
     @SuppressWarnings("unchecked")
     private T[] a = (T[]) new Object[1];
@@ -89,6 +89,9 @@ public class ResizableArrayStack<T> {
             }
         }
         StdOut.println("(" + s.size() + " left in stack)");
+        for(String item: s){
+            StdOut.println(item);
+        }
     }
 
 }
