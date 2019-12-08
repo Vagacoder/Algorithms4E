@@ -1,9 +1,11 @@
 package javasrc.ch01_3;
 
+import java.util.Iterator;
+
 import lib.StdIn;
 import lib.StdOut;
 
-public class LinkedListStack<T> {
+public class LinkedListStack<T> implements Iterable<T> {
 
     private class Node {
         T item;
@@ -53,5 +55,28 @@ public class LinkedListStack<T> {
         }
 
         StdOut.println("(" + s.size() + " left in stack)");
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new StackIterator();
+    }
+
+    private class StackIterator implements Iterator<T> {
+
+        private Node cursor = first;
+
+        @Override
+        public boolean hasNext() {
+            return this.cursor != null;
+        }
+
+        @Override
+        public T next() {
+            T result = this.cursor.item;
+            this.cursor = this.cursor.next;
+            return result;
+        }
+
     }
 }
