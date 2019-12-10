@@ -86,4 +86,8 @@ There are *Strong Typing* and *Weak Typing*, we talk *Weak Typing* here
 6.3. Then, cast it to generic type,
 6.4. casted generic array can not be directly assigned to instance variable, use a template variable to transfer.
 
+#### 2019-12-09
+6. Immutable integer range
+Java's implementation of `valueOf()` retrieves a cached values if the integer is `between -128 and 127`,
+while Java constructs new objects for each integer outside this range. 
 

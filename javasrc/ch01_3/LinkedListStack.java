@@ -39,6 +39,10 @@ public class LinkedListStack<T> implements Iterable<T> {
         return result.item;
     }
 
+    public T peek(){
+        return this.first.item;
+    }
+
     public static void main(String[] args) {
         LinkedListStack<String> s = new LinkedListStack<>();
         while (!StdIn.isEmpty()) {
