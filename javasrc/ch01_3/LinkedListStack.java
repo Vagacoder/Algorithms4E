@@ -43,6 +43,128 @@ public class LinkedListStack<T> implements Iterable<T> {
         return this.first.item;
     }
 
+    public T removeLast(){
+        Node cursor = first;
+        if (first == null){
+            return null;
+        }
+
+        while(cursor.next.next != null){
+            cursor = cursor.next;
+        }
+
+        T result = cursor.item;
+        cursor.next = null;
+        this.sizeOfStack--;
+        return result;
+    }
+
+    public T delete(int k) {
+        if(k >= this.sizeOfStack){
+            return null;
+        }
+        Node cursor = first;
+        for (int i =0; i< k-1; i++){
+            cursor = cursor.next;
+        }
+        Node temp = cursor.next;
+        cursor.next = temp.next;
+        this.sizeOfStack--;
+        temp.next = null;
+        return temp.item;
+    }
+
+    public boolean find(LinkedListStack<T> stack, T value){
+
+        Node cursor = stack.first;
+        if(cursor == null){
+            return false;
+        } else if (cursor.item.equals(value)){
+            return true;
+        }
+
+        while(cursor.next != null){
+            cursor= cursor.next;
+            if (cursor.item.equals(value)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public T removeAfter(Node a){
+        if(a == null || a.next == null){
+            return null;
+        }
+
+        Node cursor = first;
+        if(cursor.equals(a)){
+            this.first= a.next;
+            a.next = null;
+            this.sizeOfStack--;
+            return a.item;
+        }
+        while(cursor.next != null){
+            cursor = cursor.next;
+            if(cursor.equals(a)){
+                cursor.next = a.next;
+                a.next = null;
+                this.sizeOfStack--;
+                return a.item;
+            }
+        }
+        return null;
+    }
+
+    public boolean insertAfter(Node a, Node b){
+        if(a == null || b == null){
+            return false;
+        }
+        Node cursor = first;
+        if(cursor.equals(a)){
+            b.next = cursor.next;
+            cursor.next = b;
+            this.sizeOfStack++;
+            return true;
+        }
+        while(cursor.next != null){
+            cursor = cursor.next;
+            if(cursor.equals(a)){
+                b.next = cursor.next;
+                cursor.next = b;
+                this.sizeOfStack++;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int remove(T value){
+        int number = 0;
+
+        if(first == null){
+            return number;
+        }
+
+        Node cursor = first;
+        if(cursor.item.equals(value)){
+            first = first.next;
+            this.sizeOfStack--;
+            number++;
+        }
+        while(cursor.next != null){
+            cursor = cursor.next;
+            if (cursor.item.equals(value)){
+                Node temp = cursor.next;
+                cursor.next = temp.next;
+                this.sizeOfStack--;
+                number++;
+                temp.next = null;
+            }
+        }
+        return number;
+    }
+
     public static void main(String[] args) {
         LinkedListStack<String> s = new LinkedListStack<>();
         while (!StdIn.isEmpty()) {
@@ -81,6 +203,5 @@ public class LinkedListStack<T> implements Iterable<T> {
             this.cursor = this.cursor.next;
             return result;
         }
-
     }
 }
