@@ -1,11 +1,12 @@
 package javasrc.ch01_3;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 import lib.StdIn;
 import lib.StdOut;
 
-public class LinkedListStack<T> implements Iterable<T> {
+public class LinkedListStack<T extends Comparable<T>> implements Iterable<T>, Comparator<T>{
 
     private class Node {
         T item;
@@ -165,6 +166,38 @@ public class LinkedListStack<T> implements Iterable<T> {
         return number;
     }
 
+    public T max(){
+        Node cursor = first;
+        if (cursor == null){
+            return null;
+        }
+        T max = cursor.item;
+
+        while (cursor.next != null){
+            cursor = cursor.next;
+            // ? how generic type implements comparable? 
+            if(cursor.item.compareTo(max) > 0){
+                max = cursor.item;
+            }
+        }
+
+        return max;
+    }
+
+    public T recursiveMax(){
+        return this.recursiveMax(first);
+    }
+
+    private T recursiveMax(Node first){
+
+        if(first.next == null){
+            return first.item;
+        } else {
+            T maxOfRest = recursiveMax(first.next);
+            return first.item.compareTo(maxOfRest) > 0 ? first.item : maxOfRest;
+        }
+    }
+
     public static void main(String[] args) {
         LinkedListStack<String> s = new LinkedListStack<>();
         while (!StdIn.isEmpty()) {
@@ -204,4 +237,10 @@ public class LinkedListStack<T> implements Iterable<T> {
             return result;
         }
     }
+
+    @Override
+    public int compare(T a, T b) {
+        return a.toString().compareTo( b.toString());
+    }
+
 }
