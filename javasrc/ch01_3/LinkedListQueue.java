@@ -40,7 +40,7 @@ public class LinkedListQueue<T> implements Iterable<T> {
     }
 
     public T dequeue() {
-        if(this.isEmpty()){
+        if (this.isEmpty()) {
             return null;
         }
         Node result = this.first;
@@ -49,6 +49,7 @@ public class LinkedListQueue<T> implements Iterable<T> {
         if (this.isEmpty()) {
             this.last = this.first;
         }
+        result.next = null;
         return result.item;
     }
 
