@@ -20,9 +20,9 @@ Then implement static methods for the following tasks:
 import lib.StdOut;
 import lib.StdIn;
 
-public class DoubleLinkedList<T>{
+public class DoubleLinkedList<T> {
 
-    private class Node{
+    private class Node {
         T item;
         Node next;
         Node previous;
@@ -32,19 +32,19 @@ public class DoubleLinkedList<T>{
     private Node last;
     private int sizeOfList;
 
-    public boolean isEmpty(){
-        return this.sizeOfList==0;
+    public boolean isEmpty() {
+        return this.sizeOfList == 0;
     }
 
-    public int size(){
+    public int size() {
         return this.sizeOfList;
     }
 
-    public void addBeginning(T newItem){
+    public void addBeginning(T newItem) {
         Node newNode = new Node();
         newNode.item = newItem;
         newNode.next = this.first;
-        if (this.first == null){
+        if (this.first == null) {
             this.first = newNode;
             this.last = newNode;
         }
@@ -53,13 +53,13 @@ public class DoubleLinkedList<T>{
         this.sizeOfList++;
     }
 
-    public void addEnd(T newItem){
+    public void addEnd(T newItem) {
         Node newNode = new Node();
         newNode.item = newItem;
-        if(this.first == null){
+        if (this.first == null) {
             this.first = newNode;
             this.last = newNode;
-        } else{
+        } else {
             this.last.next = newNode;
             newNode.previous = this.last;
             this.last = newNode;
@@ -67,10 +67,10 @@ public class DoubleLinkedList<T>{
         this.sizeOfList++;
     }
 
-    public T removeBeginning(){
-        if(this.first == null){
+    public T removeBeginning() {
+        if (this.first == null) {
             return null;
-        } else if (this.sizeOfList == 1){
+        } else if (this.sizeOfList == 1) {
             T result = this.first.item;
             this.first = null;
             this.last = null;
@@ -88,10 +88,10 @@ public class DoubleLinkedList<T>{
         }
     }
 
-    public T removeEnd(){
-        if(this.first == null){
+    public T removeEnd() {
+        if (this.first == null) {
             return null;
-        } else if (this.sizeOfList == 1){
+        } else if (this.sizeOfList == 1) {
             T result = this.first.item;
             this.first = null;
             this.last = null;
@@ -100,84 +100,86 @@ public class DoubleLinkedList<T>{
         } else {
             Node temp = this.last;
             this.last = this.last.previous;
-            this.last.next= null;
+            this.last.next = null;
             this.sizeOfList--;
-            temp.previous =null;
+            temp.previous = null;
             T result = temp.item;
             return result;
         }
     }
 
-    public boolean insertBefore(T beforeThis, T newItem){
-        if (this.first == null){
+    public boolean insertBefore(T beforeThis, T newItem) {
+        if (this.first == null) {
             return false;
         }
 
         Node cursor = this.first;
-        while(cursor != null){
-            if (cursor.item.equals(beforeThis)){
+        while (cursor != null) {
+            if (cursor.item.equals(beforeThis)) {
                 Node newNode = new Node();
-                newNode.item= newItem;
-                if(cursor.previous != null){
-                    newNode.previous =  cursor.previous;
+                newNode.item = newItem;
+                if (cursor.previous != null) {
+                    newNode.previous = cursor.previous;
                     cursor.previous.next = newNode;
-                } else{
+                } else {
                     this.first = newNode;
                 }
-                newNode.next=cursor;
+                newNode.next = cursor;
                 cursor.previous = newNode;
                 this.sizeOfList++;
                 return true;
             }
+            cursor = cursor.next;
         }
         return false;
     }
 
-    public boolean insertAfter(T afterThis, T newItem){
-        if(this.first == null){
+    public boolean insertAfter(T afterThis, T newItem) {
+        if (this.first == null) {
             return false;
         }
-        
+
         Node cursor = this.first;
-        while(cursor !=null){
-            if(cursor.item.equals(afterThis)){
+        while (cursor != null) {
+            if (cursor.item.equals(afterThis)) {
                 Node newNode = new Node();
                 newNode.item = newItem;
-                if(cursor.next != null){
+                if (cursor.next != null) {
                     newNode.next = cursor.next;
                     cursor.next.previous = newNode;
                 } else {
                     this.last = newNode;
                 }
                 newNode.previous = cursor;
-                cursor.next=newNode;
+                cursor.next = newNode;
                 this.sizeOfList++;
                 return true;
             }
+            cursor = cursor.next;
         }
         return false;
     }
 
-    public boolean remove(T item){
-        if(this.first == null){
+    public boolean remove(T item) {
+        if (this.first == null) {
             return false;
         }
-        
+
         Node cursor = this.first;
-        while(cursor !=null){
-            if(cursor.item.equals(item)){
-                if(this.sizeOfList == 1){
+        while (cursor != null) {
+            if (cursor.item.equals(item)) {
+                if (this.sizeOfList == 1) {
                     this.first = null;
                     this.last = null;
                     sizeOfList = 0;
                     cursor = null;
                     return true;
-                } else if(cursor.previous == null){
+                } else if (cursor.previous == null) {
                     this.first = cursor.next;
                     this.sizeOfList--;
                     cursor.next = null;
                     return true;
-                } else if (cursor.next == null){
+                } else if (cursor.next == null) {
                     this.last = cursor.previous;
                     this.sizeOfList--;
                     cursor.previous = null;
@@ -191,39 +193,64 @@ public class DoubleLinkedList<T>{
                     return true;
                 }
             }
+            cursor = cursor.next;
         }
         return false;
     }
 
-    public void print(){
+    public void print() {
         Node cursor = first;
-        while(cursor != null){
+        while (cursor != null) {
             StdOut.println(cursor.item);
             cursor = cursor.next;
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         DoubleLinkedList<String> list = new DoubleLinkedList<>();
 
         // StdOut.println("1. Testing addBeginning and removeBeginning...");
         // while(!StdIn.isEmpty()){
-        //     String input = StdIn.readString();
-        //     if (!input.equals("-")){
-        //     list.addBeginning(input);
-        //     } else {
-        //         StdOut.println(list.removeBeginning());
-        //     }
+        // String input = StdIn.readString();
+        // if (!input.equals("-")){
+        // list.addBeginning(input);
+        // } else {
+        // StdOut.println(list.removeBeginning());
+        // }
         // }
 
-        StdOut.println("2. Testing addEnd and removeEnd...");
-        while(!StdIn.isEmpty()){
-            String input = StdIn.readString();
-            if (!input.equals("-")){
-            list.addEnd(input);
-            } else {
-                StdOut.println(list.removeEnd());
-            }
-        }
+        // StdOut.println("2. Testing addEnd and removeEnd...");
+        // while (!StdIn.isEmpty()) {
+        // String input = StdIn.readString();
+        // if (!input.equals("-")) {
+        // list.addEnd(input);
+        // } else {
+        // StdOut.println(list.removeEnd());
+        // }
+        // }
+
+        // StdOut.println("3. Testing insertBefore and insertAfter...");
+        // list.addBeginning("they");
+        // list.addBeginning("are");
+        // list.addBeginning("good");
+        // list.addBeginning("men");
+        // list.addBeginning("too");
+        // list.insertBefore("good", "not");
+        // list.insertBefore("they", "It");
+        // list.insertAfter("men", "and");
+        // list.insertAfter("too", ".");
+        // list.print();
+
+        StdOut.println("4. Testing insertBefore and insertAfter...");
+        list.addEnd("they");
+        list.addEnd("are");
+        list.addEnd("good");
+        list.addEnd("men");
+        list.addEnd("too");
+        list.insertBefore("good", "not");
+        list.insertBefore("they", "It");
+        list.insertAfter("men", "and");
+        list.insertAfter("too", ".");
+        list.print();
     }
 }
