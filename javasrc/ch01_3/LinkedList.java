@@ -33,10 +33,30 @@ public class LinkedList<T>{
         this.sizeOfList++;
     }
 
+    public void print(){
+        Node cursor = first;
+        while(cursor != null){
+            StdOut.println(cursor.item);
+            cursor = cursor.next;
+        }
+    }
+
     public void reverse(){
         if (this.first == null){
             return;
-        } 
+        } else if (this.sizeOfList == 2){
+            this.first.next.next = this.first;
+            this.first = this.first.next;
+            this.first.next.next = null;
+        } else {
+            Node cursor = this.first;
+            while(cursor.next != null){
+                Node temp = cursor.next;
+                cursor.next = temp.next;
+                temp.next = this.first;
+                this.first = temp;
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -47,7 +67,9 @@ public class LinkedList<T>{
         }
 
         StdOut.println("(" + l.size() + " in list)");
-        
+        l.print();
+        l.reverse();
+        l.print();
     }
 
 }
