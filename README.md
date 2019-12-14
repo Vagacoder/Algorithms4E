@@ -91,3 +91,25 @@ There are *Strong Typing* and *Weak Typing*, we talk *Weak Typing* here
 Java's implementation of `valueOf()` retrieves a cached values if the integer is `between -128 and 127`,
 while Java constructs new objects for each integer outside this range. 
 
+#### 2019-12-14
+7. Allocate more memory and stack space for java VM
+7.1. Increase memory
+The default setting of memory for JVM is typically 64MB. To increase memory allotted to Java, execut with:
+ 
+    `java -Xmx200m Hello` 
+    
+where 200m means 200 megabytes.
+
+7.2. Increase stack
+The default setting of stack for JVM is typically 128KB. To increase stack size, excute with:
+
+    `java -Xss200k Hello`
+
+where 200k means 200 kilobytes.
+
+And, it's possible to increase both the amount of memory and stack space by executing with:
+
+    `java -Xmx200m -Xss200k Hello`
+
+
+
