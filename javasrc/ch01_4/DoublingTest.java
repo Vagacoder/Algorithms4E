@@ -30,7 +30,7 @@ public class DoublingTest {
             a[i] = StdRandom.uniform(-MAXIMUM_INTEGER, MAXIMUM_INTEGER);
         }
         Stopwatch timer = new Stopwatch();
-        ThreeSum.count(a);
+        ThreeSumFast.count(a);
         return timer.elapsedTime();
     }
 
