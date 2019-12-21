@@ -1,5 +1,10 @@
 package javasrc.ch01_3;
 
+/*
+Algorithm 1.3 FIFO queue (linked list implementatin)
+P.151
+*/
+
 import lib.StdOut;
 
 import java.util.Iterator;

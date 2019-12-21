@@ -1,5 +1,9 @@
 package javasrc.ch01_3;
 
+/*
+Algorithm 1.1 Pushdown stack (resizing array implementation)
+P.141
+*/
 import lib.StdOut;
 import lib.StdIn;
 

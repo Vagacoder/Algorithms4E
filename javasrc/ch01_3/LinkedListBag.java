@@ -1,5 +1,10 @@
 package javasrc.ch01_3;
 
+/*
+Algorithm 1.4 Bag
+P.155
+*/
+
 import java.util.Iterator;
 
 import lib.StdIn;
