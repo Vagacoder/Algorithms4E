@@ -18,7 +18,7 @@ public class ResizableArrayQueue<T> implements Iterable<T> {
         this.queue = q;
         numberInQueue = 0;
         firstIndex = 0;
-        lastIndex = 0;
+        lastIndex = 0;  // lastIndex excludes
     }
 
     public boolean isEmpty() {
