@@ -57,8 +57,20 @@ public class GeneralizedQueue<T>{
     }
 
     public T delete(int k){
+        if(k >= this.numberInQueue){
+            return null;
+        }
 
-        return null;
+        if (this.numberInQueue >= 2 &&this.numberInQueue <= this.queue.length / 4){
+            this.resize(this.numberInQueue * 2);
+        }
+        T result = this.queue[this.first + k];
+        for(int i = this.first + k; i< this.first + this.numberInQueue -1; i++){
+            this.queue[i] = this.queue[i+1];
+        }
+        this.queue[--this.last ] = null;
+        this.numberInQueue--;
+        return result;
     }
 
     public void print(){
@@ -85,5 +97,21 @@ public class GeneralizedQueue<T>{
         gq.insert("study");
         gq.print();
         StdOut.println("size: " + gq.size());
+
+        StdOut.println(gq.delete(0));
+        gq.print();
+        StdOut.println("size: " + gq.size());
+        StdOut.println(gq.delete(3));
+        gq.print();
+        StdOut.println("size: " + gq.size());
+        gq.delete(0);
+        gq.print();
+        gq.delete(0);
+        gq.print();
+        gq.delete(0);
+        gq.print();
+        gq.delete(0);
+        gq.print();
+    
     }
 }
