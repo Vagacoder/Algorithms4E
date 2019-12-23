@@ -33,6 +33,19 @@ public class ResizableArrayQueue<T> implements Iterable<T> {
         lastIndex = 0;  // lastIndex excludes
     }
 
+    // copy a queue
+    public ResizableArrayQueue(ResizableArrayQueue<T> q){
+        int length = q.size();
+        @SuppressWarnings("unchecked")
+        T[] temp = (T[]) new Object[length];
+        this.queue = temp;
+        for(int i = 0; i< length; i++){
+            T tempItem = q.dequeue();
+            this.enqueue(tempItem);
+            q.enqueue(tempItem);
+        }
+    }
+
     public boolean isEmpty() {
         return this.numberInQueue == 0;
     }
@@ -108,19 +121,36 @@ public class ResizableArrayQueue<T> implements Iterable<T> {
 
     public static void main(String[] args) {
         ResizableArrayQueue<String> q = new ResizableArrayQueue<>();
-        while (!StdIn.isEmpty()) {
-            String input = StdIn.readString();
-            if (!input.equals("-")) {
-                q.enqueue(input);
-            } else {
-                if (q.isEmpty()) {
-                    StdOut.println("\n(Queue is empty");
-                } else {
-                    StdOut.println(q.dequeue());
-                }
-            }
-        }
+        // 1. test input through args
+        // while (!StdIn.isEmpty()) {
+        //     String input = StdIn.readString();
+        //     if (!input.equals("-")) {
+        //         q.enqueue(input);
+        //     } else {
+        //         if (q.isEmpty()) {
+        //             StdOut.println("\n(Queue is empty");
+        //         } else {
+        //             StdOut.println(q.dequeue());
+        //         }
+        //     }
+        // }
+        // StdOut.println("(" + q.size() + " left in queue)");
+
+        // 2. test input hard coding
+        q.enqueue("we");
+        q.enqueue("are");
+        q.enqueue("good");
+        q.enqueue("at");
+        q.enqueue("study");
         StdOut.println("(" + q.size() + " left in queue)");
+
+        ResizableArrayQueue<String> q1 = new ResizableArrayQueue<>(q);
+        StdOut.println("(" + q1.size() + " left in queue)");
+        q1.dequeue();
+        StdOut.println("(" + q.size() + " left in queue)");
+        StdOut.println("(" + q1.size() + " left in queue)");
+
+
     }
 
 }
