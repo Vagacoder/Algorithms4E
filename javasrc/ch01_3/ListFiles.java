@@ -34,10 +34,10 @@ public class ListFiles {
         for (String fileName : fileList) {
             String leadingSpace = "";
             for (int i = 0; i < level; i++) {
-                if ( i == level -1){
+                if (i == level - 1) {
                     leadingSpace += (" " + "\u2514" + "------");
-                }else {
-                leadingSpace += "\t";
+                } else {
+                    leadingSpace += "\t";
                 }
             }
             StdOut.println(leadingSpace + fileName);
@@ -50,6 +50,23 @@ public class ListFiles {
 
     // Solution 2: using queue
     public static void listAllFiles2(String pathName) {
+        File thisPath = new File(pathName);
+        if (thisPath.isFile()) {
+            StdOut.println(pathName);
+            return;
+        }
+
+        String[] contentList = thisPath.list();
+        LinkedListQueue<String> folders = new LinkedListQueue<>();
+        LinkedListQueue<String> files = new LinkedListQueue<>();
+        for (String contentName : contentList) {
+            File content = new File(contentName);
+            if (content.isFile()) {
+                files.enqueue(pathName + File.separator + contentName);
+            } else if (content.isDirectory()) {
+                folders.enqueue(pathName + File.separator + contentName);
+            }
+        }
 
     }
 
