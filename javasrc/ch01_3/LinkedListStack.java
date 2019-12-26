@@ -65,14 +65,22 @@ public class LinkedListStack<T extends Comparable<T>> implements Iterable<T>, Co
     }
 
     public T pop() {
-        Node result = this.first;
-        this.first = this.first.next;
-        this.sizeOfStack--;
-        return result.item;
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            Node result = this.first;
+            this.first = this.first.next;
+            this.sizeOfStack--;
+            return result.item;
+        }
     }
 
     public T peek() {
-        return this.first.item;
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            return this.first.item;
+        }
     }
 
     public T removeLast() {
@@ -233,16 +241,16 @@ public class LinkedListStack<T extends Comparable<T>> implements Iterable<T>, Co
         LinkedListStack<String> s = new LinkedListStack<>();
         // 1. test by stdin input
         // while (!StdIn.isEmpty()) {
-        //     String input = StdIn.readString();
-        //     if (!input.equals("-")) {
-        //         s.push(input);
-        //     } else {
-        //         if (s.isEmpty()) {
-        //             StdOut.println("(Stack is empty");
-        //         } else {
-        //             StdOut.println(s.pop());
-        //         }
-        //     }
+        // String input = StdIn.readString();
+        // if (!input.equals("-")) {
+        // s.push(input);
+        // } else {
+        // if (s.isEmpty()) {
+        // StdOut.println("(Stack is empty");
+        // } else {
+        // StdOut.println(s.pop());
+        // }
+        // }
         // }
         // StdOut.println("(" + s.size() + " left in stack)");
 
