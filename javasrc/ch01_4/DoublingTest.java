@@ -15,8 +15,19 @@ package javasrc.ch01_4;
  *  ...
  *
  ******************************************************************************/
+
+ /*
+1.4.3 Modify DoublingTest to use StdDraw to produce plots like the standard and
+log-log plots in the text, rescaling as necessary so that the plot always fills 
+a substantial portion of the window.
+
+ */
 import lib.StdRandom;
 import lib.StdOut;
+
+import java.awt.Color;
+
+import lib.StdDraw;
 
 public class DoublingTest {
 
@@ -35,9 +46,21 @@ public class DoublingTest {
     }
 
     public static void main(String[] args){
+
+        int X = 10000;
+        int Y = 100;
+        StdDraw.setXscale(0, X);
+        StdDraw.setYscale(0, Y);
+        StdDraw.setPenRadius(0.02);
+        
+
         for(int n=250; true; n += n){
             double time = timeTrial(n);
             StdOut.printf("%7d %7.1f\n\n", n, time);
+            StdDraw.setPenColor(Color.RED);
+            StdDraw.point(n, time);
+            StdDraw.setPenColor(Color.BLUE);
+            StdDraw.point(Math.log(n), Math.log(time));
         }
     }
 

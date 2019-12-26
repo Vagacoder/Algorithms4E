@@ -27,6 +27,12 @@ package javasrc.ch01_4;
  *
  ******************************************************************************/
 
+/*
+1.4.2 Modify ThreeSum to work properly even when the int values are so large that
+adding two of them might cause overflow.
+
+*/
+
 import lib.In;
 import lib.StdOut;
 
@@ -38,7 +44,7 @@ public class ThreeSum{
         for (int i = 0; i< N; i++){
             for (int j =i+1; j<N; j++){
                 for(int k=j+1; k<N; k++){
-                    if(a[i] + a[j] + a[k] == 0){
+                    if(((long)a[i]) + a[j] + a[k] == 0){
                         // StdOut.println(a[i] + " " + a[j] + " " + a[k]);
                         cnt++;
                     }

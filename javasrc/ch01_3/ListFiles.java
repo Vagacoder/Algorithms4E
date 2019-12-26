@@ -53,12 +53,12 @@ public class ListFiles {
         File thisPath = new File(pathName);
         StdOut.println(pathName);
         if (thisPath.isDirectory()) {
-            listAllFilesWithIndent1(pathName, "");
+            listAllFilesWithIndent2(pathName, "");
         }
     }
 
     // helper for solution 2
-    private static void listAllFilesWithIndent1(String folderName, String leadingString) {
+    private static void listAllFilesWithIndent2(String folderName, String leadingString) {
         File thisFolder = new File(folderName);
 
         String[] fileList = thisFolder.list();
@@ -79,7 +79,7 @@ public class ListFiles {
                 } else {
                     newLeadingString += "\t";
                 }
-                listAllFilesWithIndent1(folderName + File.separator + fileName, newLeadingString);
+                listAllFilesWithIndent2(folderName + File.separator + fileName, newLeadingString);
             }
         }
     }
@@ -87,23 +87,39 @@ public class ListFiles {
     // Solution 3: using queue =================================================
     public static void listAllFiles3(String pathName) {
         File thisPath = new File(pathName);
+        StdOut.println(pathName);
+        if (thisPath.isDirectory()) {
+            listAllFilesWithIndent3(pathName, "");
+        }
+    }
+
+    // helper for solution 3
+    private static void listAllFilesWithIndent3(String folderName, String leadingString) {
+        if (folderName.endsWith(File.separator)){
+            folderName = folderName.substring(0, folderName.length() -1 );
+        }
+        File thisPath = new File(folderName);
         if (thisPath.isFile()) {
-            StdOut.println(pathName);
+            StdOut.println(folderName);
             return;
         }
 
+        leadingString +="\t";
         String[] contentList = thisPath.list();
         LinkedListQueue<String> folders = new LinkedListQueue<>();
-        LinkedListQueue<String> files = new LinkedListQueue<>();
         for (String contentName : contentList) {
-            File content = new File(contentName);
-            if (content.isFile()) {
-                files.enqueue(pathName + File.separator + contentName);
-            } else if (content.isDirectory()) {
-                folders.enqueue(pathName + File.separator + contentName);
+            File content = new File(folderName + File.separator + contentName);
+            if (content.isDirectory()) {
+                folders.enqueue(folderName + File.separator + contentName);
+            } else{
+                StdOut.println(leadingString + contentName);
             }
         }
-
+        while (!folders.isEmpty()){
+            String subFolderName = folders.dequeue();
+            StdOut.println(leadingString + subFolderName);
+            listAllFilesWithIndent3(subFolderName, leadingString);
+        }
     }
 
     public static void main(String[] args) {
@@ -121,11 +137,19 @@ public class ListFiles {
 
         // Test for solution 2
         StdOut.println("2. testing solution 2 ...");
-        ListFiles.listAllFiles2("./");
+        // ListFiles.listAllFiles2("./");
         // ListFiles.listAllFiles2("./README.md");
         // ListFiles.listAllFiles2("./data");
         // ListFiles.listAllFiles2("./javasrc");
         StdOut.println("End of 2 ... \n");
+
+        // Test for solution 3
+        StdOut.println("3. testing solution 3 ...");
+        ListFiles.listAllFiles3("./");
+        // ListFiles.listAllFiles3("./README.md");
+        // ListFiles.listAllFiles3("./data");
+        // ListFiles.listAllFiles3("./javasrc");
+        StdOut.println("End of 3 ... \n");
 
     }
 }
