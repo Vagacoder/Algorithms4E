@@ -111,5 +111,32 @@ And, it's possible to increase both the amount of memory and stack space by exec
 
     `java -Xmx200m -Xss200k Hello`
 
+#### 2019-12-26
+8. Java Assertion
+An assertion is a statement in Java which ensures the correctness of any assumptions which have been done in the program. When an assertion is executed, it is assumed to be true. If the assertion is false, the JVM will throw an Assertion error.
+
+8.1. usage
+
+    `assert expression;`
+
+    `assert expression1 : expression2;`
+
+8.2. turn on/off assertion in JVM, default is off.
+8.2.1. for files
+
+    `java -ea filename` or `java -enableassertions filename`
+
+    `java -da filename` or `java -disableassertions filename`
+
+8.2.2. for package
+run filename, only assertion in packagename will be enabled
+
+    `java -ea:packagename... filename`
+
+8.2.3. for class
+run filename, only assertion in packagename.classname will be enabled
+
+    `java -ea:packgagename.classname filename`
+
 
 

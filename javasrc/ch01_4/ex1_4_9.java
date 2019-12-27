@@ -5,10 +5,10 @@ import java.util.Arrays;
 import edu.princeton.cs.algs4.In;
 
 /*
- * 1.4.8 Write a program to determine the number pairs of values in an input
- * file that are equal. If your first try is quadratic, think again and use
- * Arrays.sort() to develop a linearithmic solution.
- * 
+ 1.4.8. Write a program to determine the number pairs of values in an input
+ file that are equal. If your first try is quadratic, think again and use
+ Arrays.sort() to develop a linearithmic solution.
+ 
  */
 
 import lib.StdOut;
