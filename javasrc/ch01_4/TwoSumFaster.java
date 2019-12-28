@@ -6,17 +6,37 @@ uses a linear algorithm to count the pairs that sum to zero after the array is s
 stead of the binary-search-based linearithmic algorithm). 
 */
 
-public class TwoSumFaster{
+import java.util.Arrays;
+import lib.StdOut;
+import lib.In;
 
-    public int count(int[]a, int key){
-        int result = -1;
+public class TwoSumFaster {
 
+    public static int count(int[] a, int key) {
+        Arrays.sort(a);
+        int result = 0;
+        int N = a.length;
+        int curLow = 0;
+        int curHigh = N - 1;
 
-
+        while (curHigh > curLow) {
+            if (a[curLow] + a[curHigh] > key) {
+                curHigh--;
+            } else if (a[curLow] + a[curHigh] < key) {
+                curLow++;
+            } else {
+                result++;
+                StdOut.println(a[curLow] + " " + a[curHigh]);
+                curHigh--;
+                curLow++;
+            }
+        }
         return result;
     }
 
-    public static void main(String[] args){
-        
+    public static void main(String[] args) {
+        In in = new In(args[0]);
+        int[] a = in.readAllInts();
+        StdOut.println(count(a, 0));
     }
 }
