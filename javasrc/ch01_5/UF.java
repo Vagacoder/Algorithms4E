@@ -1,5 +1,6 @@
 package javasrc.ch01_5;
 
+// Algorithm 1.5 Union-find implementation, P.221
 
 /******************************************************************************
  *  Compilation:  javac UF.java
