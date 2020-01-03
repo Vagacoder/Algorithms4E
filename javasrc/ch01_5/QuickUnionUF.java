@@ -1,5 +1,21 @@
 package javasrc.ch01_5;
 
+/*
+Algorithm 1.5 Union-find implementation, P.224
+
+usage:
+% java QuickUnionUF < tinyUF.txt
+4 3
+3 8
+6 5
+9 4
+2 1
+5 0
+7 2
+6 1
+2 components
+*/
+
 /******************************************************************************
  *  Compilation:  javac QuickUnionUF.java
  *  Execution:  java QuickUnionUF < input.txt

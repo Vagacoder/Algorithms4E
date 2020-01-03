@@ -4,7 +4,7 @@ package javasrc.ch01_5;
 Algorithm 1.5 Union-find implementation, P.221
 
 usage:
-% java UF < tinyUF.txt
+% java QuickFindUF < tinyUF.txt
 4 3
 3 8
 6 5
