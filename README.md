@@ -2,7 +2,7 @@
 ### Exercises and practicing projectes
 #### using java and python
 
-#### 201-11-05, 2019-12-06
+#### 2019-11-05, 2019-12-06
 1. How to complie .java file in command line:
 1.1. in **Windows shell**, 
 if the classpath is not defined, we have a source file, 
