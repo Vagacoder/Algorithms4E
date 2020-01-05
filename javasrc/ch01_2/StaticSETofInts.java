@@ -4,6 +4,11 @@ package javasrc.ch01_2;
 1.4.11 Add an instance method howMany() to StaticSETofInts (page 99) that finds the
 number of occurrences of a given key in time proportional to log N in the worst case.
 
+1.4.21 Binary search on distinct values. Develop an implementation of binary search
+for StaticSETofInts (see page 99) where the running time of contains() is guar-
+anteed to be ~ lg R, where R is the number of different integers in the array given as
+argument to the constructor.
+
 */
 
 import java.util.Arrays;
