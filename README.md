@@ -138,5 +138,16 @@ run filename, only assertion in packagename.classname will be enabled
 
     `java -ea:packgagename.classname filename`
 
+#### 2020-01-08
+9. Linux StdDraw Error fix
+In Linux, running StdDraw may get this error:
+`Exception in thread "main" java.lang.ExceptionInInitializerError`
+`Caused by: java.awt.HeadlessException:`
+`No X11 DISPLAY variable was set, but this program performed an operation which requires it.`
 
+To fix it, run this command:
+
+    `export DISPLAY=:0`
+
+Where :0 would mean the first X server running. If you are running several X servers (for example Xvnc) on the target host, :0 may become :1 or another number, depending on X server configuration.
 
