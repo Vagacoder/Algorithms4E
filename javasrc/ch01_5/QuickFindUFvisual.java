@@ -5,7 +5,7 @@ package javasrc.ch01_5;
 ( QuickUnionUF and QuickFindUF) to make amortized costs plots like those in the 
 text (P.232). 
 
-Note: use VisualAccumulator from Chapter 1 section 2.
+Note: use VisualAccumulator from Chapter 1 section 2 as reference.
 
 Algorithm 1.5 Union-find implementation, P.221
 
@@ -33,8 +33,8 @@ public class QuickFindUFvisual {
         for (int i = 0; i < n; i++) {
             id[i] = i;
         }
-        StdDraw.setXscale(0, n);
-        StdDraw.setYscale(0, 100);
+        StdDraw.setXscale(0, n*1.8);
+        StdDraw.setYscale(0, n*2.5);
         StdDraw.setPenRadius(0.005);
     }
 
@@ -66,37 +66,36 @@ public class QuickFindUFvisual {
         int pID = id[p];
         int qID = id[q];
 
+        int unionCost = 2;
         if (pID == qID) {
-            return;
-        }
-
-        int unionCost = 0;
-
-        for (int i = 0; i < id.length; i++) {
-            if (id[i] == pID) {
-                id[i] = qID;
+            // StdOut.println("same set");
+        } else {
+            for (int i = 0; i < id.length; i++) {
                 unionCost++;
+                if (id[i] == pID) {
+                    id[i] = qID;
+                    unionCost++;
+                }
             }
+            count--;
         }
-        count--;
 
         this.totalInputPairNumber++;
-        
+
         // Draw connect
         int connectCost = 2;
         this.totalConnectCost += 2;
         StdDraw.setPenColor(StdDraw.DARK_GRAY);
         StdDraw.point(this.totalInputPairNumber, connectCost);
         StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.point(this.totalInputPairNumber, ((this.totalConnectCost * 1.0) / 
-        this.totalInputPairNumber));
+        StdDraw.point(this.totalInputPairNumber, ((this.totalConnectCost * 1.0) / this.totalInputPairNumber));
 
         // Draw Union
         this.totalUnionCost += unionCost;
         StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.point(this.totalInputPairNumber, unionCost);
         StdDraw.setPenColor(StdDraw.GREEN);
-        StdDraw.point(this.totalInputPairNumber,((this.totalUnionCost * 1.0)/this.totalInputPairNumber));
+        StdDraw.point(this.totalInputPairNumber, ((this.totalUnionCost * 1.0) / this.totalInputPairNumber));
     }
 
     public static void main(String[] args) {
@@ -105,12 +104,38 @@ public class QuickFindUFvisual {
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
             int q = StdIn.readInt();
-            if (uf.find(p) == uf.find(q))
-                continue;
             uf.union(p, q);
-            StdOut.println(p + " " + q);
+            // StdOut.println(p + " " + q);
         }
         StdOut.println(uf.count() + " components");
     }
+
+    // public static void main(String[] args){
+    //     int n = 10;
+    //     QuickFindUFvisual qf = new QuickFindUFvisual(n);
+    //     qf.union(4, 3);
+    //     StdOut.println("add 4 and 3, get " + qf.count() + " sets." );
+    //     qf.union(3, 8);
+    //     StdOut.println("add 3 and 8, get " + qf.count() + " sets." );
+    //     qf.union(6, 5);
+    //     StdOut.println("add 6 and 5, get " + qf.count() + " sets." ); 
+    //     qf.union(9, 4);
+    //     StdOut.println("add 9 and 4, get " + qf.count() + " sets." ); 
+    //     qf.union(2, 1);
+    //     StdOut.println("add 2 and 1, get " + qf.count() + " sets." ); 
+    //     qf.union(8, 9);
+    //     StdOut.println("add 8 and 9, get " + qf.count() + " sets." ); 
+    //     qf.union(5, 0);
+    //     StdOut.println("add 5 and 0, get " + qf.count() + " sets." ); 
+    //     qf.union(7, 2);
+    //     StdOut.println("add 7 and 2, get " + qf.count() + " sets." ); 
+    //     qf.union(6, 1);
+    //     StdOut.println("add 6 and 1, get " + qf.count() + " sets." ); 
+    //     qf.union(1, 0);
+    //     StdOut.println("add 1 and 0, get " + qf.count() + " sets." ); 
+    //     qf.union(6, 7);
+    //     StdOut.println("add 6 and 7, get " + qf.count() + " sets." );
+    // }
+
 
 }

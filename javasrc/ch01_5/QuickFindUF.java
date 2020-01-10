@@ -129,18 +129,43 @@ public class QuickFindUF {
      * 
      * @param args the command-line arguments
      */
-    public static void main(String[] args) {
-        int n = StdIn.readInt();
-        QuickFindUF uf = new QuickFindUF(n);
-        while (!StdIn.isEmpty()) {
-            int p = StdIn.readInt();
-            int q = StdIn.readInt();
-            if (uf.find(p) == uf.find(q))
-                continue;
-            uf.union(p, q);
-            StdOut.println(p + " " + q);
-        }
-        StdOut.println(uf.count() + " components");
+    // public static void main(String[] args) {
+    //     int n = StdIn.readInt();
+    //     QuickFindUF uf = new QuickFindUF(n);
+    //     while (!StdIn.isEmpty()) {
+    //         int p = StdIn.readInt();
+    //         int q = StdIn.readInt();
+    //         uf.union(p, q);
+    //         StdOut.println(p + " " + q);
+    //     }
+    //     StdOut.println(uf.count() + " components");
+    // }
+
+    public static void main(String[] args){
+        int n = 10;
+        QuickFindUF qf = new QuickFindUF(n);
+        qf.union(4, 3);
+        StdOut.println("add 4 and 3, get " + qf.count() + " sets." );
+        qf.union(3, 8);
+        StdOut.println("add 3 and 8, get " + qf.count() + " sets." );
+        qf.union(6, 5);
+        StdOut.println("add 6 and 5, get " + qf.count() + " sets." ); 
+        qf.union(9, 4);
+        StdOut.println("add 9 and 4, get " + qf.count() + " sets." ); 
+        qf.union(2, 1);
+        StdOut.println("add 2 and 1, get " + qf.count() + " sets." ); 
+        qf.union(8, 9);
+        StdOut.println("add 8 and 9, get " + qf.count() + " sets." ); 
+        qf.union(5, 0);
+        StdOut.println("add 5 and 0, get " + qf.count() + " sets." ); 
+        qf.union(7, 2);
+        StdOut.println("add 7 and 2, get " + qf.count() + " sets." ); 
+        qf.union(6, 1);
+        StdOut.println("add 6 and 1, get " + qf.count() + " sets." ); 
+        qf.union(1, 0);
+        StdOut.println("add 1 and 0, get " + qf.count() + " sets." ); 
+        qf.union(6, 7);
+        StdOut.println("add 6 and 7, get " + qf.count() + " sets." );
     }
 
 }
