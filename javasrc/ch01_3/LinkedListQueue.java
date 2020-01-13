@@ -12,6 +12,9 @@ able to enqueue and dequeue from either q or r without influencing the other.
 
 Hint : Delete all of the elements from q and add these elements to both q and r.
 
+1.3.47 Catenable queues, stacks, or steques.
+destructively concatenates two queues, stacks, or steques (see Exercise 1.3.32).
+
 */
 
 import lib.StdOut;
@@ -31,15 +34,15 @@ public class LinkedListQueue<T> implements Iterable<T> {
     private Node last;
     private int sizeOfQueue;
 
-    // no need 
-    public LinkedListQueue(){
+    // no need
+    public LinkedListQueue() {
 
     }
 
     // copy constructor
-    public LinkedListQueue(LinkedListQueue<T> l){
+    public LinkedListQueue(LinkedListQueue<T> l) {
         int length = l.size();
-        for(int i = 0; i < length; i++){
+        for (int i = 0; i < length; i++) {
             T tempItem = l.dequeue();
             this.enqueue(tempItem);
             l.enqueue(tempItem);
@@ -82,39 +85,22 @@ public class LinkedListQueue<T> implements Iterable<T> {
         return result.item;
     }
 
-    public static void main(String[] args) {
+    public void print() {
+        Node cur = this.first;
+        while (cur != null) {
+            StdOut.println(cur.item.toString());
+            cur = cur.next;
+        }
+    }
 
-        LinkedListQueue<String> q = new LinkedListQueue<>();
-
-        // 1. test input through args
-        // while (!StdIn.isEmpty()) {
-        //     String input = StdIn.readString();
-        //     if (!input.equals("-")) {
-        //         q.enqueue(input);
-        //     } else {
-        //         if (q.isEmpty()) {
-        //             StdOut.println("(Queue is empty)");
-        //         } else {
-        //             StdOut.println(q.dequeue());
-        //         }
-        //     }
-        // }
-        // StdOut.println("(" + q.size() + " left in Queue)");
-
-        // 2. test input hard coding
-        q.enqueue("we");
-        q.enqueue("are");
-        q.enqueue("good");
-        q.enqueue("at");
-        q.enqueue("study");
-        StdOut.println("(" + q.size() + " left in queue)");
-
-        LinkedListQueue<String> q1 = new LinkedListQueue<>(q);
-        StdOut.println("(" + q1.size() + " left in queue)");
-        q1.dequeue();
-        StdOut.println("(" + q.size() + " left in queue)");
-        StdOut.println("(" + q1.size() + " left in queue)");
-
+    /*
+     * 1.3.47 Catenable queues, stacks, or steques. destructively concatenates two
+     * queues, stacks, or steques (see Exercise 1.3.32).
+     */
+    public void concatenate(LinkedListQueue<T> a) {
+        while (!a.isEmpty()) {
+            this.enqueue(a.dequeue());
+        }
     }
 
     @Override
@@ -137,6 +123,56 @@ public class LinkedListQueue<T> implements Iterable<T> {
             this.cursor = this.cursor.next;
             return result;
         }
-
     }
+
+    public static void main(String[] args) {
+
+        LinkedListQueue<String> q = new LinkedListQueue<>();
+
+        // 1. test input through args
+        StdOut.println("1. Test input from StdIn ...");
+        while (!StdIn.isEmpty()) {
+            String input = StdIn.readString();
+            if (!input.equals("-")) {
+                q.enqueue(input);
+            } else {
+                if (q.isEmpty()) {
+                    StdOut.println("(Queue is empty)");
+                } else {
+                    StdOut.println(q.dequeue());
+                }
+            }
+        }
+        StdOut.println("(" + q.size() + " left in Queue)");
+
+        // 2. test input hard coding
+        StdOut.println("2. Test input from hard coding ...");
+        LinkedListQueue<String> q1 = new LinkedListQueue<>();
+
+        q1.enqueue("we");
+        q1.enqueue("are");
+        q1.enqueue("good");
+        q1.enqueue("at");
+        q1.enqueue("study");
+        StdOut.println("(" + q1.size() + " left in queue)");
+
+        LinkedListQueue<String> q2 = new LinkedListQueue<>(q1);
+        StdOut.println("(" + q2.size() + " left in queue)");
+        q2.dequeue();
+        StdOut.println("(" + q1.size() + " left in queue)");
+        StdOut.println("(" + q2.size() + " left in queue)");
+
+        // 3. test concatenate
+        StdOut.println("3. Test concatenate ...");
+        LinkedListQueue<String> q3 = new LinkedListQueue<>();
+        q3.enqueue("but");
+        q3.enqueue("we");
+        q3.enqueue("do");
+        q3.enqueue("not");
+        q3.enqueue("love");
+        q3.enqueue("literature");
+        q1.concatenate(q3);
+        q1.print();
+    }
+
 }

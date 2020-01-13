@@ -7,6 +7,9 @@ enqueue.
 
 Develop a (Single of Double?) linked-list-based implementation. Articulate an API for this ADT.
 
+1.3.47 Catenable queues, stacks, or steques.
+destructively concatenates two queues, stacks, or steques (see Exercise 1.3.32).
+
 isEmpty(): return a boolean showing whether the steque is empty
 
 size(): return int of size of steque
@@ -18,6 +21,8 @@ push(T newItem): add new item to the first Node
 pop(): remove and return the first Node
 
 peek(): return the value of the first Node
+
+catenate(): destructively concatenate 2 Steques.
 
 print(): print items of each Node, from first to last
 
@@ -96,6 +101,16 @@ public class Steque<T> {
         return this.first.item;
     }
 
+    /*
+    1.3.47 Catenable queues, stacks, or steques.
+    destructively concatenates two queues, stacks, or steques (see Exercise 1.3.32). 
+    */
+    public void concatenate(Steque<T> a){
+        while(!a.isEmpty()){
+            this.enqueue(a.pop());
+        }
+    }
+
     // print the values of all nodes from first to last
     public void print() {
         Node cursor = first;
@@ -125,6 +140,18 @@ public class Steque<T> {
         st.enqueue("like");
         st.enqueue("computer");
         st.enqueue("science");
+        st.print();
+
+        StdOut.println("3. Test concatenate 2 Steques ...");
+        Steque<String> st2 = new Steque<>();
+        st2.push("literature");
+        st2.push("love");
+        st2.push("not");
+        st2.push("do");
+        st2.push("we");
+        st2.push("but");
+
+        st.concatenate(st2);
         st.print();
     }
 }
