@@ -1,6 +1,6 @@
 package javasrc.ch01_2;
 
-public class Date {
+public class Date implements Comparable<Date> {
 
     private final int month;
     private final int day;
@@ -32,11 +32,13 @@ public class Date {
     }
 
     // Override toString() from Object class
+    @Override
     public String toString() {
         return month() + "/" + day() + "/" + year();
     }
 
     // Override operator "="
+    @Override
     public boolean equals(Object x) {
         if (this == x)
             return true; // 1. same reference
@@ -52,5 +54,16 @@ public class Date {
         if (this.year != that.year)
             return false;
         return true; // pass all 4 tests above
+    }
+
+    @Override
+    public int compareTo(Date that) {
+        if (this.year  < that.year)  return -1;
+        if (this.year  > that.year)  return +1;
+        if (this.month < that.month) return -1;
+        if (this.month > that.month) return +1;
+        if (this.day   < that.day)   return -1;
+        if (this.day   > that.day)   return +1;
+        return 0;
     }
 }
