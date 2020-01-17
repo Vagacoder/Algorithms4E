@@ -1,6 +1,9 @@
 package javasrc.ch02_1;
 
-/* Compare 2 sorting algorithms. P. 256 */
+/* Compare 2 sorting algorithms. P. 256 
+This is good template for comparing different algorithms.
+Later we will use similar programs many times.
+*/
 
 import lib.StdRandom;
 import lib.StdOut;
@@ -16,9 +19,9 @@ public class SortCompare {
         if (alg.equals("Selection")) {
             Selection.sort(a);
         }
-        // if (alg.equals("Shell")) {
-        //     Shell.sort(a);
-        // }
+        if (alg.equals("Shell")) {
+            Shell.sort(a);
+        }
         // if (alg.equals("Merge")) {
         //     Merge.sort(a);
         // }
