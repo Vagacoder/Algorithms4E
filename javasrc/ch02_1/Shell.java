@@ -5,6 +5,17 @@ Algorithm 2.3 Shell Sort. P. 259
 Improved Insertion Sort.
 */
 
+/*
+2.1.11 Implement a version of shellsort that keeps the increment sequence in an array,
+rather than computing it.
+
+2.1.12 Instrument shellsort to print the number of compares divided by the array size
+for each increment. Write a test client that tests the hypothesis that this number is a
+small constant, by sorting arrays of random Double values, using array sizes that are
+increasing powers of 10, starting at 100.
+
+*/
+
 import lib.StdOut;
 import lib.In;
 
@@ -17,6 +28,38 @@ public class Shell {
             // h = 1, 4, 13, 40, 121, 364, 1093, ...
             h = 3 * h + 1;
         }
+
+        // 2.1.12 print the number of compares divided by the array size for each increment.
+        
+        while (h >=1){
+            int compareNumber = 0;
+            for(int i = h; i < N; i++){
+                for(int j = i; j >= h && less(a[j], a[j-h]); j-=h){
+                    exch(a, j, j-h);
+                    compareNumber++;
+                }
+            }
+            StdOut.println("For increment: "+ h +" compare # / array size = " + (compareNumber/N));
+            h = h/3;
+        }
+    }
+
+    // 2.1.11 Implement a version of shellsort that keeps the increment sequence 
+    // in an array, rather than computing it.
+
+    private static int[] incrementSeq = {1, 4, 13, 40, 121, 364, 1093, 3280};
+    
+
+    public static void sort1(Comparable[] a){
+        int N = a.length;
+        int index = 0;
+        while (incrementSeq[index] <= N ){
+            index++;
+            if (index >= incrementSeq.length){
+                break;
+            }
+        }
+        int h = incrementSeq[--index];
         while (h >=1){
             for(int i = h; i < N; i++){
                 for(int j = i; j >= h && less(a[j], a[j-h]); j-=h){
