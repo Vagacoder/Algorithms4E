@@ -1,25 +1,29 @@
 package javasrc.ch02_1;
 
 /*
-* Template for sort classes
-*/
-
-/*
-* 2.1.16 Certification. 
-Write a check() method that calls sort() for a given array and returns true if 
-sort() puts the array in order and leaves the same set of objects in the array 
-as were there initially, false otherwise. 
-
-Do not assume that sort() is restricted to move data only with exch(). You may 
-use Arrays.sort() and assume that it is correct.
+Bubble Sort
 
 */
 
-import lib.StdOut;
 import lib.In;
+import lib.StdOut;
 
-public class Example {
-    public static void sort(Comparable[] a) { /* See Algorithms 2.1, 2.2, 2.3, 2.4, 2.5, or 2.7. */
+public class Bubble{
+
+    public static void sort(Comparable[] a) { 
+        int N = a.length;
+        boolean done = false;
+
+        while(!done){
+            done = true;
+            for (int i = 0; i < N - 1; i++){
+                if(less(a[i + 1], a[i])){
+                    exch(a, i, i+1);
+                    done = false;
+                }
+            }
+        }
+
     }
 
     private static boolean less(Comparable v, Comparable w) {
@@ -45,11 +49,6 @@ public class Example {
         return true;
     }
 
-    /*
-     * 2.1.16 Certification. Write a check() method that calls sort() for a given
-     * array.
-     */
-
     public static boolean check() {
 
         // test integer
@@ -74,6 +73,7 @@ public class Example {
     }
 
     public static void main(String[] args) { // Read strings from standard input, sort them, and print.
+        StdOut.println(check());
         String[] a = In.readStrings();
         sort(a);
         assert isSorted(a);

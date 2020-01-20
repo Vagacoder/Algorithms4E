@@ -7,6 +7,9 @@ hearts, clubs, diamonds) and by rank within each suit, with the restriction that
 the cards must be laid out face down in a row, and the only allowed operations 
 are to check the values of two cards and to exchange two cards (keeping them face 
 down).
+
+This should use Bubble Sort.
+
 */
 
 import lib.StdOut;
@@ -64,6 +67,12 @@ public class Decksort {
         printDeck(deck);
         StdOut.println("\n3. Insertion sort card set ...");
         Insertion.sort(deck);
+        printDeck(deck);
+        StdOut.println("\n4. shuffled card set again ...");
+        shuffleSet(deck);
+        printDeck(deck);
+        StdOut.println("\n5. Solution of 2.1.13, Bubble Sort ...");
+        Bubble.sort(deck);
         printDeck(deck);
     }
 }
