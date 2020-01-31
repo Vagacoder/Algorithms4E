@@ -43,7 +43,7 @@ public class Shell {
             h = 3 * h + 1;
         }
 
-        // 2.1.12 print the number of compares divided by the array size for each
+        // * 2.1.12 print the number of compares divided by the array size for each
         // increment.
 
         while (h >= 1) {
@@ -54,7 +54,7 @@ public class Shell {
                     compareNumber++;
                 }
             }
-            StdOut.println("For increment: " + h + " compare # / array size = " + (compareNumber / N));
+            // StdOut.println("For increment: " + h + " compare # / array size = " + (compareNumber / N));
             h = h / 3;
         }
     }
@@ -120,7 +120,13 @@ public class Shell {
     // * 2.1.11 Implement a version of shellsort that keeps the increment sequence
     // in an array, rather than computing it.
 
-    private static int[] incrementSeq = { 1, 4, 13, 40, 121, 364, 1093, 3280 };
+    // * 2.1.29 Shellsort increments.
+    // set increment sequence to 1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905, 8929,
+    // 16001, 36289, 64769, 146305, 260609
+
+    // private static int[] incrementSeq = { 1, 4, 13, 40, 121, 364, 1093, 3280 };
+    private static int[] incrementSeq = { 1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905, 8929,
+        16001, 36289, 64769, 146305, 260609 };
 
     public static void sort1(Comparable[] a) {
         int N = a.length;

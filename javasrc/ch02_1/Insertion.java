@@ -40,6 +40,27 @@ method that clears the canvas and draws the bars.
 
 */
 
+/*
+* 2.1.24 Insertion sort with sentinel. 
+Develop an implementation of insertion sort that eliminates the j>0 test in the 
+inner loop by first putting the smallest item into position. 
+
+Use SortCompare to evaluate the effectiveness of doing so. 
+
+Note : It is often possible to avoid an index-out-of-bounds test in this way—the 
+element that enables the test to be eliminated is known as a sentinel.
+
+*/
+
+/*
+* 2.1.25 Insertion sort without exchanges. 
+Develop an implementation of insertion sort that moves larger elements to the 
+right one position with one array access per entry, rather than using exch() . 
+
+Use SortCompare to evaluate the effectiveness of doing so.
+
+*/
+
 import lib.In;
 import lib.StdDraw;
 import lib.StdOut;
@@ -110,6 +131,60 @@ public class Insertion {
         }
     }
 
+    // * 2.1.24 Insertion sort with sentinel. 
+    public static void sortS(Comparable[] a) {
+        int N = a.length;
+
+        int indexOfMin = findIndexOfMin(a);
+        exch(a, 0, indexOfMin);
+
+        for (int i = 1; i < N; i++) {
+            for (int j = i; less(a[j], a[j - 1]); j--)
+                exch(a, j, j - 1);
+        }
+    }
+
+    // helper
+    private static int findIndexOfMin(Comparable[] a){
+        int N = a.length;
+        if( N == 0){return -1;}
+        int indexOfMin = 0;
+        for (int i = 0; i<N; i++){
+            if (less(a[i], a[indexOfMin])){
+                indexOfMin = i;
+            }
+        }
+        return indexOfMin;
+    }
+
+
+    // * 2.1.25 Insertion sort without exchanges.
+    public static void sortNX(Comparable[] a) {
+        int N = a.length;
+        for (int i = 1; i < N; i++) {
+            // for (int j = i; j > 0 && less(a[j], a[j - 1]); j--)
+            //     exch(a, j, j - 1);
+            Comparable temp = a[i];
+            int j = i;
+            while (j> 0 && less(temp, a[j-1])){
+                a[j] = a[j-1];
+                j--;
+            }
+            a[j] = temp;
+        }
+    }
+
+
+    // * 2.1.26
+    public static void sortInt(int[] a) {
+        int N = a.length;
+        for (int i = 1; i < N; i++) {
+            for (int j = i; j > 0 && less(a[j], a[j - 1]); j--)
+                exch(a, j, j - 1);
+        }
+    }
+
+
     private static boolean less(Comparable v, Comparable w) {
         return v.compareTo(w) < 0;
     }
@@ -120,9 +195,16 @@ public class Insertion {
         a[j] = t;
     }
 
+    // helper for 2.1.26
+    private static void exch(int[] a, int i, int j) {
+        int t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+    }
+
     private static void show(Comparable[] a) { // Print the array, on a single line.
         for (int i = 0; i < a.length; i++)
-            StdOut.print(a[i] + " ");
+            StdOut.print(a[i] + "\n");
         StdOut.println();
     }
 
@@ -136,7 +218,7 @@ public class Insertion {
     public static void main(String[] args) { // Read strings from standard input, sort them, and print.
         // StdOut.println("1. Test manual input ...");
         // String[] a = In.readStrings();
-        // sort(a);
+        // sortS(a);
         // assert isSorted(a);
         // show(a);
 
@@ -147,7 +229,7 @@ public class Insertion {
             b[i] = StdRandom.uniform();
         }
         show(b);
-        sortAndDraw(b);
+        sortS(b);
         show(b);
     }
 }
