@@ -98,7 +98,9 @@ public class Insertion {
                 for (int k = 0; k < N; k++) {
                     if (k > i) {
                         StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
-                    } else if (k == j) {
+                    } else if (k == j - 1 && less(a[j], a[j - 1])) {
+                        StdDraw.setPenColor(StdDraw.RED);
+                    }else if (k == j) {
                         StdDraw.setPenColor(StdDraw.BLUE);
                     }
                     StdDraw.rectangle((k + 0.25), a[k] / 2.0, 0.25, a[k] / 2.0);
