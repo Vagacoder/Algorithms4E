@@ -1,35 +1,26 @@
 package javasrc.ch02_2;
 
 /*
-* Algorithm 2.4 Top-down mergesort P. 273
-* proposition F: 
-Top-down mergesort uses between 1⁄2 N lg N and N lg N compares to sort any array of length N.
+* Algorithm 2.4 Bottom-up mergesort P. 278
 
-* proposition G: 
-Top-down mergesort uses at most 6N lg N array accesses to sort an array of length N.
+
 */
 
 import lib.In;
 import lib.StdOut;
 
-public class Merge {
+public class MergeBU {
 
     private static Comparable[] aux;
 
     public static void sort(Comparable[] a) {
-        aux = new Comparable[a.length];
-        sort(a, 0, a.length - 1);
-    }
-
-    private static void sort(Comparable[] a, int low, int high) {
-        if (high <= low) {
-            return;
+        int N = a.length;
+        aux = new Comparable[N];
+        for (int size = 1; size < N; size *= 2) {
+            for (int low = 0; low < N - size; low += (size * 2)) {
+                merge(a, low, low + size - 1, Math.min(low + size + size - 1, N - 1));
+            }
         }
-        int mid = (low + high) / 2;
-        sort(a, low, mid);
-        sort(a, mid + 1, high);
-        merge(a, low, mid, high);
-
     }
 
     private static void merge(Comparable[] a, int low, int mid, int high) {
@@ -74,7 +65,7 @@ public class Merge {
         return true;
     }
 
-        /*
+    /*
      * 2.1.16 Certification. Write a check() method that calls sort() for a given
      * array.
      */
@@ -91,8 +82,8 @@ public class Merge {
         }
 
         // test String
-        String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", 
-        "ilk", "dim", "tag", "jot", "sob", "nob", "sky" };
+        String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", "ilk", "dim", "tag", "jot", "sob", "nob",
+                "sky" };
         sort(b);
         for (int i = 0; i < b.length - 1; i++) {
             if (less(b[i + 1], b[i])) {
