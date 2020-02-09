@@ -9,8 +9,37 @@ Top-down mergesort uses between 1⁄2 N lg N and N lg N compares to sort any arr
 Top-down mergesort uses at most 6N lg N array accesses to sort an array of length N.
 */
 
-import lib.In;
+/*
+* Improvement #1 : skip merge() when array is already sorted();
+* 2.2.8 Suppose that Algorithm 2.4 is modified to skip the call on merge() whenever
+a[mid] <= a[mid+1]. Prove that the number of compares used to mergesort a sorted
+array is linear.
+
+*/
+
+/*
+* 2.2.10 Faster merge. 
+Implement a version of merge() that copies the second half of a[] to aux[] in 
+decreasing order and then does the merge back to a[]. This change allows you to 
+remove the code to test that each of the halves has been exhausted from the
+inner loop. 
+
+* Note: The resulting sort is not stable (see page 341).
+*/
+
+/*
+* Improvement #2: Add a cutoff for small subarrays (switch to Insertion sort)
+* 2.2.11  Implement the three improvements to mergesort that are de-
+scribed in the text on page 275: Add a cutoff for small subarrays, test whether the array is
+already in order, and avoid the copy by switching arguments in the recursive code.
+*/
+
+/*
+* Imporvement #3: avoid the copy by switching arguments in the recursive code
+*/
+
 import lib.StdOut;
+import javasrc.ch02_1.InsertionRange;
 
 public class Merge {
 
@@ -25,15 +54,27 @@ public class Merge {
         if (high <= low) {
             return;
         }
+
+        // * Improvement #2: Add a cutoff for small subarrays (switch to Insertion sort)
+        if(a.length < 16){
+            InsertionRange.sortNX(a, low, high);
+        }
+        
         int mid = (low + high) / 2;
         sort(a, low, mid);
         sort(a, mid + 1, high);
-        merge(a, low, mid, high);
+        fasterMerge(a, low, mid, high);
 
     }
 
     private static void merge(Comparable[] a, int low, int mid, int high) {
         int i = low, j = mid + 1;
+
+        // * Improvement #1 : skip merge() when array is already sorted();
+        if(!less(a[j], a[mid])){
+            return;
+        }
+
         for (int k = low; k <= high; k++) {
             aux[k] = a[k];
         }
@@ -50,6 +91,28 @@ public class Merge {
             }
         }
     }
+
+    // * 2.2.10 Faster merge
+    private static void fasterMerge(Comparable[] a, int low, int mid, int high) {
+        for (int i = low; i<= mid; i++){
+            aux[i] = a[i];
+        }
+
+        for (int i = mid + 1; i <= high; i++){
+            aux[i] = a[high - (i - (mid + 1))];
+        }
+
+        int i = low, j = high;
+        for(int k = low; k <= high; k ++){
+            if(less(aux[j], aux[i])){
+                a[k] = aux[j--];
+            } else{
+                a[k] = aux[i++];
+            }
+        }
+    }
+
+
 
     private static boolean less(Comparable v, Comparable w) {
         return v.compareTo(w) < 0;

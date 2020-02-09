@@ -1,7 +1,7 @@
 package javasrc.ch02_1;
 
 /*
-Algorithm 2.2 Insertion sort P. 251
+* Algorithm 2.2 Insertion sort P. 251
 this is from textbook
 */
 /******************************************************************************

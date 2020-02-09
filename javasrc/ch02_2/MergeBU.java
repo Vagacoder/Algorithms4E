@@ -3,6 +3,13 @@ package javasrc.ch02_2;
 /*
 * Algorithm 2.4 Bottom-up mergesort P. 278
 
+*/
+
+/*
+* Improvement #1 : skip merge() when array is already sorted();
+* 2.2.8 Suppose that Algorithm 2.4 is modified to skip the call on merge() whenever
+a[mid] <= a[mid+1]. Prove that the number of compares used to mergesort a sorted
+array is linear.
 
 */
 
@@ -25,6 +32,12 @@ public class MergeBU {
 
   private static void merge(Comparable[] a, int low, int mid, int high) {
     int i = low, j = mid + 1;
+
+    // * Improvement #1 : skip merge() when array is already sorted();
+    if (!less(a[j], a[mid])) {
+      return;
+    }
+
     for (int k = low; k <= high; k++) {
       aux[k] = a[k];
     }

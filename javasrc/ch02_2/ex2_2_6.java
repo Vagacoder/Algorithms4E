@@ -49,9 +49,15 @@ public class ex2_2_6 {
 
   private static int merge(Comparable[] a, int low, int mid, int high, int arrayAccessNumber) {
     int i = low, j = mid + 1;
+
+    // * Improvement #1 : skip merge() when array is already sorted();
+    if (!less(a[j], a[mid])) {
+      return arrayAccessNumber;
+    }
+
     for (int k = low; k <= high; k++) {
       aux[k] = a[k];
-      arrayAccessNumber+=2;
+      arrayAccessNumber += 2;
     }
 
     for (int k = low; k <= high; k++) {
@@ -64,7 +70,7 @@ public class ex2_2_6 {
       } else {
         a[k] = aux[i++];
       }
-      arrayAccessNumber+=2;
+      arrayAccessNumber += 2;
     }
 
     return arrayAccessNumber;
@@ -122,8 +128,11 @@ public class ex2_2_6 {
   }
 
   public static void main(String[] args) {
-    StdOut.println(check());
 
+    StdOut.println("1. testing using check() ...");
+    StdOut.println(check());
+    
+    StdOut.println("\n2. testing on 1 to 512 elements arrays ...");
     for (int i = 1; i <= 512; i *= 2) {
       Double[] arr = new Double[i];
       Double[] arr1 = new Double[i];
