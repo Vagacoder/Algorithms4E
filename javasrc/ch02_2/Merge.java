@@ -84,9 +84,9 @@ public class Merge {
             return;
         }
 
-        if (src.length < 16) {
-            InsertionRange.sortNX(src, low, high);
-        }
+        // if (src.length < 16) {
+        //     InsertionRange.sortNX(src, low, high);
+        // }
 
         int mid = (low + high) / 2;
         sortNoCopy(aux, src, low, mid);
@@ -140,7 +140,9 @@ public class Merge {
     private static void fasterMerge(Comparable[] a, int low, int mid, int high) {
         for (int i = low; i <= mid; i++) {
             aux[i] = a[i];
-        }
+        }        // if (src.length < 16) {
+            //     InsertionRange.sortNX(src, low, high);
+            // }
 
         for (int i = mid + 1; i <= high; i++) {
             aux[i] = a[high - (i - (mid + 1))];
@@ -195,6 +197,7 @@ public class Merge {
                 return false;
             }
         }
+        show(a);
 
         // test String
         String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", "ilk", "dim", "tag", "jot", "sob", "nob",
@@ -205,6 +208,7 @@ public class Merge {
                 return false;
             }
         }
+        show(b);
         return true;
     }
 
