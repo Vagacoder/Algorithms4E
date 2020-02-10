@@ -7,6 +7,9 @@ Top-down mergesort uses between 1⁄2 N lg N and N lg N compares to sort any arr
 
 * proposition G: 
 Top-down mergesort uses at most 6N lg N array accesses to sort an array of length N.
+
+* 1. basic main functions are: 2x sort(); 1x merge()
+* 2. basic helper functions are: less(), exch(), show(), isSorted()
 */
 
 /*
@@ -39,6 +42,9 @@ already in order, and avoid the copy by switching arguments in the recursive cod
 */
 
 import lib.StdOut;
+
+import java.util.Arrays;
+
 import javasrc.ch02_1.InsertionRange;
 
 public class Merge {
@@ -56,22 +62,60 @@ public class Merge {
         }
 
         // * Improvement #2: Add a cutoff for small subarrays (switch to Insertion sort)
-        if(a.length < 16){
+        if (a.length < 16) {
             InsertionRange.sortNX(a, low, high);
         }
-        
+
         int mid = (low + high) / 2;
         sort(a, low, mid);
         sort(a, mid + 1, high);
         fasterMerge(a, low, mid, high);
+    }
 
+    // * Improvement #3:avoid the copy by switching arguments in the recursive code
+    public static void sortNoCopy(Comparable[] a) {
+        aux = Arrays.copyOf(a, a.length);
+        sortNoCopy(a, aux, 0, a.length - 1);
+    }
+
+    // * Improvement #3:avoid the copy by switching arguments in the recursive code
+    private static void sortNoCopy(Comparable[] src, Comparable[] aux, int low, int high) {
+        if (high <= low) {
+            return;
+        }
+
+        if (src.length < 16) {
+            InsertionRange.sortNX(src, low, high);
+        }
+
+        int mid = (low + high) / 2;
+        sortNoCopy(aux, src, low, mid);
+        sortNoCopy(aux, src, mid + 1, high);
+        mergeNoCopy(src, aux, low, mid, high);
+    }
+        
+    // * Improvement #3:avoid the copy by switching arguments in the recursive code
+    private static void mergeNoCopy(Comparable[] src, Comparable[] aux, int low, int mid, int high){
+        int i = low, j = mid + 1;
+
+        for (int k = low; k <= high; k++) {
+            if (i > mid) {
+                src[k] = aux[j++];
+            } else if (j > high) {
+                src[k] = aux[i++];
+            } else if (less(aux[j], aux[i])) {
+                src[k] = aux[j++];
+            } else {
+                src[k] = aux[i++];
+            }
+        }
     }
 
     private static void merge(Comparable[] a, int low, int mid, int high) {
         int i = low, j = mid + 1;
 
         // * Improvement #1 : skip merge() when array is already sorted();
-        if(!less(a[j], a[mid])){
+        if (!less(a[j], a[mid])) {
             return;
         }
 
@@ -94,24 +138,23 @@ public class Merge {
 
     // * 2.2.10 Faster merge
     private static void fasterMerge(Comparable[] a, int low, int mid, int high) {
-        for (int i = low; i<= mid; i++){
+        for (int i = low; i <= mid; i++) {
             aux[i] = a[i];
         }
 
-        for (int i = mid + 1; i <= high; i++){
+        for (int i = mid + 1; i <= high; i++) {
             aux[i] = a[high - (i - (mid + 1))];
         }
 
         int i = low, j = high;
-        for(int k = low; k <= high; k ++){
-            if(less(aux[j], aux[i])){
+        for (int k = low; k <= high; k++) {
+            if (less(aux[j], aux[i])) {
                 a[k] = aux[j--];
-            } else{
+            } else {
                 a[k] = aux[i++];
             }
         }
     }
-
 
 
     private static boolean less(Comparable v, Comparable w) {
@@ -137,7 +180,7 @@ public class Merge {
         return true;
     }
 
-        /*
+    /*
      * 2.1.16 Certification. Write a check() method that calls sort() for a given
      * array.
      */
@@ -145,8 +188,8 @@ public class Merge {
     public static boolean check() {
 
         // test integer
-        Integer[] a = { 2, 4, 5, 0, 9, 1, 3, 8, 6, 7 };
-        sort(a);
+        Integer[] a = { 28, 4, 51, 0, 9, 41, 36, 8, 76, 7, 12, 56, 2, 38, 45, 89, 1, 17, 5, 90, 91, 3,  19, 11, 6};
+        sortNoCopy(a);
         for (int i = 0; i < a.length - 1; i++) {
             if (a[i] > a[i + 1]) {
                 return false;
@@ -154,9 +197,9 @@ public class Merge {
         }
 
         // test String
-        String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", 
-        "ilk", "dim", "tag", "jot", "sob", "nob", "sky" };
-        sort(b);
+        String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", "ilk", "dim", "tag", "jot", "sob", "nob",
+                "sky" };
+        sortNoCopy(b);
         for (int i = 0; i < b.length - 1; i++) {
             if (less(b[i + 1], b[i])) {
                 return false;
@@ -165,7 +208,7 @@ public class Merge {
         return true;
     }
 
-    public static void main(String[] args) { // Read strings from standard input, sort them, and print.
+    public static void main(String[] args) { 
         // String[] a = In.readStrings();
         // sort(a);
         // assert isSorted(a);

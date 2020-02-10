@@ -85,6 +85,14 @@ public class LinkedListQueue<T> implements Iterable<T> {
         return result.item;
     }
 
+    public T peekTop(){
+        if (this.isEmpty()) {
+            return null;
+        }else {
+            return this.first.item;
+        }
+    }
+
     public void print() {
         Node cur = this.first;
         while (cur != null) {
