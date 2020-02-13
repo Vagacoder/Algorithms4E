@@ -8,6 +8,13 @@ linearithmic.)
 
 */
 
+/*
+* 2.2.18 Shuffling a linked list. 
+Develop and implement a divide-and-conquer algorithm that randomly shuffles a 
+linked list in linearithmic time and logarithmic extra space.
+
+*/
+
 import lib.In;
 import lib.StdIn;
 import lib.StdOut;
@@ -75,7 +82,7 @@ public class LinkedListWithMergeSort<T extends Comparable> {
                     }
                 }
 
-                // Special case: second half is at end of list
+                // Handle special case: second half is at end of list
                 if (secondHalf && cursor.next.next == null) {
                     high = cursor.next;
                     secondHalf = false;
@@ -107,6 +114,8 @@ public class LinkedListWithMergeSort<T extends Comparable> {
 
         Node afterHigh = high.next;
         Node afterMid = mid.next;
+
+        // break 2 halves from list, easy to determine borders
         mid.next = null;
         high.next = null;
 
@@ -121,7 +130,7 @@ public class LinkedListWithMergeSort<T extends Comparable> {
                 beforeLow.next = low;
                 low = low.next;
             }
-            //
+            // compare 2 halves
             else if (less(afterMid, low)) {
                 beforeLow.next = afterMid;
                 afterMid = afterMid.next;
@@ -134,9 +143,24 @@ public class LinkedListWithMergeSort<T extends Comparable> {
             if (beforeLow.item == null){
                 this.first = beforeLow.next;
             }
+
             beforeLow = beforeLow.next;
         }
+
+        // connect broken list
         beforeLow.next = afterHigh;
+    }
+
+    public void shuffle(){
+        if (this.first == null || this.first.next == null) {
+            return;
+        }
+
+        
+
+
+
+
     }
 
     private boolean less(Node v, Node w) {
