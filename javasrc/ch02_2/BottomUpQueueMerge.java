@@ -1,5 +1,14 @@
 package javasrc.ch02_2;
 
+/*
+* 2.2.15 Bottom-up queue mergesort. 
+Develop a bottom-up mergesort implementation based on the following approach: 
+Given N items, create N queues, each containing one of the items. Create a queue 
+of the N queues. Then repeatedly apply the merging operation of Exercise 2.2.14 
+to the first two queues and reinsert the merged queue at the end. Repeat until 
+the queue of queues contains only one queue.
+*/
+
 import javasrc.ch01_3.LinkedListQueue;
 import lib.In;
 import lib.StdOut;
