@@ -3,6 +3,14 @@ package javasrc.ch02_3;
 /*
 * Algorithm 2.5 Quicksort  P.289
 
+* Proposition k. 
+Quicksort uses ~ 2N ln N compares (and one-sixth that many exchanges) on the 
+average to sort an array of length N with distinct keys.
+
+* Proposition l. 
+Quicksort uses ~ N^2/2 compares in the worst case, but random shuffling protects 
+against this case.
+
 */
 
 import lib.In;

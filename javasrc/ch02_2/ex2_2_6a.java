@@ -5,59 +5,54 @@ package javasrc.ch02_2;
 by top-down mergesort and by bottom-up mergesort. Use your program to plot the val-
 ues for N from 1 to 512, and to compare the exact values with the upper bound 6N lg N.
 
-! This one is not good solution, check ex2_2_6a.java for better one.
+* Improved version, using static variable for counting
 */
 
 import lib.StdOut;
 import lib.StdRandom;
 
-public class ex2_2_6 {
+public class ex2_2_6a {
 
   private static Comparable[] aux;
+  private static int accessNumber = 0;
 
   // * Merge sort Top-down
-  public static int sortTd(Comparable[] a) {
+  public static void sortTd(Comparable[] a) {
     aux = new Comparable[a.length];
-    int arrayAccessNumber = 0;
-    arrayAccessNumber = sortTd(a, 0, a.length - 1, arrayAccessNumber);
-    return arrayAccessNumber;
+    accessNumber = 0;
+    sortTd(a, 0, a.length - 1);
+    StdOut.println(accessNumber);
   }
 
-  private static int sortTd(Comparable[] a, int low, int high, int arrayAccessNumber) {
+  private static void sortTd(Comparable[] a, int low, int high) {
     if (high <= low) {
-      return arrayAccessNumber;
+      return;
     }
     int mid = (low + high) / 2;
-    arrayAccessNumber = sortTd(a, low, mid, arrayAccessNumber);
-    arrayAccessNumber = sortTd(a, mid + 1, high, arrayAccessNumber);
-    arrayAccessNumber = merge(a, low, mid, high, arrayAccessNumber);
-    return arrayAccessNumber;
+    sortTd(a, low, mid);
+    sortTd(a, mid + 1, high);
+    merge(a, low, mid, high);
   }
 
   // * Merge sort Botton-up
-  public static int sortBu(Comparable[] a) {
+  public static void sortBu(Comparable[] a) {
     int N = a.length;
-    int arrayAccessNumber = 0;
+    accessNumber = 0;
     aux = new Comparable[N];
     for (int size = 1; size < N; size *= 2) {
       for (int low = 0; low < N - size; low += (size * 2)) {
-        arrayAccessNumber = merge(a, low, low + size - 1, Math.min(low + size + size - 1, N - 1), arrayAccessNumber);
+        merge(a, low, low + size - 1, Math.min(low + size + size - 1, N - 1));
       }
     }
-    return arrayAccessNumber;
+    StdOut.println(accessNumber);
   }
 
-  private static int merge(Comparable[] a, int low, int mid, int high, int arrayAccessNumber) {
+  private static void merge(Comparable[] a, int low, int mid, int high) {
     int i = low, j = mid + 1;
-
-    // * Improvement #1 : skip merge() when array is already sorted();
-    if (!less(a[j], a[mid])) {
-      return arrayAccessNumber;
-    }
 
     for (int k = low; k <= high; k++) {
       aux[k] = a[k];
-      arrayAccessNumber += 2;
+      accessNumber += 2;
     }
 
     for (int k = low; k <= high; k++) {
@@ -70,10 +65,12 @@ public class ex2_2_6 {
       } else {
         a[k] = aux[i++];
       }
-      arrayAccessNumber += 2;
+      accessNumber += 2;
     }
+  }
 
-    return arrayAccessNumber;
+  public static int getAN(){
+      return accessNumber;
   }
 
   private static boolean less(Comparable v, Comparable w) {
@@ -141,10 +138,10 @@ public class ex2_2_6 {
         arr[j] = number;
         arr1[j] = number;
       }
-      int accessOfTd = sortTd(arr);
-      int accessOfBu = sortBu(arr1);
-
-      StdOut.printf("For N = %d, Top-down access array: %d; Bottom-up acces array: %d.\n", i, accessOfTd, accessOfBu);
+      sortTd(arr);
+      StdOut.printf("For N = %d, Top-down access array: %d;\n", i, getAN());
+      sortBu(arr1);
+      StdOut.printf("For N = %d, Bottom-up acces array: %d.\n", i, getAN());
       StdOut.println("6NlgN is: " + (6 * i * Math.log(i)));
 
     }
