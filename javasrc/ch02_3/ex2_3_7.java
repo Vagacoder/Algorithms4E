@@ -1,36 +1,42 @@
 package javasrc.ch02_3;
 
 /*
-* 2.3.6 Write a program to compute the exact value of CN, 
-and compare the exact value with the approximation 2N ln N, 
-for N = 100, 1,000, and 10,000.
+* 2.3.7 Find the expected number of subarrays of size 0, 1, and 2 when quicksort 
+is used to sort an array of N items with distinct keys. If you are mathematically 
+inclined, do the math; if not, run some experiments to develop hypotheses.
 
+C(0) = C(1) = 2 * C(2)
 
-* Proposition k. 
-Quicksort uses ~ 2N ln N compares (and one-sixth that many exchanges) on the 
-average to sort an array of length N with distinct keys.
-
-* Proposition l. 
-Quicksort uses ~ N^2/2 compares in the worst case, but random shuffling protects 
-against this case.
 */
 
-import lib.StdOut;
-import lib.StdRandom;
+import lib.*;
 
-public class ex2_3_6 {
+public class ex2_3_7{
 
-    // * 2.3.6 count for CN, compare numbers
-    private static int count;
+    // * 2.3.7 
+    private static int countFor0;
+    private static int countFor1;
+    private static int countFor2;
 
     public static void sort(Comparable[] a) {
-        count = 0;
+        countFor0 = 0;
+        countFor1 = 0;
+        countFor2 = 0;
         // StdRandom.shuffle(a);
         sort(a, 0, a.length - 1);
-        StdOut.println(count);
     }
 
     private static void sort(Comparable[] a, int low, int high) {
+        
+        // * 2.3.7
+        if (high < low){
+            countFor0 ++;
+        } else if(high == low ){
+            countFor1++;
+        } else if ( high == low + 1){
+            countFor2++;
+        }
+
         if (high <= low) {
             return;
         }
@@ -62,14 +68,20 @@ public class ex2_3_6 {
         return j;
     }
 
-    // * 2.3.6 return Cn value
-    public static int getCN() {
-        return count;
+    // * 2.3.7 return Cn value
+    public static int getCn0() {
+        return countFor0;
     }
 
-    // * 2.3.6 count the Cn
+    public static int getCn1() {
+        return countFor1;
+    }
+
+    public static int getCn2() {
+        return countFor2;
+    }
+
     private static boolean less(Comparable v, Comparable w) {
-        count++;
         return v.compareTo(w) < 0;
     }
 
@@ -119,14 +131,6 @@ public class ex2_3_6 {
                 return false;
             }
         }
-        
-        Double[] c = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-        sort(c);
-        for (int i = 0; i < c.length - 1; i++) {
-            if (c[i] > c[i + 1]) {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -137,10 +141,6 @@ public class ex2_3_6 {
         // assert isSorted(a);
         // show(a);
 
-        StdOut.println("0. check() ... ");
-        StdOut.println(check());
-
-
         StdOut.println("1. run 2 tests: 10 integers and 15 strings ... ");
         StdOut.println(check());
         StdOut.println();
@@ -149,49 +149,62 @@ public class ex2_3_6 {
         StdOut.println("2.1 N = 100");
         int N = 100;
         Double[] c = new Double[N];
-        int totalCN = 0;
+        int totalCN0 = 0;
+        int totalCN1 = 0;
+        int totalCN2 = 0;
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < N; i++) {
                 c[i] = StdRandom.uniform();
             }
             sort(c);
-            totalCN += getCN();
+            totalCN0 += getCn0();
+            totalCN1 += getCn1();
+            totalCN2 += getCn2();
         }
-        StdOut.println("Average Cn for N= 100: "+ (totalCN * 1.0 / 10 )); 
-        StdOut.println("NlnN: " + ( N * Math.log(N))) ;
-        StdOut.println("2NlnN: " + (2* N * Math.log(N))) ;
+        StdOut.println("Average Cn of size 0 for N= 100: "+ (totalCN0 * 1.0 / 10 )); 
+        StdOut.println("Average Cn of size 1 for N= 100: "+ (totalCN1 * 1.0 / 10 )); 
+        StdOut.println("Average Cn of size 2 for N= 100: "+ (totalCN2 * 1.0 / 10 )); 
         StdOut.println();
      
         StdOut.println("2.2 N = 1000");
         N = 1000;
         c = new Double[N];
-        totalCN = 0;
+        totalCN0 = 0;
+        totalCN1 = 0;
+        totalCN2 = 0;
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < N; i++) {
                 c[i] = StdRandom.uniform();
             }
             sort(c);
-            totalCN += getCN();
+            totalCN0 += getCn0();
+            totalCN1 += getCn1();
+            totalCN2 += getCn2();
         }
-        StdOut.println("Average Cn for N= 1000: "+ (totalCN * 1.0 / 10 )); 
-        StdOut.println("NlnN: " + (N * Math.log(N))) ;
-        StdOut.println("2NlnN: " + (2 * N * Math.log(N))) ;
+        StdOut.println("Average Cn of size 0 for N= 1000: "+ (totalCN0 * 1.0 / 10 )); 
+        StdOut.println("Average Cn of size 1 for N= 1000: "+ (totalCN1 * 1.0 / 10 )); 
+        StdOut.println("Average Cn of size 2 for N= 1000: "+ (totalCN2 * 1.0 / 10 )); 
         StdOut.println();
 
         StdOut.println("2.3 N = 10000");
         N = 10000;
         c = new Double[N];
-        totalCN = 0;
+        totalCN0 = 0;
+        totalCN1 = 0;
+        totalCN2 = 0;
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < N; i++) {
                 c[i] = StdRandom.uniform();
             }
             sort(c);
-            totalCN += getCN();
+            totalCN0 += getCn0();
+            totalCN1 += getCn1();
+            totalCN2 += getCn2();
         }
-        StdOut.println("Average Cn for N= 10000: "+ (totalCN * 1.0 / 10 )); 
-        StdOut.println("NlnN: " + (N * Math.log(N))) ;
-        StdOut.println("2NlnN: " + (2 * N * Math.log(N))) ;
+        StdOut.println("Average Cn of size 0 for N= 10000: "+ (totalCN0 * 1.0 / 10 )); 
+        StdOut.println("Average Cn of size 1 for N= 10000: "+ (totalCN1 * 1.0 / 10 )); 
+        StdOut.println("Average Cn of size 2 for N= 10000: "+ (totalCN2 * 1.0 / 10 )); 
         StdOut.println();
     }
+
 }
