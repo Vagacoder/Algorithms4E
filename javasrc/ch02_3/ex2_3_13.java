@@ -27,7 +27,7 @@ public class ex2_3_13 {
 
     private static void sort(Comparable[] a, int low, int high, int level) {
         level++;
-        if (level > count){
+        if (level > count) {
             count = level;
         }
         if (high <= low) {
@@ -36,7 +36,7 @@ public class ex2_3_13 {
         int j = partition(a, low, high);
         sort(a, low, j - 1, level);
         sort(a, j + 1, high, level);
-        return ;
+        return;
     }
 
     private static int partition(Comparable[] a, int low, int high) {
@@ -125,52 +125,73 @@ public class ex2_3_13 {
         // StdOut.println("0. check() ... ");
         // StdOut.println(check());
 
-        // ? test short array, 
+        // ? test short array,
         // ? log2 10 = 3.32, log2 20 = 4.32, log2 100 = 6.64
         StdOut.println("1. Find Cn in short array");
-        int N = 20;
-        Integer[] d = new Integer[N];
-        for(int i = 0; i < N; i++){
-            d[i] = i+1;
+        int L = 20;
+        Integer[] a = new Integer[L];
+        for (int i = 0; i < L; i++) {
+            a[i] = i + 1;
         }
-        StdRandom.shuffle(d);
-        sort(d);
-        StdOut.println("Is sorting successful: " + isSorted(d));
-        StdOut.println("For N= " + N +", Count is: " + getCN());
+        StdRandom.shuffle(a);
+        sort(a);
+        StdOut.println("Is sorting successful: " + isSorted(a));
+        StdOut.println("For N= " + L + ", Count is: " + getCN());
         StdOut.println();
 
+        // ? test Average Case, Worst Case, Best Case
         StdOut.println("2. Find Cn in different cases");
-        StdOut.println("2.1 Average case, N = 100");
-        int M = 100;
+        int M = 20;
+        int repeat = 10;
+        StdOut.println("Repeat " + repeat + " times");
+        // ? Average Case (random array)
+        StdOut.println("2.1 Average case, array size: " + M);
         Double[] c = new Double[M];
         int totalCN = 0;
-        for (int j = 0; j < 10; j++) {
+        for (int j = 0; j < repeat; j++) {
             for (int i = 0; i < M; i++) {
                 c[i] = StdRandom.uniform();
             }
             sort(c);
             totalCN += getCN();
         }
-        StdOut.println("Average Cn for N= 100: " + (totalCN * 1.0 / 10));
-        StdOut.println("lnN: " + (Math.log(M))) ;
+        StdOut.println("Average Cn for " + M + " elements: " + (totalCN * 1.0 / repeat));
+        StdOut.println("lnN: " + (Math.log(M)));
         StdOut.println();
 
-
-        StdOut.println("2.2 Worst case, N = 100");
+        // ? Worst Case
+        StdOut.println("2.2 Worst case, array size: " + M);
         c = new Double[M];
         totalCN = 0;
-        double startValue = 0.001;
-        for (int j = 0; j < 10; j++) {
+        for (int j = 0; j < repeat; j++) {
+            double startValue = 0.001;
             for (int i = 0; i < M; i++) {
                 c[i] = (startValue += 0.001);
             }
             sort(c);
             totalCN += getCN();
         }
-        StdOut.println("Average Cn for N= 100: " + (totalCN * 1.0 / 10));
-        StdOut.println("lnN: " + (Math.log(M))) ;
+        StdOut.println("Average Cn for " + M + " elements: " + (totalCN * 1.0 / repeat));
+        StdOut.println("lnN: " + (Math.log(M)));
         StdOut.println();
 
+        // ? Best Case
+        int O = 20;
+        StdOut.println("2.3 Best case, array size: " + O);
+        Integer[] d = new Integer[O];
+        int count = 0;
+        int initValue = 0;
+        for (int i = 0; i < O; i++) {
+            d[i] = (initValue += 1);
+        }
+        BestCase.getBestCase(d);
+        show(d);
+        sort(d);
+        count = getCN();
+
+        StdOut.println("Cn for for " + O + " elements: " + count);
+        StdOut.println("lnN: " + (Math.log(O)));
+        StdOut.println();
     }
 
 }
