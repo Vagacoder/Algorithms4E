@@ -100,13 +100,14 @@ public class ex2_3_13 {
     public static boolean check() {
 
         // test integer
-        Integer[] a = { 2, 4, 5, 0, 9, 1, 3, 8, 6, 7 };
+        Integer[] a = { 5, 0, 1, 3, 4, 2, 8, 6, 7, 9, 10 };
         sort(a);
         for (int i = 0; i < a.length - 1; i++) {
             if (a[i] > a[i + 1]) {
                 return false;
             }
         }
+        StdOut.println(getCN());
 
         // test String
         String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", "ilk", "dim", "tag", "jot", "sob", "nob",
@@ -117,13 +118,14 @@ public class ex2_3_13 {
                 return false;
             }
         }
+        StdOut.println(getCN());
         return true;
     }
 
     public static void main(String[] args) {
 
-        // StdOut.println("0. check() ... ");
-        // StdOut.println(check());
+        StdOut.println("0. check() ... ");
+        StdOut.println(check());
 
         // ? test short array,
         // ? log2 10 = 3.32, log2 20 = 4.32, log2 100 = 6.64

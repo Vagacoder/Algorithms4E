@@ -37,7 +37,10 @@ public class BestCase{
             a[i+1] = a[i];
         }
         a[low] = pivot;
+
+        exch(a, low+1, (low+1+mid)/2);
         getBestCase(a, low+1, mid);
+        exch(a, mid+1, (mid+1+high)/2);
         getBestCase(a, mid+1, high);
     }
 
