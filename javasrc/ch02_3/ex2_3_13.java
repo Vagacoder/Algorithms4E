@@ -141,9 +141,10 @@ public class ex2_3_13 {
         StdOut.println("For N= " + L + ", Count is: " + getCN());
         StdOut.println();
 
+
         // ? test Average Case, Worst Case, Best Case
         StdOut.println("2. Find Cn in different cases");
-        int M = 20;
+        int M = 100;
         int repeat = 10;
         StdOut.println("Repeat " + repeat + " times");
         // ? Average Case (random array)
@@ -178,7 +179,7 @@ public class ex2_3_13 {
         StdOut.println();
 
         // ? Best Case
-        int O = 20;
+        int O = 100;
         StdOut.println("2.3 Best case, array size: " + O);
         Integer[] d = new Integer[O];
         int count = 0;
