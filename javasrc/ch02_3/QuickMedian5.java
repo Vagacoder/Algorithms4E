@@ -15,6 +15,9 @@ any input.
 */
 
 import lib.*;
+
+import java.util.Arrays;
+
 import javasrc.ch02_1.DoublingTest;
 
 public class QuickMedian5{
@@ -65,25 +68,50 @@ public class QuickMedian5{
     private static int findPivotIndex(Comparable[] a, int low, int high){
         // TODO update to median of 5
         int index = low;
-        if(high - low > 1){
-            int mid = (low + high) /2;
-            if (less(a[low], a[mid])){
-                if(less(a[mid], a[high])){
-                    return mid;
-                } else if(less(a[high], a[low])){
-                    return low;
-                }  else{
-                    return high;
-                }
-            } else {
-                if(less(a[low], a[high])){
-                    return low;
-                } else if(less(a[high], a[mid])){
-                    return mid;
-                }  else{
-                    return high;
-                }
-            }
+
+        // ! Bad solution, but works
+        // int index0 = StdRandom.uniform(low, high);
+        // int index1 = StdRandom.uniform(low, high);
+        // int index2 = StdRandom.uniform(low, high);
+        // int index3 = StdRandom.uniform(low, high);
+        // int index4 = StdRandom.uniform(low, high);
+
+        // Comparable[] b = new Comparable[5];
+        // b[0] = a[index0];
+        // b[1] = a[index1];
+        // b[2] = a[index2];
+        // b[3] = a[index3];
+        // b[4] = a[index4];
+        // Arrays.sort(b);
+
+        // if(a[index0].compareTo(b[2]) == 0){
+        //     return index0;
+        // } else if(a[index1].compareTo(b[2]) == 0){
+        //     return index1;
+        // } else if(a[index2].compareTo(b[2]) == 0){
+        //     return index2;
+        // } else if(a[index3].compareTo(b[2]) == 0){
+        //     return index3;
+        // } else if(a[index4].compareTo(b[2]) == 0){
+        //     return index4;
+        // }
+
+        // ? Trying a better solution;
+        int index0 = StdRandom.uniform(low, high);
+        int index1 = StdRandom.uniform(low, high);
+        int index2 = StdRandom.uniform(low, high);
+        int index3 = StdRandom.uniform(low, high);
+        int index4 = StdRandom.uniform(low, high);
+
+        Integer[] b = new Integer[5];
+        b[0] = index0;
+        b[1] = index1;
+        b[2] = index2;
+        b[3] = index3;
+        b[4] = index4;
+
+        if(less(a[b[1]], a[b[0]])){
+            exch(b, 0, 1);
         }
 
         return index;
