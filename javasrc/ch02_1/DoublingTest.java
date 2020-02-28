@@ -22,10 +22,14 @@ import lib.StdDraw;
 import lib.StdOut;
 import lib.StdRandom;
 import javasrc.ch01_4.Stopwatch;
+import javasrc.ch02_2.Merge;
+import javasrc.ch02_3.Quick;
+import javasrc.ch02_3.QuickMedian3;
+import javasrc.ch02_3.QuickMedian5;
 
 public class DoublingTest {
 
-    private static double getTime(String algo, int N) {
+    public static double getTime(String algo, int N) {
         double result = 0;
 
         Double[] a = new Double[N];
@@ -40,6 +44,14 @@ public class DoublingTest {
             Insertion.sort(a);
         } else if (algo.equals("Shell")) {
             Shell.sort(a);
+        } else if (algo.equals("Merge")){
+            Merge.sort(a);
+        } else if (algo.equals("Quick")){
+            Quick.sort(a);
+        } else if (algo.equals("QuickM3")){
+            QuickMedian3.sort(a);
+        } else if (algo.equals("QuickM5")){
+            QuickMedian5.sort(a);
         }
         result = timer.elapsedTime();
 

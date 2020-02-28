@@ -61,6 +61,18 @@ public class Merge {
             return;
         }
 
+        int mid = (low + high) / 2;
+        sort(a, low, mid);
+        sort(a, mid + 1, high);
+        fasterMerge(a, low, mid, high);
+    }
+
+    // * Improvement #2: 
+    private static void sortCutOff(Comparable[] a, int low, int high) {
+        if (high <= low) {
+            return;
+        }
+
         // * Improvement #2: Add a cutoff for small subarrays (switch to Insertion sort)
         if (a.length < 16) {
             InsertionRange.sortNX(a, low, high);
@@ -191,7 +203,7 @@ public class Merge {
 
         // test integer
         Integer[] a = { 28, 4, 51, 0, 9, 41, 36, 8, 76, 7, 12, 56, 2, 38, 45, 89, 1, 17, 5, 90, 91, 3,  19, 11, 6};
-        sortNoCopy(a);
+        sort(a);
         for (int i = 0; i < a.length - 1; i++) {
             if (a[i] > a[i + 1]) {
                 return false;
@@ -202,7 +214,7 @@ public class Merge {
         // test String
         String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", "ilk", "dim", "tag", "jot", "sob", "nob",
                 "sky" };
-        sortNoCopy(b);
+        sort(b);
         for (int i = 0; i < b.length - 1; i++) {
             if (less(b[i + 1], b[i])) {
                 return false;
