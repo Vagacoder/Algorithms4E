@@ -247,7 +247,7 @@ public class QuickMedian5 {
         // }
 
 
-        // StdOut.println("1. Confirm sort() works correctly ... ");
+        StdOut.println("1. Confirm sort() works correctly ... ");
         StdOut.println(check());
         StdOut.println();
 

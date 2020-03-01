@@ -1,5 +1,6 @@
 package javasrc.ch02_3;
 
+
 /*
 * 2.3.20 Nonrecursive quicksort. 
 Implement a nonrecursive version of quicksort based on a main loop where a subarray 
@@ -11,31 +12,51 @@ that the stack will have at most lg N entries.
 
 */
 
-import javasrc.ch01_3.LinkedListStack;
+import edu.princeton.cs.algs4.Stack;
 import lib.*;
+import javasrc.ch02_1.DoublingTest;
+
+
+// * 2.3.20 helper class
+class SubArrayInfo{
+
+    int low;
+    int high;
+
+    SubArrayInfo(int low, int high){
+        this.low = low;
+        this.high = high;
+    }
+}
+
 
 public class QuickNoRecursive{
 
-
+    // * 2.3.20
     public static void sort(Comparable[] a) { 
         StdRandom.shuffle(a);
-        sort(a, 0, a.length - 1);
-    }
+        Stack stack = new Stack<>();
+        int length = a.length;
+        SubArrayInfo aInfo= new SubArrayInfo(0, length - 1);
+        stack.push(aInfo);
 
-    // * 2.3.20
-    private static void sort(Comparable[] a, int low, int high){
-
-        LinkedListStack stack = new LinkedListStack<>();
-
-        if ( high <= low) {
-            return;
+        while(!stack.isEmpty()){
+            SubArrayInfo workingArray = (SubArrayInfo) stack.pop();
+            int j = partition(a, workingArray.low, workingArray.high);
+            if (j + 1 < workingArray.high){
+                stack.push(new SubArrayInfo(j + 1, workingArray.high));
+            }
+            if (workingArray.low < j-1) {
+                stack.push(new SubArrayInfo(workingArray.low, j - 1));
+            }
         }
-        int j = partition(a, low, high);
-        sort(a, low, j - 1);
-        sort(a, j + 1, high);
     }
+
 
     private static int partition(Comparable[] a, int low, int high){
+        // if ( high <= low) {
+        //     return low;
+        // }
         int i = low, j = high + 1;
         Comparable pivot = a[low];
         while(true){
@@ -119,8 +140,49 @@ public class QuickNoRecursive{
         // assert isSorted(a);
         // show(a);
 
-        //
+        StdOut.println("1. Confirm sort() works correctly ... ");
+        StdOut.println("2 default arrays ... ");
         StdOut.println(check());
+        StdOut.println("multiple arrays ... ");
+        int length = 10000;
+        int repeat = 20;
+        boolean good = true;
+        for (int i = 0; i < repeat; i++) {
+            Double[] a = new Double[length];
+            for (int j = 0; j < length; j++){
+                a[j] = StdRandom.uniform();
+            }
+            sort(a);
+            if(!isSorted(a)){
+                good = false;
+                break;
+            }
+        }
+        StdOut.println(good?"Successful!":"Failed!"); 
+        StdOut.println();
+
+        StdOut.print("2. Doubling test ... ");
+        StdOut.println("# each size repeats " + repeat + " times");
+        for (int N = 1000; N < 100000; N *= 2) {
+            double quickTotal = 0;
+            double quickM3Total = 0;
+            double quickM5Total = 0;
+            double quickNoRecurTotal = 0;
+            for (int i = 0; i < repeat; i++) {
+                quickTotal += DoublingTest.getTime("Quick", N);
+                quickM3Total += DoublingTest.getTime("QuickM3", N);
+                quickM5Total += DoublingTest.getTime("QuickM5", N);
+                quickNoRecurTotal += DoublingTest.getTime("QuickNoRecur", N);
+            }
+
+            StdOut.println("for random array size of " + N);
+            StdOut.println("\tAverage for regular quick sort:" + quickTotal / repeat);
+            StdOut.println("\tAverage for median3 quick sort:" + quickM3Total / repeat);
+            StdOut.println("\tAverage for median5 quick sort:" + quickM5Total / repeat);
+            StdOut.println("\tAverage for no recu quick sort:" + quickNoRecurTotal / repeat);
+            StdOut.println();
+        }
     }
 
 }
+

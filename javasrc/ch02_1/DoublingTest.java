@@ -26,6 +26,7 @@ import javasrc.ch02_2.Merge;
 import javasrc.ch02_3.Quick;
 import javasrc.ch02_3.QuickMedian3;
 import javasrc.ch02_3.QuickMedian5;
+import javasrc.ch02_3.QuickNoRecursive;
 
 public class DoublingTest {
 
@@ -52,6 +53,8 @@ public class DoublingTest {
             QuickMedian3.sort(a);
         } else if (algo.equals("QuickM5")){
             QuickMedian5.sort(a);
+        } else if (algo.equals("QuickNoRecur")){
+            QuickNoRecursive.sort(a);
         }
         result = timer.elapsedTime();
 
