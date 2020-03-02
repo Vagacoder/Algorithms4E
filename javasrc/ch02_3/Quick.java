@@ -76,9 +76,11 @@ public class Quick {
 
     // Test whether the array entries are in order.
     public static boolean isSorted(Comparable[] a) { 
-        for (int i = 1; i < a.length; i++)
-            if (less(a[i], a[i - 1]))
+        for (int i = 1; i < a.length; i++) {
+            if (less(a[i], a[i - 1])) {
                 return false;
+            }
+        }
         return true;
     }
 
