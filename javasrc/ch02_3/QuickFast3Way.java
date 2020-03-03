@@ -31,17 +31,86 @@ public class QuickFast3Way {
         sort(a, 0, a.length - 1);
     }
 
+    // * ex 2.3.22
     private static void sort(Comparable[] a, int low, int high) {
         if (high <= low) {
             return;
         }
-        int j = partition(a, low, high);
-        sort(a, low, j - 1);
-        sort(a, j + 1, high);
+       
+        // ? i: 1st of unsorted
+        // ? j: last of unsorted
+        // ? p: 1st of < pivot
+        // ? q: last of > pivot
+
+        // ? From low to p-1: == pivot
+        // ? From p to i-1: < pivot
+        // ? From i to j: unsorted
+        // ? From j+1 to q: > pivot
+        // ? From q+1 to high: == pivot
+
+        int i = low + 1;
+        int j = high;
+        int p = low + 1;
+        int q = high;
+
+        Comparable pivot = a[low];
+        while (true) {
+            while (!less(pivot, a[i])) {
+                if (pivot.compareTo(a[i]) == 0) {
+                    exch(a, p, i);
+                    p++;
+                }
+                i++;
+                if (i >= high) {
+                    break;
+                }
+            }
+            while (!less(a[j], pivot)) {
+                if (pivot.compareTo(a[j]) == 0) {
+                    exch(a, q, j);
+                    q--;
+                }
+                j--;
+                if (j == low) {
+                    break;
+                }
+            }
+            if (i >= j) {
+                break;
+            }
+            exch(a, i, j);
+        }
+        int pivotStart = j;
+        int pivotEnd = i -1;
+        int start = low;
+        int end = high;
+        while (j >= p) {
+            exch(a, j--, low++);
+        }
+        while (i <= q) {
+            exch(a, i++, high--);
+        }
+
+        sort(a, start, pivotStart - 1);
+        sort(a, pivotEnd + 1, end);
     }
 
-    // * ex 2.3.22
+    // * ex 2.3.22, implemented correct partition, but not used because it can only return 
+    // * one value, which is first index of == pivot; need another value, which is
+    // * last index of == pivot
     private static int partition(Comparable[] a, int low, int high) {
+
+        // ? i: 1st of unsorted
+        // ? j: last of unsorted
+        // ? p: 1st of < pivot
+        // ? q: last of > pivot
+
+        // ? From low to p-1: == pivot
+        // ? From p to i-1: < pivot
+        // ? From i to j: unsorted
+        // ? From j+1 to q: > pivot
+        // ? From q+1 to high: == pivot
+
         int i = low + 1;
         int j = high;
         int p = low + 1;

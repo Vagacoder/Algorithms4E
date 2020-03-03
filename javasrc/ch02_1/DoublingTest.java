@@ -24,6 +24,8 @@ import lib.StdRandom;
 import javasrc.ch01_4.Stopwatch;
 import javasrc.ch02_2.Merge;
 import javasrc.ch02_3.Quick;
+import javasrc.ch02_3.Quick3Way;
+import javasrc.ch02_3.QuickFast3Way;
 import javasrc.ch02_3.QuickMedian3;
 import javasrc.ch02_3.QuickMedian5;
 import javasrc.ch02_3.QuickNoRecursive;
@@ -55,7 +57,12 @@ public class DoublingTest {
             QuickMedian5.sort(a);
         } else if (algo.equals("QuickNoRecur")){
             QuickNoRecursive.sort(a);
+        } else if (algo.equals("Quick3W")){
+            Quick3Way.sort(a);
+        } else if (algo.equals("QuickFast3W")){
+            QuickFast3Way.sort(a);
         }
+         
         result = timer.elapsedTime();
 
         return result;
