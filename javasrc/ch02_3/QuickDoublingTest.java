@@ -22,6 +22,7 @@ public class  QuickDoublingTest {
             double quickNoRecurTotal = 0;
             double quick3wayTotal =0;
             double quickFast3wTotal = 0;
+            double quickBentleyF3W = 0;
 
             for (int i = 0; i < repeat; i++) {
                 quickTotal += DoublingTest.getTime("Quick", N);
@@ -30,6 +31,7 @@ public class  QuickDoublingTest {
                 quickNoRecurTotal += DoublingTest.getTime("QuickNoRecur", N);
                 quick3wayTotal += DoublingTest.getTime("Quick3W", N);
                 quickFast3wTotal += DoublingTest.getTime("QuickFast3W", N);
+                quickBentleyF3W += DoublingTest.getTime("QuickBentley", N);
             }
 
             StdOut.println("for random array size of " + N);
@@ -39,6 +41,7 @@ public class  QuickDoublingTest {
             StdOut.println("\tAverage for no recu quick sort:" + quickNoRecurTotal / repeat);
             StdOut.println("\tAverage for   3 way quick sort:" + quick3wayTotal / repeat);
             StdOut.println("\tAverage for fast 3w quick sort:" + quickFast3wTotal / repeat);
+            StdOut.println("\tAverage for Bentley quick sort:" + quickBentleyF3W / repeat);
             StdOut.println();
         }
     }
