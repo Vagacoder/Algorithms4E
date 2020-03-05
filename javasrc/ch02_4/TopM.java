@@ -22,7 +22,6 @@ Hoare       8/18/1992   4381.21
 .......
 */
 
-import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Stack;
 import javasrc.ch01_2.Transaction;
 import lib.*;
