@@ -32,8 +32,9 @@ public class UnorderedArrayMaxPQ<Key extends Comparable<Key>> {
 
     public Key delMax() {
         int max = 0;
-        for (int i = 1; i < n; i++)
+        for (int i = 1; i < n; i++){
             if (less(max, i)) max = i;
+        }
         exch(max, n-1);
 
         return pq[--n];
