@@ -30,6 +30,7 @@ import javasrc.ch02_3.QuickFast3Way;
 import javasrc.ch02_3.QuickMedian3;
 import javasrc.ch02_3.QuickMedian5;
 import javasrc.ch02_3.QuickNoRecursive;
+import javasrc.ch02_4.Heap;
 
 public class DoublingTest {
 
@@ -64,7 +65,9 @@ public class DoublingTest {
             QuickFast3Way.sort(a);
         } else if (algo.equals("QuickBentley")){
             QuickBentleyMcIlroy.sort(a);
-        }
+        } else if (algo.equals("Heap")){
+            Heap.sort(a);
+        } 
          
         result = timer.elapsedTime();
 
