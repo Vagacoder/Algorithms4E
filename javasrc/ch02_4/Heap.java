@@ -28,25 +28,27 @@ import lib.*;
 
 public class Heap {
 
-    public static void sort(Comparable[] a) { 
+    public static void sort(Comparable[] a) {
         int N = a.length - 1;
-        
+
         // * Build up heap
-        for (int k = N/2; k >= 0; k--){
+        // ! For 0-based array, parent index is (i - 1)/2
+        for (int k = (N - 1) / 2; k >= 0; k--) {
             sink(a, k, N);
         }
 
         // * Sorting
         int cur = N;
-        while ( cur > 0 ){
+        while (cur > 0) {
             exch(a, 0, cur--);
             sink(a, 0, cur);
         }
     }
 
+    // ! For 0-based array, children indecs are 2*i + 1 and 2*i + 2;
     private static void sink(Comparable[] a, int i, int N) {
-        while (2 * i <= N) {
-            int k = 2 * i;
+        int k = 2 * i + 1;
+        while (k <= N) {
             if (k < N && less(a[k], a[k + 1])) {
                 k++;
             }
@@ -55,6 +57,7 @@ public class Heap {
             }
             exch(a, i, k);
             i = k;
+            k = 2 * i + 1;
         }
     }
 
@@ -69,14 +72,14 @@ public class Heap {
     }
 
     // Print the array, on a single line.
-    private static void show(Comparable[] a) { 
+    private static void show(Comparable[] a) {
         for (int i = 0; i < a.length; i++)
             StdOut.print(a[i] + " ");
         StdOut.println();
     }
 
     // Test whether the array entries are in order.
-    public static boolean isSorted(Comparable[] a) { 
+    public static boolean isSorted(Comparable[] a) {
         for (int i = 1; i < a.length; i++)
             if (less(a[i], a[i - 1]))
                 return false;
@@ -101,8 +104,8 @@ public class Heap {
         }
 
         // test String
-        String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", 
-        "ilk", "dim", "tag", "jot", "sob", "nob", "sky" };
+        String[] b = { "bed", "bug", "dad", "yes", "zoo", "now", "for", "tip", "ilk", "dim", "tag", "jot", "sob", "nob",
+                "sky" };
         sort(b);
         show(b);
         for (int i = 0; i < b.length - 1; i++) {
@@ -113,7 +116,7 @@ public class Heap {
         return true;
     }
 
-    public static void main(String[] args) { 
+    public static void main(String[] args) {
         // Read strings from standard input, sort them, and print.
         // String[] a = In.readStrings();
         // sort(a);
@@ -121,8 +124,27 @@ public class Heap {
         // show(a);
 
         StdOut.println("1. Confirm sort() works correctly ... ");
+        StdOut.println("2 default arrays ... ");
         StdOut.println(check());
+        StdOut.println("multiple arrays ... ");
+        int length = 10000;
+        int repeat = 20;
+        boolean good = true;
+        for (int h = 10; h < length; h*=10) {
+            for (int i = 0; i < repeat; i++) {
+                Double[] a = new Double[h];
+                for (int j = 0; j < h; j++) {
+                    a[j] = StdRandom.uniform();
+                }
+                // show(a);
+                sort(a);
+                if (!isSorted(a)) {
+                    good = false;
+                    break;
+                }
+            }
+        }
+        StdOut.println(good ? "Successful!" : "Failed!");
         StdOut.println();
-        
     }
 }
