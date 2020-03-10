@@ -1,17 +1,17 @@
 package javasrc.ch02_4;
 
-/*
+/* 
 * 2.4.3 Provide priority-queue implementations that support insert and remove the
-maximum, for unordered linked list. 
+maximum, for ordered linked list. 
 
 Give a table of the worst-case bounds for each operation.
-* insert: O(1)
-* delMax: O(n) for compare
+* insert: O(n)
+* delMax: O(1) for compare
 */
 
 import lib.*;
 
-public class UnorderedLinkedListMaxPQ<Key extends Comparable<Key>> {
+public class OrderedLinkedListMaxPQ<Key extends Comparable<Key>> {
 
     private class Node {
         Key item;
@@ -21,61 +21,74 @@ public class UnorderedLinkedListMaxPQ<Key extends Comparable<Key>> {
     private Node first;
     private int size;
 
-    public UnorderedLinkedListMaxPQ(){
+    public OrderedLinkedListMaxPQ() {
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.first == null;
     }
 
-    public int size(){
+    public int size() {
         return this.size;
     }
 
-    public Key delMax(){
+    public void insert(Key newKey) {
+        Node newNode = new Node();
+        newNode.item = newKey;
+
         // * empty list
-        if(this.first == null){
-            return null;
+        if (this.first == null) {
+            this.first = newNode;
+            this.size++;
+            return;
         }
-        
+
         // * 1 element list
-        Node maxNode = this.first;
-        if(this.first.next == null){
-            this.first = null;
-            this.size--;
-            return maxNode.item;
+        if (this.first.next == null) {
+            if (less(this.first.item, newKey)) {
+                newNode.next = this.first;
+                this.first = newNode;
+            } else {
+                this.first.next = newNode;
+            }
+            this.size++;
+            return;
         }
 
         // * other situations
-        // ! maxNode is the PARENT of Node with max key (for easier deletion);
-        Node parentMaxNode = null;
+        Node parentCur = null;
         Node cur = this.first;
-        
-        while(cur.next != null){
-            if(less(maxNode.item, cur.next.item)){
-                parentMaxNode = cur;
-                maxNode = parentMaxNode.next;
-            }
+
+        while (cur != null && less(newNode.item, cur.item)) {
+            parentCur = cur;
             cur = cur.next;
         }
 
-        if(parentMaxNode == null){
-            this.first = this.first.next;
-            this.size--;
-        } else{
-            parentMaxNode.next = maxNode.next;
+        if (parentCur == null) {
+            newNode.next = this.first;
+            this.first = newNode;
+        } else if (parentCur.next == null) {
+            parentCur.next = newNode;
+        } else {
+            newNode.next = parentCur.next;
+            parentCur.next = newNode;
         }
+        this.size++;
 
-        maxNode.next = null;
-        return maxNode.item;
     }
 
-    public void insert(Key newKey){
-        Node newNode = new Node();
-        newNode.item = newKey;
-        newNode.next = this.first;
-        this.first = newNode;
-        this.size++;
+    public Key delMax() {
+        // * empty list
+        if (this.first == null) {
+            return null;
+        }
+
+        // * other situations
+        Node maxNode = this.first;
+        this.first = this.first.next;
+        maxNode.next = null;
+        this.size--;
+        return maxNode.item;
     }
 
     public void print() {
@@ -90,8 +103,8 @@ public class UnorderedLinkedListMaxPQ<Key extends Comparable<Key>> {
         return v.compareTo(w) < 0;
     }
 
-    public static void main(String[] args){
-        UnorderedLinkedListMaxPQ<String> pq = new UnorderedLinkedListMaxPQ<>();
+    public static void main(String[] args) {
+        OrderedLinkedListMaxPQ<String> pq = new OrderedLinkedListMaxPQ<>();
         StdOut.println("1. Testing delete empty pq ... ");
         StdOut.println("printing list ... ");
         pq.print();

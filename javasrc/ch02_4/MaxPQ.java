@@ -25,8 +25,11 @@ The height of a complete binary tree of size N is ⎣lgN⎦ .
 In an N-key priority queue, the heap algorithms require no more than (1 + lg N) 
 compares for insert and no more than (2lg N) compares for remove the maximum.
 
+*/
 
-
+/*
+* 2.4.19 Implement the constructor for MaxPQ that takes an array of items as argument,
+using the bottom-up heap construction method described on page 323 in the text.
 */
 
 import lib.*;
@@ -38,6 +41,21 @@ public class MaxPQ<Key extends Comparable<Key>> {
 
     public MaxPQ(int maxN) {
         this.pq = (Key[]) new Comparable[maxN + 1];
+    }
+
+    // * 2.4.19
+    public MaxPQ(Key[] arr){
+        this.pq = (Key[]) new Comparable[arr.length + 1];
+        
+        for(int i = 0; i < arr.length; i++){
+            pq[i+1] = arr[i];
+        }
+
+        for(int i = 1; i < pq.length; i++){
+            swim(i);
+        }
+
+        this.N = arr.length;
     }
 
     public boolean isEmpty() {
@@ -62,7 +80,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
         exch(1, this.N--);
         pq[this.N + 1] = null;
         sink(1);
-        return max;
+        return max;// copy arr
     }
 
     private void swim(int k) {
@@ -159,6 +177,22 @@ public class MaxPQ<Key extends Comparable<Key>> {
         if(!b.isMaxHeap()){
             return false;
         }
+
+        // * 2.4.19 test new constructor
+        Integer[] numbers1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        MaxPQ<Integer> c = new MaxPQ<>(numbers1);
+        
+        c.printArray();
+
+        // for(int i = 0; i < numbers1.length; i++){
+        //     StdOut.print(numbers1[i] + ", ");
+        // }
+
+        if(!c.isMaxHeap()){
+            return false;
+        }
+    
+
 
         return good;
     }

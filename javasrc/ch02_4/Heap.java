@@ -24,11 +24,22 @@ sort N items.
 
 */
 
+/*
+*2.4.16 For N=32, give arrays of items that make heapsort use as many and as few com-
+pares as possible. Also providing ability to count exchange numbers.
+*/
+
 import lib.*;
 
 public class Heap {
 
+    // * 2.4.16
+    public static int exchNumber;
+    public static int compareNumber;
+
     public static void sort(Comparable[] a) {
+        exchNumber = 0;
+        compareNumber = 0;
         int N = a.length - 1;
 
         // * Build up heap
@@ -62,10 +73,16 @@ public class Heap {
     }
 
     private static boolean less(Comparable v, Comparable w) {
+
+        // * 2.4.16
+        compareNumber++;
         return v.compareTo(w) < 0;
     }
 
     private static void exch(Comparable[] a, int i, int j) {
+
+        // * 2.4.16
+        exchNumber++;
         Comparable t = a[i];
         a[i] = a[j];
         a[j] = t;
@@ -84,6 +101,14 @@ public class Heap {
             if (less(a[i], a[i - 1]))
                 return false;
         return true;
+    }
+
+    public static int getExchNumber(){
+        return exchNumber;
+    }
+
+    public static int getCompareNumber(){
+        return compareNumber;
     }
 
     /*
@@ -123,28 +148,92 @@ public class Heap {
         // assert isSorted(a);
         // show(a);
 
-        StdOut.println("1. Confirm sort() works correctly ... ");
-        StdOut.println("2 default arrays ... ");
-        StdOut.println(check());
-        StdOut.println("multiple arrays ... ");
-        int length = 10000;
-        int repeat = 20;
-        boolean good = true;
-        for (int h = 10; h < length; h*=10) {
-            for (int i = 0; i < repeat; i++) {
-                Double[] a = new Double[h];
-                for (int j = 0; j < h; j++) {
-                    a[j] = StdRandom.uniform();
-                }
-                // show(a);
-                sort(a);
-                if (!isSorted(a)) {
-                    good = false;
-                    break;
-                }
-            }
-        }
-        StdOut.println(good ? "Successful!" : "Failed!");
-        StdOut.println();
+        // StdOut.println("1. Confirm sort() works correctly ... ");
+        // StdOut.println("2 default arrays ... ");
+        // StdOut.println(check());
+        // StdOut.println("multiple arrays ... ");
+        // int length = 10000;
+        // int repeat = 20;
+        // boolean good = true;
+        // for (int h = 10; h < length; h*=10) {
+        //     for (int i = 0; i < repeat; i++) {
+        //         Double[] a = new Double[h];
+        //         for (int j = 0; j < h; j++) {
+        //             a[j] = StdRandom.uniform();
+        //         }
+        //         // show(a);
+        //         sort(a);
+        //         if (!isSorted(a)) {
+        //             good = false;
+        //             break;
+        //         }
+        //     }
+        // }
+        // StdOut.println(good ? "Successful!" : "Failed!");
+        // StdOut.println();
+
+        StdOut.println("2.1. Ascending order array exch number ... ");
+        Integer[] b = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        sort(b);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(b));
+
+
+        StdOut.println("2.2. Ascending order array exch number ... ");
+        Integer[] b1 = {1, 2, 9, 3, 6, 10, 13, 4, 5, 7, 8, 11, 12, 14, 15};
+        sort(b1);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(b1));
+
+        StdOut.println("2.3. Ascending order array exch number ... ");
+        Integer[] b2 = {1, 3, 2, 7, 6, 5, 4, 15, 14, 13, 12, 11, 10, 9, 8};
+        sort(b2);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(b2));
+
+        StdOut.println("2.4. Ascending order array exch number ... ");
+        Integer[] b3 = {1, 9, 2, 13, 10, 6, 3, 15, 14, 12, 11, 8, 7, 5, 4};
+        sort(b3);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(b3));
+        
+        StdOut.println("3.1. Descending order array exch number ... ");
+        Integer[] c = {15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+        sort(c);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(c));
+        
+        StdOut.println("3.2. Descending order array exch number ... ");
+        Integer[] d = {15, 14, 7, 13, 12, 6, 5, 11, 10, 9, 8, 4, 3, 2, 1};
+        sort(d);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(d));
+
+        StdOut.println("3.3. Descending order array exch number ... ");
+        Integer[] e = {15, 14, 7, 13, 10, 6, 3, 12, 11, 9, 8, 5, 4, 2, 1};
+        sort(e);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(e));
+
+        StdOut.println("3.4 Descending order array exch number ... ");
+        Integer[] f = {15, 13, 14, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8};
+        sort(f);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(f));
+
+        StdOut.println("3.5 Descending order array exch number ... ");
+        Integer[] g = {15, 7, 14, 3, 6, 10, 13, 1, 2, 4, 5, 8, 9, 11, 12};
+        sort(g);
+        StdOut.println("Exch#: " + getExchNumber());
+        StdOut.println("Comp#: " + getCompareNumber());
+        StdOut.println(isSorted(g));
     }
 }
