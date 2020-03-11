@@ -10,36 +10,33 @@ queue data types from Section 1.3 and Exercise 1.3.35.
 
 import lib.*;
 
-public class MaxPQstack <Key> {
-    
-    // static variable
-    static Integer priority;
+// * helper class to wrap Key
+class Data<Key> implements Comparable<Data<Key>> {
+    Integer priority;
+    Key key;
 
-    // * inner class to wrap Key
-    private class Data implements Comparable<Data>{
-        Integer priority;
-        Key key;
-
-        Data(Key newKey){
-            this.key = newKey;
-            this.priority = priority++;
-        }
-
-        @Override
-        public int compareTo(MaxPQstack<Key>.Data that) {
-            return this.priority - that.priority;
-        }
-
+    Data(Key newKey, int priority) {
+        this.key = newKey;
+        this.priority = priority;
     }
 
+    @Override
+    public int compareTo(Data<Key> that) {
+        return this.priority - that.priority;
+    }
+}
+
+public class MaxPQstack<Key> {
+
     // instance variables
+    private Integer priority;
     private Data[] pq;
     private int N = 0;
 
     // constructor
-    public MaxPQstack(int max){
+    public MaxPQstack(int max) {
         priority = 0;
-        this.pq = (Data[]) new Comparable[max + 1];
+        this.pq = new Data[max + 1];
     }
 
     public boolean isEmpty() {
@@ -51,12 +48,24 @@ public class MaxPQstack <Key> {
     }
 
     public void push(Key newKey) {
-        if(this.N < this.pq.length){
-            pq[++N] = new Data(newKey);
+        if (this.N < this.pq.length) {
+            pq[++N] = new Data(newKey, priority++);
             swim(this.N);
         } else {
             StdOut.println("Priority queue is full!");
         }
+    }
+
+    public Key pop() {
+        if(N<=0){
+            return null;
+        }
+        
+        Data max = pq[1];
+        exch(1, this.N--);
+        pq[this.N + 1] = null;
+        sink(1);
+        return (Key) max.key;
     }
 
     private void swim(int k) {
@@ -90,11 +99,11 @@ public class MaxPQstack <Key> {
         pq[j] = temp;
     }
 
-    public void printArray(){
-        for (int i= 0; i < this.pq.length; i ++){
-            if(this.pq[i] != null){
-                StdOut.print(this.pq[i].key.toString()+ ", ");
-            } else{
+    public void printArray() {
+        for (int i = 0; i < this.pq.length; i++) {
+            if (this.pq[i] != null) {
+                StdOut.print(this.pq[i].key.toString() + ", ");
+            } else {
                 StdOut.print("null, ");
             }
         }
@@ -103,10 +112,12 @@ public class MaxPQstack <Key> {
 
     private boolean isMaxHeap() {
         for (int i = 1; i <= this.N; i++) {
-            if (pq[i] == null) return false;
+            if (pq[i] == null)
+                return false;
         }
         for (int i = this.N + 1; i < pq.length; i++) {
-            if (pq[i] != null) return false;
+            if (pq[i] != null)
+                return false;
         }
 
         if (pq[0] != null) {
@@ -121,28 +132,41 @@ public class MaxPQstack <Key> {
             return true;
         }
 
-        int left = 2*k;
-        int right = 2*k + 1;
+        int left = 2 * k;
+        int right = 2 * k + 1;
 
-        if (left  <= this.N && less(k, left))  return false;
-        if (right <= this.N && less(k, right)) return false;
-        
+        if (left <= this.N && less(k, left))
+            return false;
+        if (right <= this.N && less(k, right))
+            return false;
+
         return isMaxHeapOrdered(left) && isMaxHeapOrdered(right);
     }
 
     public static boolean check() {
         boolean good = true;
-        
+
+        StdOut.println("1. push \"this is a unit test\" ...");
         MaxPQstack<String> stack1 = new MaxPQstack<>(10);
         stack1.push("this");
         stack1.push("is");
         stack1.push("a");
+        stack1.push("unit");
+        stack1.push("test");
+        StdOut.println("1.1. print array of priority queue ... ");
         stack1.printArray();
-    
+        StdOut.println("\n1.2. poping ... ");
+        StdOut.println(stack1.pop());
+        StdOut.println(stack1.pop());
+        StdOut.println(stack1.pop());
+        StdOut.println(stack1.pop());
+        StdOut.println(stack1.pop());
+        StdOut.println(stack1.pop());
+
         return good;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         StdOut.println(check());
     }
 }

@@ -80,7 +80,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
         exch(1, this.N--);
         pq[this.N + 1] = null;
         sink(1);
-        return max;// copy arr
+        return max;
     }
 
     private void swim(int k) {
