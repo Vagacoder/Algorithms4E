@@ -44,14 +44,14 @@ public class MaxPQ<Key extends Comparable<Key>> {
     }
 
     // * 2.4.19
-    public MaxPQ(Key[] arr){
+    public MaxPQ(Key[] arr) {
         this.pq = (Key[]) new Comparable[arr.length + 1];
-        
-        for(int i = 0; i < arr.length; i++){
-            pq[i+1] = arr[i];
+
+        for (int i = 0; i < arr.length; i++) {
+            pq[i + 1] = arr[i];
         }
 
-        for(int i = 1; i < pq.length; i++){
+        for (int i = 1; i < pq.length; i++) {
             swim(i);
         }
 
@@ -67,7 +67,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
     }
 
     public void insert(Key newKey) throws Exception {
-        if (this.N < this.pq.length) {
+        if (this.N < this.pq.length - 1) {
             pq[++N] = newKey;
             swim(this.N);
         } else {
@@ -116,10 +116,12 @@ public class MaxPQ<Key extends Comparable<Key>> {
 
     private boolean isMaxHeap() {
         for (int i = 1; i <= this.N; i++) {
-            if (pq[i] == null) return false;
+            if (pq[i] == null)
+                return false;
         }
         for (int i = this.N + 1; i < pq.length; i++) {
-            if (pq[i] != null) return false;
+            if (pq[i] != null)
+                return false;
         }
 
         if (pq[0] != null) {
@@ -134,20 +136,22 @@ public class MaxPQ<Key extends Comparable<Key>> {
             return true;
         }
 
-        int left = 2*k;
-        int right = 2*k + 1;
+        int left = 2 * k;
+        int right = 2 * k + 1;
 
-        if (left  <= this.N && less(k, left))  return false;
-        if (right <= this.N && less(k, right)) return false;
-        
+        if (left <= this.N && less(k, left))
+            return false;
+        if (right <= this.N && less(k, right))
+            return false;
+
         return isMaxHeapOrdered(left) && isMaxHeapOrdered(right);
     }
 
-    public void printArray(){
-        for (int i= 0; i < this.pq.length; i ++){
-            if(this.pq[i] != null){
-                StdOut.print(this.pq[i].toString()+ ", ");
-            } else{
+    public void printArray() {
+        for (int i = 0; i < this.pq.length; i++) {
+            if (this.pq[i] != null) {
+                StdOut.print(this.pq[i].toString() + ", ");
+            } else {
                 StdOut.print("null, ");
             }
         }
@@ -157,42 +161,45 @@ public class MaxPQ<Key extends Comparable<Key>> {
     public static boolean check() throws Exception {
         boolean good = true;
 
-        MaxPQ<Integer> a =  new MaxPQ<>(7);
-        for (int i = 1; i<=7; i ++){
+        MaxPQ<Integer> a = new MaxPQ<>(7);
+        for (int i = 1; i <= 7; i++) {
             a.insert(i);
         }
+        try {
+            a.insert(8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        if(!a.isMaxHeap()){
+        if (!a.isMaxHeap()) {
             return false;
         }
 
         a.printArray();
 
         int number = 100;
-        MaxPQ<Integer> b =  new MaxPQ<>(number);
-        for (int i = 1; i < number; i++){
+        MaxPQ<Integer> b = new MaxPQ<>(number);
+        for (int i = 1; i < number; i++) {
             b.insert(i);
         }
 
-        if(!b.isMaxHeap()){
+        if (!b.isMaxHeap()) {
             return false;
         }
 
         // * 2.4.19 test new constructor
-        Integer[] numbers1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Integer[] numbers1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         MaxPQ<Integer> c = new MaxPQ<>(numbers1);
-        
+
         c.printArray();
 
         // for(int i = 0; i < numbers1.length; i++){
-        //     StdOut.print(numbers1[i] + ", ");
+        // StdOut.print(numbers1[i] + ", ");
         // }
 
-        if(!c.isMaxHeap()){
+        if (!c.isMaxHeap()) {
             return false;
         }
-    
-
 
         return good;
     }
