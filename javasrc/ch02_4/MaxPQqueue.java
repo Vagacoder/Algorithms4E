@@ -29,7 +29,7 @@ class Data<Key> implements Comparable<Data<Key>> {
 public class MaxPQqueue<Key> {
 
     private Integer priority;
-    private Data[] pq;
+    private Data<Key>[] pq;
     private int size;
 
     public MaxPQqueue(int max) {
@@ -47,7 +47,7 @@ public class MaxPQqueue<Key> {
     }
 
     public void enqueue(Key newKey) {
-        pq[++this.size] = new Data(newKey, this.priority--);
+        pq[++this.size] = new Data<Key>(newKey, this.priority--);
         swim(this.size);
     }
 
@@ -56,7 +56,7 @@ public class MaxPQqueue<Key> {
             return null;
         }
 
-        Data max = pq[1];
+        Data<Key> max = pq[1];
         exch(1, this.size--);
         this.pq[this.size + 1] = null;
         sink(1);
@@ -89,7 +89,7 @@ public class MaxPQqueue<Key> {
     }
 
     public void exch(int a, int b) {
-        Data temp = pq[a];
+        Data<Key> temp = pq[a];
         pq[a] = pq[b];
         pq[b] = temp;
     }

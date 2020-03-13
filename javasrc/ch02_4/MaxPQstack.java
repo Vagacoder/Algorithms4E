@@ -11,7 +11,7 @@ queue data types from Section 1.3 and Exercise 1.3.35.
 import lib.*;
 
 // * helper class to wrap Key
-class Data<Key> implements Comparable<Data> {
+class Data<Key> implements Comparable<Data<Key>> {
     Integer priority;
     Key key;
 
@@ -21,7 +21,7 @@ class Data<Key> implements Comparable<Data> {
     }
 
     @Override
-    public int compareTo(Data that) {
+    public int compareTo(Data<Key> that) {
         return this.priority - that.priority;
     }
 }
@@ -49,7 +49,7 @@ public class MaxPQstack<Key> {
 
     public void push(Key newKey) {
         if (this.N < this.pq.length) {
-            pq[++N] = new Data(newKey, priority++);
+            pq[++N] = new Data<Key>(newKey, priority++);
             swim(this.N);
         } else {
             StdOut.println("Priority queue is full!");
@@ -61,7 +61,7 @@ public class MaxPQstack<Key> {
             return null;
         }
         
-        Data max = pq[1];
+        Data<Key> max = pq[1];
         exch(1, this.N--);
         pq[this.N + 1] = null;
         sink(1);
@@ -94,7 +94,7 @@ public class MaxPQstack<Key> {
     }
 
     private void exch(int i, int j) {
-        Data temp = pq[i];
+        Data<Key> temp = pq[i];
         pq[i] = pq[j];
         pq[j] = temp;
     }
