@@ -42,12 +42,14 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
         Node newNode = new Node();
         newNode.item = newKey;
 
+        // * empty
         if (this.first == null) {
             this.first = newNode;
             this.size++;
             return;
         }
 
+        // * find a leaf
         Node cur = this.first;
         while (cur.left != null) {
             if (cur.right != null) {
@@ -61,6 +63,7 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
             }
         }
 
+        // * add new node to leaf
         if (cur.left == null) {
             cur.left = newNode;
         } else {
@@ -73,6 +76,8 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
 
     private void swim(Node cur) {
         while (cur.parent != null && less(cur.parent, cur)) {
+
+            // * get tree structure information: parent, grandparent, left or right etc.
             Node parent = cur.parent;
             Node gParent = parent.parent;
 
@@ -116,7 +121,8 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
             }
 
             cur.parent = gParent;
-            // * parent is not first
+
+            // * parent is not first, set grandparent
             if (gParent != null) {
                 if (isParentOnLeft) {
                     gParent.left = cur;
@@ -124,7 +130,7 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
                     gParent.right = cur;
                 }
             }
-            // * paren is first
+            // * paren is first, set first
             else {
                 this.first = cur;
             }
@@ -148,7 +154,10 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
             return max.item;
         }
 
-        // * 2 - 3 elements;
+        // * 2 - 3 elements, tree height = 1;
+        // ? this case is special, when leaf lift to first, leaf'children are 
+        // ? set to first'children, one of which is leaf. So that results in a 
+        // ? loop structure. 
         if (leaf == this.first.left) {
             leaf.left = this.first.right;
             if (leaf.left != null) {
@@ -175,9 +184,15 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
             return max.item;
         }
 
-        // * other situations
+        // * other situations, elements # > 3, tree height > 1, leaf and first are
+        // * not adjacent.
+
+        // * move leaf to first
+        // ? these 2 operations will cause loop structure if tree heigh = 1 ====
         leaf.left = this.first.left;
         leaf.right = this.first.right;
+        // ? ====================================================================
+
         if (leaf.left != null) {
             leaf.left.parent = leaf;
         }
@@ -185,6 +200,7 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
             leaf.right.parent = leaf;
         }
         
+        // * leaf parent's link to leaf => null
         if(leaf.parent.left == leaf){
             leaf.parent.left = null;
         }else {
@@ -193,10 +209,12 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
         
         leaf.parent = null;
 
+        // * remove first
         this.first.left = null;
         this.first.right = null;
+        
+        // * rebuild heap
         this.first = leaf;
-
         sink(this.first);
         this.size--;
         return max.item;
@@ -216,15 +234,14 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
 
     private void sink(Node cur) {
         while (!(cur.left == null && cur.right == null)) {
+
+            // * get tree structure informations
             Node parent = cur.parent;
             boolean isCurOnLeft = true;
-            // Node curSiblin = null;
 
             if (parent != null) {
                 if (cur == parent.left) {
-                    // curSiblin = parent.right;
                 } else {
-                    // curSiblin = parent.left;
                     isCurOnLeft = false;
                 }
             }
@@ -232,6 +249,8 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
             Node largeChild = null;
             Node smallChild = null;
             boolean isLargeOnLeft = true;
+
+            // * only one child
             if (cur.left == null || cur.right == null) {
                 if (cur.left == null) {
                     largeChild = cur.right;
@@ -241,7 +260,9 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
                     largeChild = cur.left;
                     smallChild = cur.right;
                 }
-            } else {
+            } 
+            // * two children, compare to find larger one
+            else {
                 if (less(cur.left, cur.right)) {
                     largeChild = cur.right;
                     smallChild = cur.left;
@@ -255,6 +276,7 @@ public class TernaryLinkedListMaxPQ<Key extends Comparable<Key>> {
             if (less(largeChild, cur)) {
                 break;
             }
+            
             // * move cur down
             cur.left = largeChild.left;
             cur.right = largeChild.right;
