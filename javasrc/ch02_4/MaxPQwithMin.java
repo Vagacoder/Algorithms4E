@@ -1,60 +1,26 @@
 package javasrc.ch02_4;
 
 /*
-* Algorithm 2.6 Heap priority queue. P. 318
-
-The priority queue is maintained in a heap-ordered complete binary tree in the 
-array pq[] with pq[0] unused and the N keys in the priority queue in pq[1] through 
-pq[N]. 
-
-To implement insert(), we increment N, add the new element at the end, then use 
-swim() to restore the heap order. 
-
-For delMax(), we take the value to be returned from pq[1], then move pq[N] to pq[1], 
-decrement the size of the heap, and use sink() to restore the heap condition. 
-We also set the now-unused position pq[N+1] to null to allow the system to reclaim 
-the memory associated with it. 
-
-* Proposition O. 
-The largest key in a heap-ordered binary tree is found at the root.
-
-* Proposition p. 
-The height of a complete binary tree of size N is ⎣lgN⎦ .
-
-* Proposition Q. 
-In an N-key priority queue, the heap algorithms require no more than (1 + lg N) 
-compares for insert and no more than (2lg N) compares for remove the maximum.
-
-*/
-
-/*
-* 2.4.19 Implement the constructor for MaxPQ that takes an array of items as argument,
-using the bottom-up heap construction method described on page 323 in the text.
-*/
-
-/*
-* 2.4.26 Heap without exchanges. 
-Because the exch() primitive is used in the sink() and swim() operations, the items 
-are loaded and stored twice as often as necessary.
-
-Give more efficient implementations that avoid this inefficiency, a la insertion sort (see
-Exercise 2.1.25).
+* 2.4.27 Find the minimum. 
+Add a min() method to MaxPQ. Your implementation should use constant time and 
+constant extra space.
 
 */
 
 import lib.*;
 
-public class MaxPQ<Key extends Comparable<Key>> {
+public class MaxPQwithMin<Key extends Comparable<Key>> {
 
     private Key[] pq;
     private int N = 0;
+    private Key min;
 
-    public MaxPQ(int maxN) {
+    public MaxPQwithMin(int maxN) {
         this.pq = (Key[]) new Comparable[maxN + 1];
     }
 
     // * 2.4.19
-    public MaxPQ(Key[] arr) {
+    public MaxPQwithMin(Key[] arr) {
         this.pq = (Key[]) new Comparable[arr.length + 1];
 
         for (int i = 0; i < arr.length; i++) {
@@ -62,7 +28,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
         }
 
         for (int i = 1; i < pq.length; i++) {
-            swimBetter(i);
+            swim(i);
         }
 
         this.N = arr.length;
@@ -76,20 +42,34 @@ public class MaxPQ<Key extends Comparable<Key>> {
         return this.N;
     }
 
+    // * 2.4.27
     public void insert(Key newKey) throws Exception {
         if (this.N < this.pq.length - 1) {
+            
+            if(this.isEmpty()){
+                this.min = newKey;
+            }else{
+                if(newKey.compareTo(min) < 0){
+                    this.min = newKey;
+                }
+            }
+            
             pq[++N] = newKey;
-            swimBetter(this.N);
+            swim(this.N);
         } else {
             throw new Exception("Priority queue is full!");
         }
+    }
+
+    public Key min(){
+        return this.min;
     }
 
     public Key delMax() {
         Key max = pq[1];
         exch(1, this.N--);
         pq[this.N + 1] = null;
-        sinkBetter(1);
+        sink(1);
         return max;
     }
 
@@ -99,18 +79,6 @@ public class MaxPQ<Key extends Comparable<Key>> {
             k = k / 2;
         }
     }
-
-    // * 2.4.26 
-    private void swimBetter(int k){
-        Key temp = pq[k];
-        while(k > 1 && pq[k/2].compareTo(temp) < 0){
-            int parent = k/2;
-            pq[k] = pq[parent];
-            k = parent;
-        }
-        pq[k] = temp;
-    }
-
 
     private void sink(int k) {
         while (2 * k <= N) {
@@ -124,23 +92,6 @@ public class MaxPQ<Key extends Comparable<Key>> {
             exch(k, j);
             k = j;
         }
-    }
-
-    // * 2.4.26
-    private void sinkBetter(int k){
-        Key temp = pq[k];
-        while (2 * k <= N) {
-            int j = 2 * k;
-            if (j < N && less(j, j + 1)) {
-                j++;
-            }
-            if (pq[j].compareTo(temp)<0) {
-                break;
-            }
-            pq[k] = pq[j];
-            k = j;
-        }
-        pq[k] = temp;
     }
 
     private boolean less(int i, int j) {
@@ -200,9 +151,10 @@ public class MaxPQ<Key extends Comparable<Key>> {
     public static boolean check() throws Exception {
         boolean good = true;
 
-        MaxPQ<Integer> a = new MaxPQ<>(7);
-        for (int i = 1; i <= 7; i++) {
+        MaxPQwithMin<Integer> a = new MaxPQwithMin<>(7);
+        for (int i = 7; i >= 1; i--) {
             a.insert(i);
+            StdOut.println("current min is: " + a.min().toString());
         }
         try {
             a.insert(8);
@@ -217,7 +169,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
         a.printArray();
 
         int number = 100;
-        MaxPQ<Integer> b = new MaxPQ<>(number);
+        MaxPQwithMin<Integer> b = new MaxPQwithMin<>(number);
         for (int i = 1; i < number; i++) {
             b.insert(i);
         }
@@ -228,7 +180,7 @@ public class MaxPQ<Key extends Comparable<Key>> {
 
         // * 2.4.19 test new constructor
         Integer[] numbers1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        MaxPQ<Integer> c = new MaxPQ<>(numbers1);
+        MaxPQwithMin<Integer> c = new MaxPQwithMin<>(numbers1);
 
         c.printArray();
 
