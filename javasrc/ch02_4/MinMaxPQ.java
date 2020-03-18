@@ -7,30 +7,33 @@ and delete the minimum (all in logarithmic time); and find the maximum and find
 the minimum (both in constant time). 
 
 Hint: Use two heaps.
+
+! I feel my solution is not best one, need find a better one later.
+
 */
 
 import lib.*;
 
-public class MinMaxPQ<Key extends Comparable<Key>>{
+public class MinMaxPQ<Key extends Comparable<Key>> {
 
     private Key[] minPq;
     private Key[] maxPq;
     private int size = 0;
 
-    public MinMaxPQ(int maxSize){
+    public MinMaxPQ(int maxSize) {
         this.minPq = (Key[]) new Comparable[maxSize + 1];
         this.maxPq = (Key[]) new Comparable[maxSize + 1];
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.size == 0;
     }
 
-    public int size(){
+    public int size() {
         return this.size;
     }
 
-    public void insert(Key newKey){
+    public void insert(Key newKey) {
         if (this.size < this.minPq.length - 1) {
             this.size++;
             this.minPq[size] = newKey;
@@ -42,14 +45,87 @@ public class MinMaxPQ<Key extends Comparable<Key>>{
         }
     }
 
-    public Key delMax(){
+    public Key findMax() {
+        return this.maxPq[1];
+    }
+
+    public Key delMax() {
         Key max = maxPq[1];
-        exch(maxPq, 1, this.size - 1);
+        exch(maxPq, 1, this.size);
         this.maxPq[this.size] = null;
 
-        this.size--;
+        removeFromMin(max);
+
+        // ! move size decreas into removeFromMin()
+        // this.size--;
         sinkMax(1);
         return max;
+    }
+
+    private void removeFromMin(Key key) {
+        int k = 0;
+        for (int i = 1; i <= this.size; i++) {
+            if (this.minPq[i].compareTo(key) == 0) {
+                k = i;
+                break;
+            }
+        }
+
+        exch(this.minPq, k, this.size);
+        this.minPq[this.size] = null;
+
+        // * if key is last one, no need sink
+        if (this.minPq[k] == null) {
+            this.size--;
+            return;
+        }
+
+        exch(this.minPq, k, 1);
+        this.size--;
+        sinkMin(1);
+        swimMin(k);
+    }
+
+    public Key findMin() {
+        return this.minPq[1];
+    }
+
+    public Key delMin() {
+        Key min = minPq[1];
+        exch(minPq, 1, this.size);
+        this.minPq[this.size] = null;
+
+        removeFromMax(min);
+
+        // ! move size decreas into removeFromMax()
+        // this.size--;
+        sinkMin(1);
+        return min;
+    }
+
+    private void removeFromMax(Key key) {
+        int k = 0;
+        for (int i = 1; i <= this.size; i++) {
+            if (this.maxPq[i].compareTo(key) == 0) {
+                k = i;
+                break;
+            }
+        }
+
+        exch(this.maxPq, k, this.size);
+        this.maxPq[this.size] = null;
+
+        // * if key is last one, no need sink
+        if (this.maxPq[k] == null) {
+            this.size--;
+            return;
+        }
+
+        exch(this.maxPq, k, 1);
+        this.size--;
+        sinkMax(1);
+        swimMax(k);
+
     }
 
     private void swimMin(int k) {
@@ -108,8 +184,71 @@ public class MinMaxPQ<Key extends Comparable<Key>>{
         pq[j] = temp;
     }
 
+    public static boolean check() {
+        boolean good = true;
 
-    public static void main(String[] args){
-    
+        StdOut.println("1.1. test findMax() delMax() ...");
+        int[] o = { 0, 3, 6, 1, 4, 5, 2, 7 };
+        MinMaxPQ<Integer> a = new MinMaxPQ<>(7);
+        for (int i = 1; i <= 7; i++) {
+            a.insert(o[i]);
+        }
+
+        a.insert(8);
+
+        StdOut.println(a.findMax());
+        StdOut.println(a.delMax());
+
+        StdOut.println(a.findMax());
+        StdOut.println(a.delMax());
+
+        StdOut.println(a.findMax());
+        StdOut.println(a.delMax());
+
+        StdOut.println(a.findMax());
+        StdOut.println(a.delMax());
+
+        StdOut.println(a.findMax());
+        StdOut.println(a.delMax());
+
+        StdOut.println(a.findMax());
+        StdOut.println(a.delMax());
+
+        StdOut.println(a.findMax());
+        StdOut.println(a.delMax());
+
+        StdOut.println();
+
+        StdOut.println("1.2. test findMin() delMin() ...");
+        for (int i = 1; i <= 7; i++) {
+            a.insert(o[i]);
+        }
+        StdOut.println(a.findMin());
+        StdOut.println(a.delMin());
+
+        StdOut.println(a.findMin());
+        StdOut.println(a.delMin());
+
+        StdOut.println(a.findMin());
+        StdOut.println(a.delMin());
+
+        StdOut.println(a.findMin());
+        StdOut.println(a.delMin());
+
+        StdOut.println(a.findMin());
+        StdOut.println(a.delMin());
+
+        StdOut.println(a.findMin());
+        StdOut.println(a.delMin());
+
+        StdOut.println(a.findMin());
+        StdOut.println(a.delMin());
+
+        return good;
+    }
+
+    public static void main(String[] args) {
+        StdOut.println("1. testing ... ");
+        StdOut.println(check());
     }
 }
