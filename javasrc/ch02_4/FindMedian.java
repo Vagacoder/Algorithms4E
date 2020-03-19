@@ -23,6 +23,9 @@ public class FindMedian<Key extends Comparable<Key>> {
     private Key median;
 
     public FindMedian(int maxSize) {
+        if(maxSize == 1){
+            maxSize++;
+        }
         this.maxPq = (Key[]) new Comparable[maxSize / 2 + 1];
         this.minPq = (Key[]) new Comparable[maxSize / 2 + 1];
         this.median = null;
@@ -73,7 +76,7 @@ public class FindMedian<Key extends Comparable<Key>> {
     }
 
     public Key[] getMedian() {
-        Key[] result = (Key[]) new Object[2];
+        Key[] result = (Key[]) new Comparable[2];
 
         if (this.median != null) {
             result[0] = this.median;
@@ -141,23 +144,42 @@ public class FindMedian<Key extends Comparable<Key>> {
         pq[j] = temp;
     }
 
+    public static void check(){
+        int N = 1000;
+
+        for (int i = 1; i < N; i++) {
+            FindMedian<Integer> fm = new FindMedian<>(i);
+            Integer[] a = new Integer[i];
+            for (int j = 0; j < i; j++) {
+                a[j] = j + 1;
+            }
+
+            // * unsorted integer array
+            StdRandom.shuffle(a);
+
+            for (int j = 0; j < i; j++) {
+                fm.insert(a[j]);
+            }
+
+            Comparable[] result = fm.getMedian();
+
+            StdOut.println("Integers range from 1 to " + i);
+            double correctMedian = ((i + 1)/2.0);
+
+            StdOut.println("The correct median should be " + correctMedian);
+            StdOut.println("Median(s) is(are): " + result[0].toString() + 
+                ((result[1] == null)? "" :(", " + result[1].toString())));
+
+            double median = ((result[1] == null) ? (int)result[0] : ((int)result[0] + (int)result[1]) / 2.0);
+            StdOut.println("Median is : " + median);
+            if (correctMedian != median){
+                StdOut.println("Wrong!");
+                break;
+            }
+            StdOut.println();
+        }
+    }
     public static void main(String[] args) {
-        int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-
-        // for(int i = 0; i< 10; i++){
-        FindMedian<Integer> fm = new FindMedian<>(10);
-        Integer[] a = new Integer[10];
-        for (int j = 0; j < 10; j++) {
-            a[j] = numbers[j];
-        }
-        StdRandom.shuffle(a);
-        for (int j = 0; j < 10; j++) {
-            fm.insert(a[j]);
-        }
-
-        Integer[] result = fm.getMedian();
-        StdOut.println(result[0].toString() + ", " + result[1].toString());
-        // StdOut.println("Median is : " + ((result[1] == null) ? result[0] : (result[0] + result[1]) / 2.0));
-        // }
+        check();
     }
 }
