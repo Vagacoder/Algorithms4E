@@ -1,6 +1,7 @@
 package javasrc.ch02_5;
 
 // ! For chapter 2.5, this class is different from the one in ch01_2
+// * Here, we emphasize the comparator.
 /******************************************************************************
  *  Compilation:  javac Transaction.java
  *  Execution:    java Transaction

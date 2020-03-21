@@ -3,6 +3,9 @@ package javasrc.ch02_3;
 /* 
 * Given an array of n items, find the kth smallest item. 
 Range of k: [0, length of array)
+
+* Proposition U. Partitioning-based selection is a linear-time algorithm, on average. P. 347
+
 */
 
 import lib.*;
