@@ -90,7 +90,7 @@ public class Find2WordCompound {
         StdOut.println("2.1. Testing ... ");
         StdOut.println("Expect to have: ");
         StdOut.println("anybody, become, cannot diskdrive, eyeglass");
-        StdOut.println("Expect to Not have: ");
+        StdOut.println("Expect Not to have: ");
         StdOut.println("another, baseball, crosswalk, duckpin, eyewitness");
         String[] words3 = { 
             "anybody", "any", "body",
@@ -104,10 +104,17 @@ public class Find2WordCompound {
             "glass", "eye","eyeglass",
             "witness", "eyewitness"
         };
-        f2 = new Find2WordCompound(words3);
-        result = f2.findAll2WordCompound();
-        for (String str : result) {
-            StdOut.println(str);
+        int repeat = 10;
+        StdOut.println("Repeat " + repeat + " times");
+        for (int i = 0; i < repeat; i++){
+            StdOut.println("#" + (i+1));
+            StdRandom.shuffle(words3);
+            f2 = new Find2WordCompound(words3);
+            result = f2.findAll2WordCompound();
+            for (String str : result) {
+                StdOut.println(str);
+            }
+            StdOut.println();
         }
     }
 
