@@ -10,23 +10,23 @@ queue data types from Section 1.3 and Exercise 1.3.35.
 
 import lib.*;
 
-// * helper class to wrap Key
-class Data<Key> implements Comparable<Data<Key>> {
-    Integer priority;
-    Key key;
-
-    Data(Key newKey, int priority) {
-        this.priority = priority;
-        this.key = newKey;
-    }
-
-    @Override
-    public int compareTo(Data<Key> that) {
-        return this.priority - that.priority;
-    }
-}
-
 public class MaxPQqueue<Key> {
+
+    // * helper class to wrap Key
+    class Data<Key> implements Comparable<Data<Key>> {
+        Integer priority;
+        Key key;
+
+        Data(Key newKey, int priority) {
+            this.priority = priority;
+            this.key = newKey;
+        }
+
+        @Override
+        public int compareTo(Data<Key> that) {
+            return this.priority - that.priority;
+        }
+    }
 
     private Integer priority;
     private Data<Key>[] pq;
