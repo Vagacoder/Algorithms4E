@@ -1,7 +1,8 @@
 package javasrc.ch01_3;
 
 /*
-Algorithm 1.1 Pushdown stack (resizing array implementation)
+* Algorithm 1.1 Pushdown stack (resizing array implementation) 
+* P.141
 P.141
 
 1.3.42 Copy a stack. 

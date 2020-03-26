@@ -1,8 +1,8 @@
 package javasrc.ch01_3;
 
 /*
-Algorithm 1.3 FIFO queue (linked list implementatin)
-P.151
+* Algorithm 1.3 FIFO queue (linked list implementatin) 
+* P.151
 
 1.3.41 Copy a queue. 
 Create a new constructor so that: Queue<Item> r = new Queue<Item>(q);
