@@ -3,7 +3,10 @@ package javasrc.ch01_3;
 /*
 * Algorithm 1.1 Pushdown stack (resizing array implementation) 
 * P.141
-P.141
+
+* Proposition E. In the resizing array implementation of Stack (Algorithm 1.1),
+the average number of array accesses for any sequence of push and pop operations
+starting from an empty data structure is constant in the worst case.
 
 1.3.42 Copy a stack. 
 Create a new constructor for the linked-list implementation of Stack so that

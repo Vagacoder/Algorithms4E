@@ -3,6 +3,11 @@ package javasrc.ch01_3;
 /*
 * Algorithm 1.4 Bag
 * P.155
+
+* Proposition D. In the linked-list implementations of Bag (Algorithm 1.4), Stack
+(Algorithm 1.2), and Queue (Algorithm 1.3), all operations take constant time
+in the worst case.
+
 */
 
 import java.util.Iterator;

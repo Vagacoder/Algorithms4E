@@ -4,6 +4,11 @@ package javasrc.ch01_3;
 * Algorithm 1.2 Pushdown stack (linked list implementation) 
 * P.149
 
+* Proposition D. In the linked-list implementations of Bag (Algorithm 1.4), Stack
+(Algorithm 1.2), and Queue (Algorithm 1.3), all operations take constant time
+in the worst case.
+
+
 1.3.42 Copy a stack. 
 Create a new constructor for the linked-list implementation of Stack so that
 

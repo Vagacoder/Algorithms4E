@@ -1,7 +1,13 @@
 package javasrc.ch01_5;
 
 /*
-Algorithm 1.5 Union-find implementation, P.221
+* Algorithm 1.5 Union-find implementation, P.221
+
+* Proposition F. The quick-find algorithm uses one array access for each call to
+find(), two array accesses for each call to connected(), and between N + 3 and
+2N + 1 array accesses for each call to union() that combines two components.
+
+
 
 usage:
 % java QuickFindUF < tinyUF.txt

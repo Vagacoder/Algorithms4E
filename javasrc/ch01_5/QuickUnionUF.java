@@ -1,7 +1,15 @@
 package javasrc.ch01_5;
 
 /*
-Algorithm 1.5 Union-find implementation, P.224
+* Algorithm 1.5 Union-find implementation, P.224
+
+* Proposition G. The number of array accesses used by find() in quick-union is 1
+plus the twice the depth of the node corresponding to the given site. The number
+of array accesses used by union() and connected() is the cost of the two find()
+operations (plus 1 for union() if the given sites are in different trees).
+
+! An immediate implication of Proposition G is that the running time is quadratic, in the worst case.
+! To solve this, using weighted quick union.
 
 usage:
 % java QuickUnionUF < tinyUF.txt

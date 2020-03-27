@@ -4,6 +4,10 @@ package javasrc.ch01_3;
 * Algorithm 1.3 FIFO queue (linked list implementatin) 
 * P.151
 
+* Proposition D. In the linked-list implementations of Bag (Algorithm 1.4), Stack
+(Algorithm 1.2), and Queue (Algorithm 1.3), all operations take constant time
+in the worst case.
+
 1.3.41 Copy a queue. 
 Create a new constructor so that: Queue<Item> r = new Queue<Item>(q);
 

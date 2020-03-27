@@ -1,7 +1,7 @@
 package javasrc.ch01_5;
 
 /*
-Algorithm 1.5 Union-find implementation, P.228
+* Algorithm 1.5 Union-find implementation, P.228
 
 usage:
 % java WeightedQuickUnionUF < tinyUF.txt
