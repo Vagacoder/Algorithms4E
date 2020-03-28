@@ -1,13 +1,22 @@
 package javasrc.ch02_1;
 
-/* Compare 2 sorting algorithms. P. 256 
+/* 
+* Compare 2 sorting algorithms. P. 256 
 This is good template for comparing different algorithms.
 Later we will use similar programs many times.
+
+* Property D. The running times of insertion sort and selection sort are quadratic
+and within a small constant factor of one another for randomly ordered arrays of
+distinct values.
+
 */
 
 import lib.StdRandom;
 import lib.StdOut;
 import javasrc.ch01_4.Stopwatch;
+import javasrc.ch02_2.Merge;
+import javasrc.ch02_3.Quick;
+import javasrc.ch02_4.Heap;
 
 public class SortCompare {
 
@@ -22,16 +31,18 @@ public class SortCompare {
         if (alg.equals("Shell")) {
             Shell.sort(a);
         }
-        // if (alg.equals("Merge")) {
-        //     Merge.sort(a);
-        // }
-        // if (alg.equals("Quick")) {
-        //     Quick.sort(a);
-        // }
-        // if (alg.equals("Heap")) {
-        //     Heap.sort(a);
-        // }
-
+        if (alg.equals("Merge")) {
+            Merge.sort(a);
+        }
+        if (alg.equals("Quick")) {
+            Quick.sort(a);
+        }
+        if (alg.equals("Heap")) {
+            Heap.sort(a);
+        }
+        if (alg.equals("Bubble")) {
+            Bubble.sort(a);
+        }
         return timer.elapsedTime();
     }
 

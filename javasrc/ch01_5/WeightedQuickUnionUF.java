@@ -3,6 +3,13 @@ package javasrc.ch01_5;
 /*
 * Algorithm 1.5 Union-find implementation, P.228
 
+* Proposition H. The depth of any node in a forest built by weighted quick-union for
+N sites is at most lg N.
+
+* Corollary. For weighted quick-union with N sites, the worst-case order of growth
+of the cost of find(), connected(), and union() is log N.
+
+
 usage:
 % java WeightedQuickUnionUF < tinyUF.txt
 4 3

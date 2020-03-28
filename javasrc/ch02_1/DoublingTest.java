@@ -49,7 +49,9 @@ public class DoublingTest {
             Insertion.sort(a);
         } else if (algo.equals("Shell")) {
             Shell.sort(a);
-        } else if (algo.equals("Merge")){
+        } else if (algo.equals("Bubble")){
+            Bubble.sort(a);
+        }else if (algo.equals("Merge")){
             Merge.sort(a);
         } else if (algo.equals("Quick")){
             Quick.sort(a);

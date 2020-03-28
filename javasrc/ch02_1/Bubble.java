@@ -1,7 +1,14 @@
 package javasrc.ch02_1;
 
 /*
-Bubble Sort
+* Bubble Sort
+One of most easiest sorting algorithm to implement.
+
+* Property 1: Stable
+* Property 2: In place
+* Property 3: extra space is 1
+* Property 4: running time N^2
+* Property 5: Running time is insensitive to input;
 
 */
 

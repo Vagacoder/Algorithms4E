@@ -18,7 +18,7 @@ import lib.StdRandom;
 import lib.StdOut;
 import javasrc.ch01_4.Stopwatch;
 
-public class ex2_1_19 {
+public class ex2_1_29 {
 
     public static double time(String alg, Double[] a) {
         Stopwatch timer = new Stopwatch();

@@ -1,21 +1,32 @@
 package javasrc.ch02_1;
 
 /*
-Algorithm 2.3 Shell Sort. P. 259
+* Algorithm 2.3 Shell Sort. P. 259
 Improved Insertion Sort.
+
+* Property E. The number of compares used by shellsort with the increments 1, 4,
+13, 40, 121, 364, . . . is bounded by a small multiple of N times the number of incre-
+ments used.
+
+
+* Property 1: Not stable
+* Property 2: In place
+* Property 3: extra space is 1
+! Property 4: running time between N^(3/2) and N^(6/5)
+* Property 5: Running time is NOT so sensitive to input
+
+
 */
 
 /*
-2.1.11 Implement a version of shellsort that keeps the increment sequence in an array,
+* 2.1.11 Implement a version of shellsort that keeps the increment sequence in an array,
 rather than computing it.
 
-2.1.12 Instrument shellsort to print the number of compares divided by the array size
+* 2.1.12 Instrument shellsort to print the number of compares divided by the array size
 for each increment. Write a test client that tests the hypothesis that this number is a
 small constant, by sorting arrays of random Double values, using array sizes that are
 increasing powers of 10, starting at 100.
 
-*/
-/*
 * 2.1.17 Animation. 
 Add code to Insertion, Selection and Shell to make them draw the array contents 
 as vertical bars like the visual traces in this section, redrawing the bars after 

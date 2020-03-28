@@ -1,8 +1,23 @@
 package javasrc.ch02_1;
 
 /*
-Algorithm 2.1 Selection sort P.249
+* Algorithm 2.1 Selection sort P.249
 this one is from textbook
+
+* Proposition A. Selection sort uses ~ (N^2 /2) compares and N exchanges to sort an
+array of length N.
+
+* Property D. The running times of insertion sort and selection sort are quadratic
+and within a small constant factor of one another for randomly ordered arrays of
+distinct values.
+
+* Property 1: NOT stable
+* Property 2: In place
+* Property 3: extra space is 1
+* Property 4: running time N^2
+* Property 5: Running time is insensitive to input;
+* Property 6: Data movement is minimal;
+* 
 */
 /******************************************************************************
  *  Compilation:  javac Selection.java

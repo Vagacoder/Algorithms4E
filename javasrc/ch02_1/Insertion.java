@@ -3,6 +3,28 @@ package javasrc.ch02_1;
 /*
 * Algorithm 2.2 Insertion sort P. 251
 this is from textbook
+
+* Proposition B. Insertion sort uses ~ (N^2/ 4) compares and ~ (N^2/ 4) exchanges to sort
+a randomly ordered array of length N with distinct keys, on the average. The worst
+case is N 2/2 compares and N 2/2 exchanges and the best case is N  1 compares
+and 0 exchanges.
+
+* Proposition C. The number of exchanges used by insertion sort is equal to the
+number of inversions in the array, and the number of compares is at least equal to
+the number of inversions and at most equal to the number of inversions plus the
+array size minus 1.
+
+* Property D. The running times of insertion sort and selection sort are quadratic
+and within a small constant factor of one another for randomly ordered arrays of
+distinct values.
+
+
+* Property 1: Stable
+* Property 2: In place
+* Property 3: extra space is 1
+* Property 4: running time between N and N^2
+* Property 5: Running time is sensitive to input, partial sorted are much faster,
+
 */
 /******************************************************************************
  *  Compilation:  javac Insertion.java
@@ -67,6 +89,7 @@ import lib.StdOut;
 import lib.StdRandom;
 
 public class Insertion {
+
     public static void sort(Comparable[] a) {
         int N = a.length;
         for (int i = 1; i < N; i++) {
