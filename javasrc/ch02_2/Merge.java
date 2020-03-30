@@ -76,11 +76,12 @@ public class Merge {
         // * Improvement #2: Add a cutoff for small subarrays (switch to Insertion sort)
         if (a.length < 16) {
             InsertionRange.sortNX(a, low, high);
+            return;
         }
 
         int mid = (low + high) / 2;
-        sort(a, low, mid);
-        sort(a, mid + 1, high);
+        sortCutOff(a, low, mid);
+        sortCutOff(a, mid + 1, high);
         fasterMerge(a, low, mid, high);
     }
 

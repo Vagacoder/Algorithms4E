@@ -3,6 +3,10 @@ package javasrc.ch02_3;
 /*
 * QuickSort with 3-way partitioning  P.299
 
+* Proposition N. Quicksort with 3-way partitioning uses ~ (2ln 2) N H compares to
+sort N items, where H is the Shannon entropy, defined from the frequencies of key
+values.
+
 */
 
 import lib.In;

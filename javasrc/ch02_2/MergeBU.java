@@ -3,6 +3,9 @@ package javasrc.ch02_2;
 /*
 * Algorithm 2.4 Bottom-up mergesort P. 278
 
+* Proposition H. Bottom-up mergesort uses between 1⁄2 N lg N and N lg N compares
+and at most 6N lg N array accesses to sort an array of length N.
+
 */
 
 /*
