@@ -128,7 +128,7 @@ public class ex2_3_11 {
         StdOut.println(check());
         StdOut.println();
 
-        StdOut.println("2. Find Cn");
+        StdOut.println("2. Find Cn for random keys");
         StdOut.println("2.1 N = 100");
         int N = 100;
         Double[] c = new Double[N];
@@ -174,6 +174,65 @@ public class ex2_3_11 {
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < N; i++) {
                 c[i] = StdRandom.uniform();
+            }
+            sort(c);
+            totalCN += getCN();
+        }
+        StdOut.println("Average Cn for N= 10000: " + (totalCN * 1.0 / 10));
+        StdOut.println("NlnN: " + (N * Math.log(N)));
+        StdOut.println("2NlnN: " + (2 * N * Math.log(N)));
+        StdOut.println("N^2: " + (N * N));
+        StdOut.println("Average Cn / 2NlnN: " + (totalCN * 1.0 / 10) / (2 * N * Math.log(N)));
+        StdOut.println("Average Cn / N^2: " + (totalCN * 1.0 / 10) / (N * N));
+        StdOut.println();
+
+        StdOut.println("3. Find Cn for constant number keys");
+        StdOut.println("3.1 N = 100");
+        N = 100;
+        c = new Double[N];
+        totalCN = 0;
+        double[] keys= {0.0, 1.0, 2.0, 3.0, 4.0};
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < N; i++) {
+                c[i] = keys[StdRandom.uniform(0, 5)];
+            }
+            sort(c);
+            totalCN += getCN();
+        }
+        StdOut.println("Average Cn for N= 100: " + (totalCN * 1.0 / 10));
+        StdOut.println("NlnN: " + (N * Math.log(N)));
+        StdOut.println("2NlnN: " + (2 * N * Math.log(N)));
+        StdOut.println("N^2: " + (N * N));
+        StdOut.println("Average Cn / 2NlnN: " + (totalCN * 1.0 / 10) / (2 * N * Math.log(N)));
+        StdOut.println("Average Cn / N^2: " + (totalCN * 1.0 / 10) / (N * N));
+        StdOut.println();
+
+        StdOut.println("3.2 N = 1000");
+        N = 1000;
+        c = new Double[N];
+        totalCN = 0;
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < N; i++) {
+                c[i] = keys[StdRandom.uniform(0, 5)];
+            }
+            sort(c);
+            totalCN += getCN();
+        }
+        StdOut.println("Average Cn for N= 1000: " + (totalCN * 1.0 / 10));
+        StdOut.println("NlnN: " + (N * Math.log(N)));
+        StdOut.println("2NlnN: " + (2 * N * Math.log(N)));
+        StdOut.println("N^2: " + (N * N));
+        StdOut.println("Average Cn / 2NlnN: " + (totalCN * 1.0 / 10) / (2 * N * Math.log(N)));
+        StdOut.println("Average Cn / N^2: " + (totalCN * 1.0 / 10) / (N * N));
+        StdOut.println();
+
+        StdOut.println("3.3 N = 10000");
+        N = 10000;
+        c = new Double[N];
+        totalCN = 0;
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < N; i++) {
+                c[i] = keys[StdRandom.uniform(0, 5)];
             }
             sort(c);
             totalCN += getCN();

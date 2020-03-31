@@ -29,7 +29,6 @@ class SubArrayInfo{
     }
 }
 
-
 public class QuickNoRecursive{
 
     // * 2.3.20
