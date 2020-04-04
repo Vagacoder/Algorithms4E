@@ -1,7 +1,7 @@
 package javasrc.ch03_1;
 
 /*
-* Algorithm 3.1 Sequential Search (in an unordered linked list) P. 375
+* Algorithm 3.1 Sequential Search Symbol Table (in an unordered linked list) P. 375
 
 * Proposition A. Search misses and insertions in an (unordered) linked-list symbol
 table having N key-value pairs both require N compares, and search hits N com-

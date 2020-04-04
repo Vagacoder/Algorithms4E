@@ -1,29 +1,69 @@
 package javasrc.ch03_1;
 
 /*
-* Sysmbol table template
+* 3.1.2 Develop a symbol-table implementation ArrayST that uses an (unordered) array
+as the underlying data structure to implement our basic symbol-table API.
+
 */
 
+
+import javasrc.ch01_3.LinkedListQueue;
 import lib.*;
 
-public class STtemplate<Key extends Comparable<Key>, Value>{
+public class ArrayST<Key extends Comparable<Key>, Value>{
 
-
+    private Key[] keys;
+    private Value[] values;
     private int size;
 
-    public void put(Key key, Value val){
+    public ArrayST(int capacity){
+        this.keys = (Key[]) new Comparable[capacity];
+        this.values = (Value[]) new Object[capacity];
+        this.size = 0;
+    }
 
+    public void put(Key key, Value val){
+        for(int i = 0; i < this.size; i++){
+            if(keys[i].equals(key)){
+                values[i] = val;
+                return;
+            }
+        }
+        this.keys[size] = key;
+        this.values[size] = val;
+        this.size++;
     }
 
     public Value get(Key key){
+
+        for(int i = 0; i < this.size; i++){
+            if(keys[i].equals(key)){
+                return values[i];
+            }
+        }
         return null;
     }
 
     public void delete(Key key){
-
+        for(int i = 0; i < this.size; i++){
+            if(keys[i].equals(key)){
+                this.size--;
+                this.keys[i] = keys[this.size];
+                this.values[i] = values[this.size];
+                this.keys[this.size] = null;
+                this.values[this.size] = null;
+                return;
+            }
+        }
     }
     
     public boolean contains(Key key){
+        for(int i = 0; i < this.size; i++){
+            if(keys[i].equals(key)){
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -77,21 +117,25 @@ public class STtemplate<Key extends Comparable<Key>, Value>{
         }
     }
 
-    public Iterable<Key> keys(Key low, Key high){
-        return null;
-    }
+    // public Iterable<Key> keys(Key low, Key high){
+    //     return null;
+    // }
 
     public Iterable<Key> keys(){
-        return keys(min(), max());
+        LinkedListQueue<Key> ikeys = new LinkedListQueue<>();
+        for(int i = 0; i<this.size; i++){
+            ikeys.enqueue(this.keys[i]);
+        }
+        return ikeys;
     }
 
     public static void check(int minlen){
 
         StdOut.println("1. testing short string array ...");
-
-        // TODO: change class here
-        STtemplate<String, Integer> st =  new STtemplate<>();
+        
+        // ! change class here!
         String[] strs = {"S", "E", "A", "R", "C", "H", "E", "X", "A", "M", "P", "L", "E"};
+        ArrayST<String, Integer> st =  new ArrayST<>(strs.length);
         for(int i = 0; i < strs.length; i++){
             st.put(strs[i], i);
         }
@@ -101,9 +145,9 @@ public class STtemplate<Key extends Comparable<Key>, Value>{
 
         // * from FrequencyCounter
         StdOut.println("2. testing using frequency counter ... ");
-
-        // TODO: change class here
-        st =  new STtemplate<>();
+        
+        // ! change class here!
+        st =  new ArrayST<>(100);
         while(!StdIn.isEmpty()){
             String word = StdIn.readString();
             if(word.length() < minlen){
@@ -126,6 +170,6 @@ public class STtemplate<Key extends Comparable<Key>, Value>{
     }
 
     public static void main(String[] args){
-        check(Integer.parseInt(args[0]));
+        check(1);
     }
 }
