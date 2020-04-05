@@ -31,6 +31,14 @@ public class OrderedSequentialSearchST<Key extends Comparable<Key>, Value>{
     public void put(Key key, Value val){
         if(this.first == null){
             this.first = new Node(key, val, null);
+            this.size++;
+            return;
+        }
+
+        if(this.first.key.compareTo(key) > 0){
+            Node newNode = new Node(key, val, first);
+            this.first = newNode;
+            this.size++;
             return;
         }
 
@@ -47,6 +55,7 @@ public class OrderedSequentialSearchST<Key extends Comparable<Key>, Value>{
             }
             if(cur.next == null){
                 cur.next= new Node(key, val, null);
+                this.size++;
                 return;
             }
         }
@@ -152,7 +161,7 @@ public class OrderedSequentialSearchST<Key extends Comparable<Key>, Value>{
     public Iterable<Key> keys(){
         LinkedListQueue<Key> ikeys = new LinkedListQueue<>();
         for(int i = 0; i<this.size; i++){
-            ikeys.enqueue(this.select(i));
+            ikeys.enqueue(this.select(i+1));
         }
         return ikeys;
     }

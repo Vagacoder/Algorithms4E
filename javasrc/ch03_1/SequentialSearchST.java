@@ -1,5 +1,7 @@
 package javasrc.ch03_1;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
 * Algorithm 3.1 Sequential Search Symbol Table (in an unordered linked list) P. 375
 
@@ -9,6 +11,8 @@ pares in the worst case.
 
 * Corollary. Inserting N distinct keys into an initially empty linked-list symbol table
 uses ~N 2/2 compares.
+
+* 3.1.5 Implement size(), delete(), and keys() for SequentialSearchST.
 
 */
 
@@ -59,6 +63,7 @@ public class SequentialSearchST<Key, Value> {
         this.size++;
     }
 
+    // * 3.1.5 
     public Value delete(Key key){
         if(this.first == null){
             return null;
@@ -72,10 +77,10 @@ public class SequentialSearchST<Key, Value> {
             return result.value;
         }
 
-        for(Node x = first; x.next != null; x = x.next){
-            if(x.next.key.equals(key)){
-                Node result = x.next;
-                x.next = result.next;
+        for(Node cur = first; cur.next != null; cur = cur.next){
+            if(cur.next.key.equals(key)){
+                Node result = cur.next;
+                cur.next = result.next;
                 result.next = null;
                 this.size--;
                 return result.value;
@@ -85,6 +90,16 @@ public class SequentialSearchST<Key, Value> {
         return null;
     }
 
+    // * 3.1.5 
+    public Iterable<Key> keys(){
+        LinkedListQueue<Key> lq = new LinkedListQueue<>();
+        Node cur = this.first;
+        while(cur != null){
+            lq.enqueue(cur.key);
+            cur = cur.next;
+        }
+        return lq;
+    }
 
     public void print(){
         Node cur = this.first;
@@ -110,6 +125,9 @@ public class SequentialSearchST<Key, Value> {
         st.put("L", 11);
         st.put("E", 12);
         st.print();
+        for(String key : st.keys()){
+            StdOut.println(key + " : " + st.get(key));
+        }
     }
 
     public static void main(String[] args) {
