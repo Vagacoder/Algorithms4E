@@ -22,16 +22,19 @@ public class FrequencyCounter {
 
     public static void main(String[] args) {
 
-        // ? first argument is minimum length of words which are counted.
+        // * first argument is minimum length of words which are counted.
         // key-length cutoff
-        int minlen = Integer.parseInt(args[0]);         
-        STtemplate<String, Integer> st = new STtemplate<String, Integer>();
+        int minlen = Integer.parseInt(args[0]);   
         
+        // ! replace class below
+        BinarySearchST<String, Integer> st = new BinarySearchST<String, Integer>(10000);
+        
+        // Build symbol table and count frequencies.
         while (!StdIn.isEmpty()) { 
-            // Build symbol table and count frequencies.
             String word = StdIn.readString();
+             // * Ignore short keys.
             if (word.length() < minlen)
-                continue;           // ! Ignore short keys.
+                continue;          
             if (!st.contains(word))
                 st.put(word, 1);
             else

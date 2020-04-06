@@ -83,6 +83,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value>{
         this.size++;
     }
 
+    // ! Important method, need fully understand it 
     public int rank(Key key){
         int low = 0, high = this.size - 1;
         while( low <= high){
@@ -97,7 +98,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value>{
             }
         }
         // * if input key is not found, returned index is the one whose key is 
-        // * just smaller than input index
+        // * just larger than input index
         return low;
     }
 
@@ -118,7 +119,6 @@ public class BinarySearchST<Key extends Comparable<Key>, Value>{
         return keys[i];
     }
 
-    // TODO verify it
     public Key floor(Key key){
         int i = rank(key);
         if(keys[i].equals(key)){
@@ -144,7 +144,21 @@ public class BinarySearchST<Key extends Comparable<Key>, Value>{
         return q;
     }
 
+    public Iterable<Key> keys(){
+        return keys(min(), max());
+    }
+
+    public void printAll(){
+        for(int i = 0 ; i<this.size; i++){
+            StdOut.println("(" + this.keys[i] + " : " + this.values[i] + ")");
+        }
+    }
+
     public static void main(String[] args){
-    
+        BinarySearchST<String, Integer> st = new BinarySearchST<>(10);
+        st.put("A", 1);
+        st.put("B", 2);
+
+        st.printAll();
     }
 }
