@@ -1,5 +1,7 @@
 package javasrc.ch03_1;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
 * FrequencyCounter is a symbol-table client that finds the number of occurrences 
 of each string (having at least as many characters as a given threshold length) 
@@ -14,6 +16,10 @@ inputs:
 * 3) A popular database of 1 million sentences taken at random from the web that 
 is known as the Leipzig Corpora Collection (leipzig1M.txt).
 ! use leipzig100k.txt instead of leipzig1M.txt
+
+* 3.1.19 Modify FrequencyCounter to print all of the values having the highest fre-
+quency of occurrence, not just one of them. Hint : Use a Queue.
+
 */
 
 import lib.*;
@@ -48,6 +54,24 @@ public class FrequencyCounter {
             if (st.get(word) > st.get(max))
                 max = word;
         StdOut.println(max + " " + st.get(max));
+
+        // * 3.1.19 
+        LinkedListQueue<String> maxs = new LinkedListQueue<>();
+        int maxCount = -1;
+        for(String word: st.keys()){
+            if(st.get(word) > maxCount){
+                maxCount = st.get(word);
+                while(!maxs.isEmpty()){
+                    maxs.dequeue();
+                }
+                maxs.enqueue(word);
+            } else if(st.get(word) == maxCount){
+                maxs.enqueue(word);
+            }
+        }
+        for(String word:maxs){
+            StdOut.println(word + " " + maxCount);
+        }
     }
 
 }

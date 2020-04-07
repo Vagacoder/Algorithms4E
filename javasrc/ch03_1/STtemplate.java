@@ -73,7 +73,7 @@ public class STtemplate<Key extends Comparable<Key>, Value>{
         } else if(contains(high)){
             return rank(high) - rank(low) + 1;
         } else{
-            return rank(high) - rank(low);  // ! ??
+            return rank(high) - rank(low);
         }
     }
 

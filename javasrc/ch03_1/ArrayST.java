@@ -4,6 +4,15 @@ package javasrc.ch03_1;
 * 3.1.2 Develop a symbol-table implementation ArrayST that uses an (unordered) array
 as the underlying data structure to implement our basic symbol-table API.
 
+* 3.1.22 Self-organizing search. A self-organizing search algorithm is one that 
+rearranges items to make those that are accessed frequently likely to be found 
+early in the search.
+
+* Modify your search implementation for Exercise 3.1.2 to perform the following 
+action on every search hit: move the key-value pair found to the beginning of the 
+list, moving all pairs between the beginning of the list and the vacated position 
+to the right one position. This procedure is called the move-to-front heuristic.
+
 */
 
 
@@ -39,6 +48,24 @@ public class ArrayST<Key extends Comparable<Key>, Value>{
         for(int i = 0; i < this.size; i++){
             if(keys[i].equals(key)){
                 return values[i];
+            }
+        }
+        return null;
+    }
+
+    // * 3.1.22
+    public Value getFaster(Key key){
+        for(int i = 0; i < this.size; i++){
+            if(keys[i].equals(key)){
+                Value resultValue = values[i];
+                Key tempKey = keys[i];
+                for(int j = 0; j < i; j++){
+                    keys[j+1] = keys[j];
+                    values[j+1] = values[j];
+                }
+                keys[0] = tempKey;
+                values[0] = resultValue;
+                return resultValue;
             }
         }
         return null;
@@ -113,7 +140,7 @@ public class ArrayST<Key extends Comparable<Key>, Value>{
         } else if(contains(high)){
             return rank(high) - rank(low) + 1;
         } else{
-            return rank(high) - rank(low);  // ! ??
+            return rank(high) - rank(low);
         }
     }
 
@@ -140,7 +167,7 @@ public class ArrayST<Key extends Comparable<Key>, Value>{
             st.put(strs[i], i);
         }
         for(String s: st.keys()){
-            StdOut.println(s + " " + st.get(s));
+            StdOut.println(s + " " + st.getFaster(s));
         }
 
         // * from FrequencyCounter

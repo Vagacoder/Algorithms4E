@@ -13,7 +13,7 @@ uses ~ 2N array accesses in the worst case, so inserting N keys into an initiall
 empty table uses ~ N^2 array accesses in the worst case.
 
 * method    O()
-! put()     N           this one is too slow for large dataset
+! put()     N   (worst 2N)      this one is too slow for large dataset
 get()       logN
 delete()    N
 contains()  logN
@@ -27,134 +27,157 @@ select()    1
 deleteMin() N
 deleteMax() 1
 
+* 3.1.16 Implement the delete() method for BinarySearchST.
+* 3.1.17 Implement the floor() method for BinarySearchST.
+
 */
 
 import lib.*;
 
-public class BinarySearchST<Key extends Comparable<Key>, Value>{
+public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
     private Key[] keys;
     private Value[] values;
     private int size;
 
-    public BinarySearchST(int capacity){
+    public BinarySearchST(int capacity) {
         keys = (Key[]) new Comparable[capacity];
         values = (Value[]) new Object[capacity];
     }
 
-    public int size(){
+    public int size() {
         return this.size;
     }
 
-    public boolean isEmpty(){
-        return this.size==0;
+    public boolean isEmpty() {
+        return this.size == 0;
     }
 
-    public Value get(Key key){
-        if(isEmpty()){
+    public Value get(Key key) {
+        if (isEmpty()) {
             return null;
         }
 
         int i = rank(key);
 
-        if(i < this.size && keys[i].compareTo(key) == 0) {
+        if (i < this.size && keys[i].compareTo(key) == 0) {
             return values[i];
         } else {
             return null;
         }
     }
 
-    public boolean contains(Key key){
+    public boolean contains(Key key) {
         return get(key) != null;
     }
 
-    public void put(Key key, Value value){
+    public void put(Key key, Value value) {
         int i = rank(key);
-        if(i < this.size && keys[i].compareTo(key) == 0){
+        if (i < this.size && keys[i].compareTo(key) == 0) {
             values[i] = value;
             return;
         }
-        for(int j = size; j > i; j--){
-            keys[j] = keys[j-1];
-            values[j] = values[j-1];
+        for (int j = size; j > i; j--) {
+            keys[j] = keys[j - 1];
+            values[j] = values[j - 1];
         }
         keys[i] = key;
         values[i] = value;
         this.size++;
     }
 
-    // ! Important method, need fully understand it 
-    public int rank(Key key){
+    // ! Important method, need fully understand it
+    public int rank(Key key) {
         int low = 0, high = this.size - 1;
-        while( low <= high){
-            int mid = (low + high) /2;
+        while (low <= high) {
+            int mid = (low + high) / 2;
             int cmp = key.compareTo(keys[mid]);
-            if(cmp < 0){
+            if (cmp < 0) {
                 high = mid - 1;
-            } else if(cmp > 0){
+            } else if (cmp > 0) {
                 low = mid + 1;
             } else {
                 return mid;
             }
         }
-        // * if input key is not found, returned index is the one whose key is 
+        // * if input key is not found, returned index is the one whose key is
         // * just larger than input index
         return low;
     }
 
-    public Key min(){
+    public Key min() {
         return keys[0];
     }
 
-    public Key max(){
+    public Key max() {
         return keys[this.size - 1];
     }
 
-    public Key select(int k){
+    public Key select(int k) {
         return keys[k];
     }
 
-    public Key ceiling(Key key){
+    // * be careful with border case 
+    public Key ceiling(Key key) {
         int i = rank(key);
-        return keys[i];
-    }
-
-    public Key floor(Key key){
-        int i = rank(key);
-        if(keys[i].equals(key)){
-            return keys[i];
+        if (i >= this.size) {
+            return null;
         } else {
-            return keys[i-1];
+            return keys[i];
+        }
+    }
+    
+    // * be careful with border case 
+    public Key floor(Key key) {
+        int i = rank(key);
+        if (i < this.size && keys[i].equals(key)) {
+            return keys[i];
+        } else if( i == 0){
+            return null;
+        }else {
+            return keys[i - 1];
         }
     }
 
-    public void delete(Key key){
+    public void delete(Key key) {
+        int i = rank(key);
 
+        if(this.size ==0 || i >= this.size || !this.keys[i].equals(key)){
+            return;
+        }
+
+        for (int j = i; j < this.size - 1; j++ ){
+            this.keys[j] = this.keys[j+1];
+            this.values[j] = this.values[j+1];
+        }
+        this.size--;
+        this.keys[this.size] = null;
+        this.values[this.size] = null;
     }
 
-    public Iterable<Key> keys(Key low, Key high){
+    public Iterable<Key> keys(Key low, Key high) {
         LinkedListQueue<Key> q = new LinkedListQueue<>();
-        for(int i = rank(low); i< rank(high); i++){
+        for (int i = rank(low); i < rank(high); i++) {
             q.enqueue(keys[i]);
         }
-        if(contains(high)){
+        if (contains(high)) {
             q.enqueue(keys[rank(high)]);
         }
 
         return q;
     }
 
-    public Iterable<Key> keys(){
+    public Iterable<Key> keys() {
         return keys(min(), max());
     }
 
-    public void printAll(){
-        for(int i = 0 ; i<this.size; i++){
+    public void printAll() {
+        for (int i = 0; i < this.size; i++) {
             StdOut.println("(" + this.keys[i] + " : " + this.values[i] + ")");
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         BinarySearchST<String, Integer> st = new BinarySearchST<>(10);
         st.put("A", 1);
         st.put("B", 2);

@@ -12,6 +12,10 @@ pares in the worst case.
 * Corollary. Inserting N distinct keys into an initially empty linked-list symbol table
 uses ~N 2/2 compares.
 
+* method    O()
+! put()     N   (worst N)      this one is too slow for large dataset
+! get()     N/2 (worst N)
+
 * 3.1.5 Implement size(), delete(), and keys() for SequentialSearchST.
 
 */
