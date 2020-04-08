@@ -29,6 +29,17 @@ deleteMax() 1
 
 * 3.1.16 Implement the delete() method for BinarySearchST.
 * 3.1.17 Implement the floor() method for BinarySearchST.
+* 3.1.25 Software caching. 
+Since the default implementation of contains() calls get(), the inner loop of 
+FrequencyCounter 
+
+    if (!st.contains(word)) st.put(word, 1);
+    else st.put(word, st.get(word) + 1);
+
+leads to two or three searches for the same key. To enable clear client code like this
+without sacrificing efficiency, we can use a technique known as software caching, where
+we save the location of the most recently accessed key in an instance variable. Modify
+SequentialSearchST and BinarySearchST to take advantage of this idea.
 
 */
 
@@ -39,6 +50,8 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     private Key[] keys;
     private Value[] values;
     private int size;
+    private Key cachedKey;
+    private Value cachedValue;
 
     public BinarySearchST(int capacity) {
         keys = (Key[]) new Comparable[capacity];
@@ -61,6 +74,27 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         int i = rank(key);
 
         if (i < this.size && keys[i].compareTo(key) == 0) {
+            return values[i];
+        } else {
+            return null;
+        }
+    }
+
+    // * 3.1.25 
+    public Value getCached(Key key) {
+        if (isEmpty()) {
+            return null;
+        }
+
+        if(this.cachedKey != null && this.cachedKey.equals(key)){
+            return this.cachedValue;
+        }
+
+        int i = rank(key);
+
+        if (i < this.size && keys[i].compareTo(key) == 0) {
+            this.cachedKey = key;
+            this.cachedValue = values[i];
             return values[i];
         } else {
             return null;

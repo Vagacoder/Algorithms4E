@@ -17,6 +17,17 @@ uses ~N 2/2 compares.
 ! get()     N/2 (worst N)
 
 * 3.1.5 Implement size(), delete(), and keys() for SequentialSearchST.
+* 3.1.25 Software caching. 
+Since the default implementation of contains() calls get(), the inner loop of 
+FrequencyCounter 
+
+    if (!st.contains(word)) st.put(word, 1);
+    else st.put(word, st.get(word) + 1);
+
+leads to two or three searches for the same key. To enable clear client code like this
+without sacrificing efficiency, we can use a technique known as software caching, where
+we save the location of the most recently accessed key in an instance variable. Modify
+SequentialSearchST and BinarySearchST to take advantage of this idea.
 
 */
 
@@ -38,6 +49,7 @@ public class SequentialSearchST<Key, Value> {
 
     private Node first;
     private int size;
+    private Node cachedNode;
 
     public int size(){
         return this.size;
@@ -50,6 +62,21 @@ public class SequentialSearchST<Key, Value> {
     public Value get(Key key) {
         for (Node x = first; x != null; x = x.next) {
             if (key.equals(x.key)) {
+                return x.value;
+            }
+        }
+        return null;
+    }
+
+    // * 3.1.25
+    public Value getCached(Key key) {
+        if(this.cachedNode != null && this.cachedNode.key.equals(key)){
+            return this.cachedNode.value;
+        }
+
+        for (Node x = first; x != null; x = x.next) {
+            if (key.equals(x.key)) {
+                this.cachedNode = x;
                 return x.value;
             }
         }
