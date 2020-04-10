@@ -1,6 +1,7 @@
 package javasrc.ch03_1;
 
 import javasrc.ch01_3.LinkedListQueue;
+import javasrc.ch03_2.BST;
 
 /*
 * FrequencyCounter is a symbol-table client that finds the number of occurrences 
@@ -33,7 +34,8 @@ public class FrequencyCounter {
         int minlen = Integer.parseInt(args[0]);   
         
         // ! replace class below
-        BinarySearchST<String, Integer> st = new BinarySearchST<String, Integer>(10000);
+        BinarySearchST<String, Integer> st = new BinarySearchST<String, Integer>(100000);
+        // BST<String, Integer> st = new BST<>();
         
         // Build symbol table and count frequencies.
         while (!StdIn.isEmpty()) { 

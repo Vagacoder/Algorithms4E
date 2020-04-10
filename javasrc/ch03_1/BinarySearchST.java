@@ -5,10 +5,10 @@ import javasrc.ch01_3.LinkedListQueue;
 /*
 * Algorithm 3.2 Binary Search Symbol Table (in an ordered array) P. 379
 
-* Proposition b. Binary search in an ordered array with N keys uses no more than
+* Proposition B. Binary search in an ordered array with N keys uses no more than
 lg N + 1 compares for a search (successful or unsuccessful).
 
-* proposition b (continued). Inserting a new key into an ordered array of size N 
+* proposition B (continued). Inserting a new key into an ordered array of size N 
 uses ~ 2N array accesses in the worst case, so inserting N keys into an initially 
 empty table uses ~ N^2 array accesses in the worst case.
 
