@@ -206,7 +206,33 @@ public class BST <Key extends Comparable<Key>, Value>{
         }
     }
 
+    public void deleteMin(){
+        root = deleteMin(root);
+    }
 
+    private Node deleteMin(Node x){
+        // * no left child, current node is min, should be repalced by right child
+        if(x.left == null){
+            return x.right;
+        }
+        x.left = deleteMin(x.left);
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    public void deleteMax(){
+        root = deleteMax(root);
+    }
+
+    private Node deleteMax(Node x){
+        // * no right child, current node is max, should be repalced by left child
+        if(x.right == null){
+            return x.left;
+        }
+        x.right = deleteMax(x.right);
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
     public static void main(String[] args){
 
     }
