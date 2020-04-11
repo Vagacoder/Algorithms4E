@@ -1,5 +1,7 @@
 package javasrc.ch03_2;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
 * Algorithm 3.3 Binary search tree symbol table P. 398
 
@@ -8,6 +10,9 @@ package javasrc.ch03_2;
 
 * Proposition D. Insertions and search misses in a BST built from N random keys
 require ~ 2 ln N (about 1.39 lg N) compares, on the average.
+
+* Proposition E. In a BST, all operations take time proportional to the height of the
+tree, in the worst case.
 
 
 */
@@ -233,7 +238,118 @@ public class BST <Key extends Comparable<Key>, Value>{
         x.N = size(x.left) + size(x.right) + 1;
         return x;
     }
-    public static void main(String[] args){
 
+    public void delete(Key key){
+        root = delete(root, key);
+    }
+
+    // ! Most important method in BST, remember it
+    // * the skill of returning node is usefull for linked list
+    private Node delete(Node x, Key key){
+        if(x == null){
+            return null;
+        }
+
+        int cmp = key.compareTo(x.key);
+        if(cmp < 0){
+            x.left = delete(x.left, key);
+        }else if(cmp >0){
+            x.right = delete(x.right, key);
+        }else{
+            if(x.right == null){
+                return x.left;
+            }
+            if(x.left == null){
+                return x.right;
+            }
+            Node temp = x;
+            x = min(temp.right);
+            x.right = deleteMin(temp.right);
+            x.left = temp.left;
+
+            temp.left = null;
+            temp.right = null;
+        }
+
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    // * default method
+    public Iterable<Key> keys(){
+        return keys(min(), max());
+    }
+
+    public Iterable<Key> keys(Key low, Key high){
+        LinkedListQueue<Key> queue = new LinkedListQueue<Key>();
+        keys(root, queue, low, high);
+        return queue;
+    }
+
+    private void keys(Node x, LinkedListQueue<Key> queue, Key low, Key high){
+        if(x == null){
+            return;
+        }
+        int cmpLow = low.compareTo(x.key);
+        int cmpHigh = high.compareTo(x.key);
+        if(cmpLow < 0){
+            keys(x.left, queue, low, high);
+        }
+        if (cmpLow <= 0 && cmpHigh >= 0){
+            queue.enqueue(x.key);
+        }
+        if (cmpHigh > 0){
+            keys(x.right, queue, low, high);
+        }
+    }
+
+    // ! Self made method basing on in order traversal
+    public Iterable<Key> keysEasy(){
+        LinkedListQueue<Key> queue = new LinkedListQueue<>();
+        keysEasy(root, queue);
+        return queue;
+    }
+
+    private void keysEasy(Node x, LinkedListQueue<Key> queue){
+        if (x == null){return;}
+        keysEasy(x.left, queue);
+        queue.enqueue(x.key);
+        keysEasy(x.right, queue);
+    }
+
+    public void print(){
+        print(this.root);
+    }
+
+    private void print(Node x){
+        if(x == null){
+            return;
+        }
+        print(x.left);
+        StdOut.println(x.key + " : " + x.value);
+        print(x.right);
+    }
+
+    public static void check(){
+        BST<String, Integer> bst = new BST<>();
+        bst.put("K", 11);
+        bst.put("B", 2);
+        bst.put("E", 5);
+        bst.put("A", 1);
+        bst.put("C", 3);
+        bst.put("D", 4);
+        bst.put("H", 8);
+        bst.put("J", 10);
+        bst.put("F", 6);
+        bst.put("I", 9);
+        bst.put("G", 7);
+        bst.print();
+        for(String k : bst.keysEasy()){
+            StdOut.println(k);
+        }
+    }
+
+    public static void main(String[] args){
+        check();
     }
 }
