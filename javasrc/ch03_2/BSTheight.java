@@ -3,16 +3,7 @@ package javasrc.ch03_2;
 import javasrc.ch01_3.LinkedListQueue;
 
 /*
-* Algorithm 3.3 Binary search tree symbol table P. 398
-
-* Proposition C. Search hits in a BST built from N random keys require ~ 2 ln N
-(about 1.39 lg N) compares, on the average.
-
-* Proposition D. Insertions and search misses in a BST built from N random keys
-require ~ 2 ln N (about 1.39 lg N) compares, on the average.
-
-* Proposition E. In a BST, all operations take time proportional to the height of the
-tree, in the worst case.
+* all other methods are copied from BST.java
 
 * 3.2.6 Add to BST a method height() that computes the height of the tree. Develop two
 implementations: a recursive method (which takes linear time and space proportional
@@ -23,18 +14,20 @@ takes linear space and constant time per query).
 
 import lib.*;
 
-public class BST <Key extends Comparable<Key>, Value>{
+public class BSTheight <Key extends Comparable<Key>, Value>{
 
     private class Node{
         private Key key;
         private Value value;
         private Node left, right;
         private int N;
+        private int height;
 
-        public Node(Key key, Value value, int N){
+        public Node(Key key, Value value, int N, int height){
             this.key = key;
             this.value = value;
             this.N = N;
+            this.height =height;
         }
     }
 
@@ -78,9 +71,10 @@ public class BST <Key extends Comparable<Key>, Value>{
         root = put(root, key, value);
     }
 
+    // * 3.2.6 this method is modified for non-recursive height2()
     private Node put(Node node, Key key, Value value){
         if(node == null){
-            return new Node(key, value, 1);
+            return new Node(key, value, 1, 0);
         }
 
         int cmp = key.compareTo(node.key);
@@ -93,6 +87,13 @@ public class BST <Key extends Comparable<Key>, Value>{
         }
         // * better to calculate instead of N++, since if key exists, N does not change.
         node.N = size(node.left) + size(node.right) + 1;
+        int heightLeft = height3(node.left);
+        int heightRight = height3(node.right);
+        if(heightLeft > heightRight){
+            node.height = heightLeft + 1;
+        }else{
+            node.height = heightRight + 1;
+        }
         return node;
     }
 
@@ -307,6 +308,24 @@ public class BST <Key extends Comparable<Key>, Value>{
         height2(cur.right, h);
     }
 
+    // * 3.2.6 non-recursive method 
+    public int height3(){
+        return height3(this.root);
+    }
+
+    private int height3(Node x){
+        if(x == null){return 0;}
+        return x.height;
+    }
+
+    // TODO
+    // ! all methods which modify tree structure should call this method to upate
+    // ! the field of Node, height. The methods include delMin(), delMax(), delete(),
+    // ! put() no need call this method, since put() already implement height updating.
+    private void updateHeight(Node x){
+
+    }
+
     // * default method
     public Iterable<Key> keys(){
         return keys(min(), max());
@@ -363,7 +382,7 @@ public class BST <Key extends Comparable<Key>, Value>{
     }
 
     public static void check(){
-        BST<String, Integer> bst = new BST<>();
+        BSTheight<String, Integer> bst = new BSTheight<>();
         bst.put("F", 6);
         bst.put("C", 3);
         bst.put("I", 9);
@@ -380,6 +399,7 @@ public class BST <Key extends Comparable<Key>, Value>{
             StdOut.println(k);
         }
         StdOut.println("Height: " + bst.height2());
+        StdOut.println("Height: " + bst.height3());
     }
 
     public static void main(String[] args){
