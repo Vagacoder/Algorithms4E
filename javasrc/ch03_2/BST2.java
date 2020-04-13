@@ -17,6 +17,9 @@ cursive method (which takes linear time and space proportional to the height), a
 method like size() that adds a field to each node in the tree (and takes linear space and
 constant time per query).
 
+* 3.2.12 Develop a BST implementation that omits rank() and select() and does not
+use a count field in Node.
+
 
 */
 
@@ -52,6 +55,15 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         } else {
             return x.N;
         }
+    }
+
+    // * 3.2.12 helper function
+    // * size method not using N in Node
+    public int sizeOfTree(Node root){
+        if(root == null){
+            return 0;
+        }
+        return 1 + sizeOfTree(root.left) + sizeOfTree(root.right);
     }
 
     public Value get(Key key){
@@ -207,6 +219,26 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         }
     }
 
+    // * 3.2.12 select() without using N in Node
+    // ! Just replace size() with sizeOfTree()
+    public Key select2(int k){
+        return select(root, k).key;
+    }
+
+    private Node select2(Node x, int k){
+        if (x == null){
+            return null;
+        }
+        int sizeOfLeftSubtree = sizeOfTree(x.left);
+        if(sizeOfLeftSubtree > k){
+            return select(x.left, k);
+        }else if (sizeOfLeftSubtree < k){
+            return select(x.right, k-sizeOfLeftSubtree-1);
+        }else {
+            return x;
+        }
+    }
+    
     public int rank(Key key){
         return rank(root, key);
     }
@@ -225,6 +257,26 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         }
     }
 
+    // * 3.2.12 rank() without using N in Node
+    // ! Just replace size() with sizeOfTree()
+    public int rank2(Key key){
+        return rank2(root, key);
+    }
+
+    private int rank2(Node x, Key key){
+        if(x == null){
+            return 0;
+        }
+        int cmp = key.compareTo(x.key);
+        if(cmp < 0){
+            return rank(x.left, key);
+        }else if(cmp > 0){
+            return 1 + sizeOfTree(x.left) + rank(x.right, key);
+        }else{
+            return sizeOfTree(x.left);
+        }
+    }
+    
     public void deleteMin(){
         root = deleteMin(root);
         updateHeight(root);
@@ -330,6 +382,31 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         return x.height;
     }
 
+    // * additional method for depth of one specific node
+    public int depth(Key key){
+        int depth = 0;
+
+        Node cur = this.root;
+        while(cur != null){
+            int cmp = key.compareTo(cur.key);
+            if(cmp == 0){
+                break;
+            } else if(cmp < 0){
+                cur = cur.left;
+            } else{
+                cur = cur.right;
+            }
+            depth++;
+        }
+
+        // * key is not found in tree
+        if (cur == null){
+            return -1;
+        }else {
+            return depth;
+        }
+    }
+
     // ! all methods which modify tree structure should call this method to upate
     // ! the field of Node, height. The methods include delMin(), delMax(), delete(),
     // ! put() no need call this method, since put() already implement height updating.
@@ -351,8 +428,6 @@ public class BST2 <Key extends Comparable<Key>, Value>{
     }
 
     // * 3.2.7
-
-    // TODO
     public int avgCompares(Key key){
         return avgCompares(root, key);
     }
@@ -448,11 +523,50 @@ public class BST2 <Key extends Comparable<Key>, Value>{
             StdOut.println(k);
         }
 
-        StdOut.println("2. test average compare ...");
+        StdOut.println("\n2. test average compare ...");
         StdOut.println("2.1. search H ...");
         StdOut.println(bst.avgCompares("H"));
+        StdOut.println("2.2. search G ...");
+        StdOut.println(bst.avgCompares("G"));        
+        StdOut.println("2.3. search F ...");
+        StdOut.println(bst.avgCompares("F"));
+        StdOut.println("2.4. search C ...");
+        StdOut.println(bst.avgCompares("C"));
+        StdOut.println("2.5. search B ...");
+        StdOut.println(bst.avgCompares("B"));
+        StdOut.println("2.6. search D ...");
+        StdOut.println(bst.avgCompares("D"));
 
-        StdOut.println("");
+
+        StdOut.println("\n3. test rank2() ...");
+        StdOut.println("rank of A: " + bst.rank("A"));
+        StdOut.println("rank of A: " + bst.rank2("A"));
+        StdOut.println("rank of B: " + bst.rank("B"));
+        StdOut.println("rank of B: " + bst.rank2("B"));
+        StdOut.println("rank of C: " + bst.rank("C"));
+        StdOut.println("rank of C: " + bst.rank2("C"));
+        StdOut.println("rank of D: " + bst.rank("D"));
+        StdOut.println("rank of D: " + bst.rank2("D"));
+        StdOut.println("rank of E: " + bst.rank("E"));
+        StdOut.println("rank of E: " + bst.rank2("E"));
+        StdOut.println("rank of F: " + bst.rank("F"));
+        StdOut.println("rank of F: " + bst.rank2("F"));
+
+        StdOut.println("\n4. test depth() ...");
+        StdOut.println("depth of A: " + bst.depth("A"));
+        StdOut.println("depth of B: " + bst.depth("B"));
+        StdOut.println("depth of C: " + bst.depth("C"));
+        StdOut.println("depth of D: " + bst.depth("D"));
+        StdOut.println("depth of E: " + bst.depth("E"));
+        StdOut.println("depth of F: " + bst.depth("F"));
+        StdOut.println("depth of G: " + bst.depth("G"));
+        StdOut.println("depth of H: " + bst.depth("H"));
+        StdOut.println("depth of I: " + bst.depth("I"));
+        StdOut.println("depth of J: " + bst.depth("J"));
+        StdOut.println("depth of K: " + bst.depth("K"));
+
+        // ! Note: in section, some elements are DELETED!
+        StdOut.println("\n5.  testing height ...");
         StdOut.println("Height: " + bst.height());
         StdOut.println("Height: " + bst.height2());
         StdOut.println("Height: " + bst.height3());
@@ -481,6 +595,7 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         StdOut.println("Height: " + bst.height());
         StdOut.println("Height: " + bst.height2());
         StdOut.println("Height: " + bst.height3());
+
     }
 
     public static void main(String[] args){
