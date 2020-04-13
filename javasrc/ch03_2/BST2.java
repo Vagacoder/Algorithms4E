@@ -3,18 +3,26 @@ package javasrc.ch03_2;
 import javasrc.ch01_3.LinkedListQueue;
 
 /*
-* all other methods are copied from BST.java
+* most methods are copied from BST.java; some of them are modified for exercises
 
 * 3.2.6 Add to BST a method height() that computes the height of the tree. Develop two
 implementations: a recursive method (which takes linear time and space proportional
 to the height), and a method like size() that adds a field to each node in the tree (and
 takes linear space and constant time per query).
 
+* 3.2.7 Add to BST a recursive method avgCompares() that computes the average num-
+ber of compares required by a random search hit in a given BST (the internal path
+length of the tree divided by its size, plus one). Develop two implementations: a re-
+cursive method (which takes linear time and space proportional to the height), and a
+method like size() that adds a field to each node in the tree (and takes linear space and
+constant time per query).
+
+
 */
 
 import lib.*;
 
-public class BSTheight <Key extends Comparable<Key>, Value>{
+public class BST2 <Key extends Comparable<Key>, Value>{
 
     private class Node{
         private Key key;
@@ -219,6 +227,7 @@ public class BSTheight <Key extends Comparable<Key>, Value>{
 
     public void deleteMin(){
         root = deleteMin(root);
+        updateHeight(root);
     }
 
     private Node deleteMin(Node x){
@@ -233,6 +242,7 @@ public class BSTheight <Key extends Comparable<Key>, Value>{
 
     public void deleteMax(){
         root = deleteMax(root);
+        updateHeight(root);
     }
 
     private Node deleteMax(Node x){
@@ -247,6 +257,7 @@ public class BSTheight <Key extends Comparable<Key>, Value>{
 
     public void delete(Key key){
         root = delete(root, key);
+        updateHeight(root);
     }
 
     // ! Most important method in BST, remember it
@@ -292,6 +303,7 @@ public class BSTheight <Key extends Comparable<Key>, Value>{
 
     // * 3.2.6 self-write recursive method
     public int height2(){
+        this.height = 0;
         height2(this.root, -1);
         return this.height;
     }
@@ -318,13 +330,49 @@ public class BSTheight <Key extends Comparable<Key>, Value>{
         return x.height;
     }
 
-    // TODO
     // ! all methods which modify tree structure should call this method to upate
     // ! the field of Node, height. The methods include delMin(), delMax(), delete(),
     // ! put() no need call this method, since put() already implement height updating.
     private void updateHeight(Node x){
-
+        if(x == null){
+            return;
+        }
+        updateHeight(x.left);
+        updateHeight(x.right);
+        int leftH = -1;
+        int rightH = -1;
+        if(x.left != null){
+            leftH = x.left.height;
+        }
+        if(x.right != null){
+            rightH = x.right.height;
+        }
+        x.height = 1 + Math.max(leftH, rightH);
     }
+
+    // * 3.2.7
+
+    // TODO
+    public int avgCompares(Key key){
+        return avgCompares(root, key);
+    }
+
+    private int avgCompares(Node cur, Key key){
+        int compareNumber = 0;
+        if (cur != null){
+            int cmp = key.compareTo(cur.key);
+            if(cmp < 0){
+                compareNumber = 1 + avgCompares(cur.left, key);
+            } else if(cmp > 0){
+                compareNumber = 1 + avgCompares(cur.right, key);
+            } else{
+                compareNumber = 1;
+            }
+        }
+        return compareNumber;
+    }
+
+
 
     // * default method
     public Iterable<Key> keys(){
@@ -382,7 +430,7 @@ public class BSTheight <Key extends Comparable<Key>, Value>{
     }
 
     public static void check(){
-        BSTheight<String, Integer> bst = new BSTheight<>();
+        BST2<String, Integer> bst = new BST2<>();
         bst.put("F", 6);
         bst.put("C", 3);
         bst.put("I", 9);
@@ -394,10 +442,43 @@ public class BSTheight <Key extends Comparable<Key>, Value>{
         bst.put("D", 4);
         bst.put("H", 8);
         bst.put("G", 7);
+        StdOut.println("1. print all tree nodes ...");
         bst.print();
         for(String k : bst.keysEasy()){
             StdOut.println(k);
         }
+
+        StdOut.println("2. test average compare ...");
+        StdOut.println("2.1. search H ...");
+        StdOut.println(bst.avgCompares("H"));
+
+        StdOut.println("");
+        StdOut.println("Height: " + bst.height());
+        StdOut.println("Height: " + bst.height2());
+        StdOut.println("Height: " + bst.height3());
+        bst.deleteMin();
+        StdOut.println("After delete min (A)");
+        StdOut.println("Height: " + bst.height());
+        StdOut.println("Height: " + bst.height2());
+        StdOut.println("Height: " + bst.height3());
+        bst.delete("D");
+        StdOut.println("After delete D");
+        StdOut.println("Height: " + bst.height());
+        StdOut.println("Height: " + bst.height2());
+        StdOut.println("Height: " + bst.height3());
+        bst.delete("H");
+        StdOut.println("After delete H");
+        StdOut.println("Height: " + bst.height());
+        StdOut.println("Height: " + bst.height2());
+        StdOut.println("Height: " + bst.height3());
+        bst.delete("K");
+        StdOut.println("After delete K");
+        StdOut.println("Height: " + bst.height());
+        StdOut.println("Height: " + bst.height2());
+        StdOut.println("Height: " + bst.height3());
+        bst.delete("J");
+        StdOut.println("After delete J");
+        StdOut.println("Height: " + bst.height());
         StdOut.println("Height: " + bst.height2());
         StdOut.println("Height: " + bst.height3());
     }

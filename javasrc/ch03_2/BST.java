@@ -291,6 +291,7 @@ public class BST <Key extends Comparable<Key>, Value>{
 
     // * 3.2.6 self-write recursive method
     public int height2(){
+        this.height = 0; 
         height2(this.root, -1);
         return this.height;
     }
