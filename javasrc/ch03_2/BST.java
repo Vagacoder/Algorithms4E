@@ -19,6 +19,7 @@ implementations: a recursive method (which takes linear time and space proportio
 to the height), and a method like size() that adds a field to each node in the tree (and
 takes linear space and constant time per query).
 
+* 3.2.13 Give nonrecursive implementations of get() and put() for BST.
 */
 
 import lib.*;
@@ -74,6 +75,26 @@ public class BST <Key extends Comparable<Key>, Value>{
         return result;
     }
 
+    // * 3.2.13 non-recursive get()
+    public Value getValue(Key key){
+        Node cur = this.root;
+        while(cur != null){
+            int cmp = key.compareTo(cur.key);
+            if(cmp < 0){
+                cur = cur.left;
+            }else if(cmp >0){
+                cur = cur.right;
+            }else{
+                break;
+            }
+        }
+        if(cur == null){
+            return null;
+        }else {
+            return cur.value;
+        }
+    }
+
     public void put(Key key, Value value){
         root = put(root, key, value);
     }
@@ -94,6 +115,51 @@ public class BST <Key extends Comparable<Key>, Value>{
         // * better to calculate instead of N++, since if key exists, N does not change.
         node.N = size(node.left) + size(node.right) + 1;
         return node;
+    }
+
+    // * 3.2.13 non-recursive put()
+    public void putKey(Key key, Value value){
+        if(this.root == null){
+            this.root = new Node(key, value, 1);
+            return;
+        }
+
+        Node cur = this.root;
+        Node parent = null;
+        while (cur != null){
+            int cmp = key.compareTo(cur.key);
+            if(cmp < 0){
+                parent = cur;
+                cur = cur.left;
+            }else if(cmp > 0){
+                parent = cur;
+                cur = cur.right;
+            }else{
+                cur.value = value;
+                return;
+            }
+        }
+        if(key.compareTo(parent.key) < 0){
+            parent.left = new Node(key, value, 1);
+        }else{
+            parent.right = new Node(key, value, 1);
+        }
+
+        // * if new node is inserted, need update N of all nodes, from root to new node
+        cur = this.root;
+        while (cur != null){
+            int cmp = key.compareTo(cur.key);
+            if(cmp < 0){
+                cur.N++;
+                cur = cur.left;
+            }else if(cmp > 0){
+                cur.N++;
+                cur = cur.right;
+            }else{
+                cur.value = value;
+                return;
+            }
+        }
     }
 
     public Key min(){
@@ -359,23 +425,23 @@ public class BST <Key extends Comparable<Key>, Value>{
             return;
         }
         print(x.left);
-        StdOut.println(x.key + " : " + x.value);
+        StdOut.println(x.key + " : " + x.value + " : " + x.N);
         print(x.right);
     }
 
     public static void check(){
         BST<String, Integer> bst = new BST<>();
-        bst.put("F", 6);
-        bst.put("C", 3);
-        bst.put("I", 9);
-        bst.put("B", 2);
-        bst.put("A", 1);
-        bst.put("J", 10);
-        bst.put("K", 11);
-        bst.put("E", 5);
-        bst.put("D", 4);
-        bst.put("H", 8);
-        bst.put("G", 7);
+        bst.putKey("C", 3);
+        bst.putKey("I", 9);
+        bst.putKey("F", 6);
+        bst.putKey("B", 2);
+        bst.putKey("A", 1);
+        bst.putKey("J", 10);
+        bst.putKey("K", 11);
+        bst.putKey("E", 5);
+        bst.putKey("D", 4);
+        bst.putKey("H", 8);
+        bst.putKey("G", 7);
         bst.print();
         for(String k : bst.keysEasy()){
             StdOut.println(k);

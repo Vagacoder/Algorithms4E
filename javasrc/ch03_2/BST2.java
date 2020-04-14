@@ -20,6 +20,7 @@ constant time per query).
 * 3.2.12 Develop a BST implementation that omits rank() and select() and does not
 use a count field in Node.
 
+* 3.2.13 Give nonrecursive implementations of get() and put() for BST.
 
 */
 
@@ -85,6 +86,26 @@ public class BST2 <Key extends Comparable<Key>, Value>{
             result = node.value;
         }
         return result;
+    }
+
+    // * 3.2.13 non-recursive get()
+    public Value getValue(Key key){
+        Node cur = this.root;
+        while(cur != null){
+            int cmp = key.compareTo(cur.key);
+            if(cmp < 0){
+                cur = cur.left;
+            }else if(cmp >0){
+                cur = cur.right;
+            }else{
+                break;
+            }
+        }
+        if(cur == null){
+            return null;
+        }else {
+            return cur.value;
+        }
     }
 
     public void put(Key key, Value value){
@@ -222,7 +243,7 @@ public class BST2 <Key extends Comparable<Key>, Value>{
     // * 3.2.12 select() without using N in Node
     // ! Just replace size() with sizeOfTree()
     public Key select2(int k){
-        return select(root, k).key;
+        return select2(root, k).key;
     }
 
     private Node select2(Node x, int k){
@@ -231,9 +252,9 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         }
         int sizeOfLeftSubtree = sizeOfTree(x.left);
         if(sizeOfLeftSubtree > k){
-            return select(x.left, k);
+            return select2(x.left, k);
         }else if (sizeOfLeftSubtree < k){
-            return select(x.right, k-sizeOfLeftSubtree-1);
+            return select2(x.right, k-sizeOfLeftSubtree-1);
         }else {
             return x;
         }
@@ -269,9 +290,9 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         }
         int cmp = key.compareTo(x.key);
         if(cmp < 0){
-            return rank(x.left, key);
+            return rank2(x.left, key);
         }else if(cmp > 0){
-            return 1 + sizeOfTree(x.left) + rank(x.right, key);
+            return 1 + sizeOfTree(x.left) + rank2(x.right, key);
         }else{
             return sizeOfTree(x.left);
         }
@@ -523,6 +544,20 @@ public class BST2 <Key extends Comparable<Key>, Value>{
             StdOut.println(k);
         }
 
+        StdOut.println("\n1.1. test getValue()");
+        StdOut.println(bst.getValue(""));
+        StdOut.println(bst.getValue("A"));
+        StdOut.println(bst.getValue("B"));
+        StdOut.println(bst.getValue("C"));
+        StdOut.println(bst.getValue("D"));
+        StdOut.println(bst.getValue("E"));
+        StdOut.println(bst.getValue("F"));
+        StdOut.println(bst.getValue("G"));
+        StdOut.println(bst.getValue("H"));
+        StdOut.println(bst.getValue("I"));
+        StdOut.println(bst.getValue("J"));
+        StdOut.println(bst.getValue("K"));
+
         StdOut.println("\n2. test average compare ...");
         StdOut.println("2.1. search H ...");
         StdOut.println(bst.avgCompares("H"));
@@ -539,18 +574,18 @@ public class BST2 <Key extends Comparable<Key>, Value>{
 
 
         StdOut.println("\n3. test rank2() ...");
-        StdOut.println("rank of A: " + bst.rank("A"));
-        StdOut.println("rank of A: " + bst.rank2("A"));
-        StdOut.println("rank of B: " + bst.rank("B"));
-        StdOut.println("rank of B: " + bst.rank2("B"));
-        StdOut.println("rank of C: " + bst.rank("C"));
-        StdOut.println("rank of C: " + bst.rank2("C"));
-        StdOut.println("rank of D: " + bst.rank("D"));
-        StdOut.println("rank of D: " + bst.rank2("D"));
-        StdOut.println("rank of E: " + bst.rank("E"));
-        StdOut.println("rank of E: " + bst.rank2("E"));
-        StdOut.println("rank of F: " + bst.rank("F"));
-        StdOut.println("rank of F: " + bst.rank2("F"));
+        StdOut.println("rank  of A: " + bst.rank("A"));
+        StdOut.println("rank2 of A: " + bst.rank2("A"));
+        StdOut.println("rank  of B: " + bst.rank("B"));
+        StdOut.println("rank2 of B: " + bst.rank2("B"));
+        StdOut.println("rank  of C: " + bst.rank("C"));
+        StdOut.println("rank2 of C: " + bst.rank2("C"));
+        StdOut.println("rank  of D: " + bst.rank("D"));
+        StdOut.println("rank2 of D: " + bst.rank2("D"));
+        StdOut.println("rank  of E: " + bst.rank("E"));
+        StdOut.println("rank2 of E: " + bst.rank2("E"));
+        StdOut.println("rank  of F: " + bst.rank("F"));
+        StdOut.println("rank2 of F: " + bst.rank2("F"));
 
         StdOut.println("\n4. test depth() ...");
         StdOut.println("depth of A: " + bst.depth("A"));
