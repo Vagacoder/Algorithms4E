@@ -22,6 +22,9 @@ use a count field in Node.
 
 * 3.2.13 Give nonrecursive implementations of get() and put() for BST.
 
+* 3.2.14 Give nonrecursive implementations of min(), max(), floor(), ceiling(),
+rank(), and select().
+
 */
 
 import lib.*;
@@ -150,6 +153,18 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         }
     }
 
+    // * 3.2.14 non-recursive min()
+    public Key minKey(){
+        Node cur = this.root;
+        if(cur == null){
+            return null;
+        }
+        while(cur.left != null){
+            cur = cur.left;
+        }
+        return cur.key;
+    }
+
     public Key max(){
         return max(root).key;
     }
@@ -160,6 +175,18 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         }else {
             return max(x.right);
         }
+    }
+
+    // * 3.2.14 non-recursive max()
+    public Key maxKey(){
+        Node cur = this.root;
+        if(cur == null){
+            return null;
+        }
+        while (cur.right != null){
+            cur = cur.right;
+        }
+        return cur.key;
     }
 
     public Key floor(Key key){
@@ -194,6 +221,40 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         }
     }
 
+    // * 3.2.14 non-recursive floor()
+    public Key floorKey(Key key){
+        Node cur = this.root;
+        if(cur == null || key == null){
+            return null;
+        }
+        while(cur != null){
+            int cmp = key.compareTo(cur.key);
+            // * key = cur
+            if(cmp == 0){
+                return cur.key;
+            }
+            // * key < cur
+            else if(cmp < 0) {
+                // cur has left
+                if (cur.left != null){
+                    cur = cur.left;
+                    continue;
+                }
+                // cur has no left
+                else {
+                    return null;
+                }
+            }
+            // * key > cur
+            else if(cur.right == null || min(cur.right).key.compareTo(key) > 0){
+                return cur.key;
+            }else{
+                cur = cur.right;
+            }  
+        }
+        return null;
+    }
+
     public Key ceiling(Key key){
         Node x = ceiling(root, key);
         if(x == null){
@@ -220,6 +281,41 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         }else {
             return temp;
         }
+    }
+
+    // * 3.2.14 non-recursive ceiling()
+    public Key ceilingKey(Key key){
+        Node cur = this.root;
+        if(cur == null || key == null){
+            return null;
+        }
+
+        while (cur != null){
+            int cmp = key.compareTo(cur.key);
+            // * key = cur
+            if(cmp == 0){
+                return cur.key;
+            }
+            // * key > cur
+            else if(cmp > 0){
+                // cur has right
+                if (cur.right != null){
+                    cur = cur.right;
+                    continue;
+                }
+                // cur has no right
+                else{
+                    return null;
+                }
+            }
+            // * key < cur
+            else if(cur.left == null || max(cur.left).key.compareTo(key) < 0){
+                return cur.key;
+            }else{
+                cur = cur.left;
+            }
+        }
+        return null;
     }
 
     public Key select(int k){
@@ -600,8 +696,64 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         StdOut.println("depth of J: " + bst.depth("J"));
         StdOut.println("depth of K: " + bst.depth("K"));
 
+        StdOut.println("\n5. test floorKey() ...");
+        StdOut.println("floor of @: " + bst.floor("@"));
+        StdOut.println("floor of @: " + bst.floorKey("@"));
+        StdOut.println("floor of A: " + bst.floor("A"));
+        StdOut.println("floor of A: " + bst.floorKey("A"));
+        StdOut.println("floor of B: " + bst.floor("B"));
+        StdOut.println("floor of B: " + bst.floorKey("B"));        
+        StdOut.println("floor of C: " + bst.floor("C"));
+        StdOut.println("floor of C: " + bst.floorKey("C"));        
+        StdOut.println("floor of D: " + bst.floor("D"));
+        StdOut.println("floor of D: " + bst.floorKey("D"));        
+        StdOut.println("floor of E: " + bst.floor("E"));
+        StdOut.println("floor of E: " + bst.floorKey("E"));        
+        StdOut.println("floor of F: " + bst.floor("F"));
+        StdOut.println("floor of F: " + bst.floorKey("F"));
+        StdOut.println("floor of G: " + bst.floor("G"));
+        StdOut.println("floor of G: " + bst.floorKey("G"));
+        StdOut.println("floor of H: " + bst.floor("H"));
+        StdOut.println("floor of H: " + bst.floorKey("H"));
+        StdOut.println("floor of I: " + bst.floor("I"));
+        StdOut.println("floor of I: " + bst.floorKey("I"));
+        StdOut.println("floor of J: " + bst.floor("J"));
+        StdOut.println("floor of J: " + bst.floorKey("J"));
+        StdOut.println("floor of K: " + bst.floor("K"));
+        StdOut.println("floor of K: " + bst.floorKey("K"));
+        StdOut.println("floor of K: " + bst.floor("L"));
+        StdOut.println("floor of K: " + bst.floorKey("L"));
+
+        StdOut.println("\n6. test ceilingKey() ...");
+        StdOut.println("ceiling of @: " + bst.ceiling("@"));
+        StdOut.println("ceiling of @: " + bst.ceilingKey("@"));
+        StdOut.println("ceiling of A: " + bst.ceiling("A"));
+        StdOut.println("ceiling of A: " + bst.ceilingKey("A"));
+        StdOut.println("ceiling of B: " + bst.ceiling("B"));
+        StdOut.println("ceiling of B: " + bst.ceilingKey("B"));        
+        StdOut.println("ceiling of C: " + bst.ceiling("C"));
+        StdOut.println("ceiling of C: " + bst.ceilingKey("C"));        
+        StdOut.println("ceiling of D: " + bst.ceiling("D"));
+        StdOut.println("ceiling of D: " + bst.ceilingKey("D"));        
+        StdOut.println("ceiling of E: " + bst.ceiling("E"));
+        StdOut.println("ceiling of E: " + bst.ceilingKey("E"));        
+        StdOut.println("ceiling of F: " + bst.ceiling("F"));
+        StdOut.println("ceiling of F: " + bst.ceilingKey("F"));
+        StdOut.println("ceiling of G: " + bst.ceiling("G"));
+        StdOut.println("ceiling of G: " + bst.ceilingKey("G"));
+        StdOut.println("ceiling of H: " + bst.ceiling("H"));
+        StdOut.println("ceiling of H: " + bst.ceilingKey("H"));
+        StdOut.println("ceiling of I: " + bst.ceiling("I"));
+        StdOut.println("ceiling of I: " + bst.ceilingKey("I"));
+        StdOut.println("ceiling of J: " + bst.ceiling("J"));
+        StdOut.println("ceiling of J: " + bst.ceilingKey("J"));
+        StdOut.println("ceiling of K: " + bst.ceiling("K"));
+        StdOut.println("ceiling of K: " + bst.ceilingKey("K"));
+        StdOut.println("ceiling of K: " + bst.ceiling("L"));
+        StdOut.println("ceiling of K: " + bst.ceilingKey("L"));
+        
         // ! Note: in section, some elements are DELETED!
-        StdOut.println("\n5.  testing height ...");
+        StdOut.println("\n7.  testing height ...");
         StdOut.println("Height: " + bst.height());
         StdOut.println("Height: " + bst.height2());
         StdOut.println("Height: " + bst.height3());
