@@ -28,6 +28,17 @@ rank(), and select().
 * 3.2.21 Add a BST method randomKey() that returns a random key from the symbol
 table in time proportional to the tree height, in the worst case.
 
+* 3.2.28 Sofware caching. Modify BST to keep the most recently accessed Node in 
+an instance variable so that it can be accessed in constant time if the next put() 
+or get() uses the same key (see Exercise 3.1.25).
+
+* 3.2.31 Certification. Write a method isBST() that takes a Node as argument and 
+returns true if the argument node is the root of a binary search tree, false 
+otherwise.
+Hint : Write a helper method that takes a Node and two Keys as arguments and returns
+true if the argument node is the root of a binary search tree with all keys strictly be-
+tween the two argument keys, false otherwise.
+
 */
 
 import lib.*;
@@ -51,6 +62,7 @@ public class BST2 <Key extends Comparable<Key>, Value>{
 
     private Node root;
     private int height;
+    private Node recentNode;
 
     public int size(){
         return size(root);
@@ -73,22 +85,28 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         return 1 + sizeOfTree(root.left) + sizeOfTree(root.right);
     }
 
+    // * 3.2.28 soft caching
     public Value get(Key key){
-        return get(key, this.root);
+        if(this.recentNode.key.equals(key)){
+            return this.recentNode.value;
+        }else {
+            return get(key, this.root);
+        }
     }
 
+    // * 3.2.28 soft caching
     private Value get(Key key, Node node){
         Value result = null;
         if(node == null){
             return result;
         }
-
         int cmp = key.compareTo(node.key);
         if(cmp < 0){
             result = get(key, node.left);
         } else if(cmp > 0){
             result = get(key, node.right);
         } else{
+            this.recentNode = node;
             result = node.value;
         }
         return result;
@@ -119,6 +137,7 @@ public class BST2 <Key extends Comparable<Key>, Value>{
     }
 
     // * 3.2.6 this method is modified for non-recursive height2()
+    // * 3.2.28 soft caching
     private Node put(Node node, Key key, Value value){
         if(node == null){
             return new Node(key, value, 1, 0);
@@ -131,6 +150,7 @@ public class BST2 <Key extends Comparable<Key>, Value>{
             node.right = put(node.right, key, value);
         } else{
             node.value = value;
+            this.recentNode = node; // * soft caching
         }
         // * better to calculate instead of N++, since if key exists, N does not change.
         node.N = size(node.left) + size(node.right) + 1;
@@ -626,6 +646,24 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         print(this.root);
     }
 
+    // * 3.2.31
+    public boolean isBST(){
+        return isBST(this.root);
+    }
+
+    private boolean isBST(Node cur){
+        if(cur == null){
+            return true;
+        }
+        if(cur.left!=null && cur.left.key.compareTo(cur.key) > 0){
+            return false;
+        }
+        if(cur.right!=null && cur.right.key.compareTo(cur.key) < 0){
+            return false;
+        }
+        return isBST(cur.left) && isBST(cur.right);
+    }
+
     private void print(Node x){
         if(x == null){
             return;
@@ -653,6 +691,7 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         for(String k : bst.keysEasy()){
             StdOut.println(k);
         }
+        StdOut.println("Is BST? " + bst.isBST());
 
         StdOut.println("\n1.1. test getValue()");
         StdOut.println(bst.getValue(""));
