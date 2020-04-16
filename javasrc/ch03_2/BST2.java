@@ -25,6 +25,9 @@ use a count field in Node.
 * 3.2.14 Give nonrecursive implementations of min(), max(), floor(), ceiling(),
 rank(), and select().
 
+* 3.2.21 Add a BST method randomKey() that returns a random key from the symbol
+table in time proportional to the tree height, in the worst case.
+
 */
 
 import lib.*;
@@ -606,6 +609,17 @@ public class BST2 <Key extends Comparable<Key>, Value>{
         keysEasy(x.left, queue);
         queue.enqueue(x.key);
         keysEasy(x.right, queue);
+    }
+
+    // * 3.2.21
+    public Key randomKey(){
+        LinkedListQueue<Key> queue = (LinkedListQueue<Key>) keys();
+        int length = queue.size();
+        int randomInt = StdRandom.uniform(length);
+        for(int i = 0; i < randomInt-1; i++){
+            queue.dequeue();
+        }
+        return queue.dequeue();
     }
 
     public void print(){
