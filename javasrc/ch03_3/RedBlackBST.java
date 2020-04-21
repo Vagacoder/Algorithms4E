@@ -3,9 +3,16 @@ package javasrc.ch03_3;
 /*
 * Algorithm 3.4 Red-Black BST P.439
 
-! Remarkably, you can implement top-down 2-3-4 trees by moving one line of code in
-put() in Algorithm 3.4: move the colorFlip() call (and accompanying test) to be-
-fore the recursive calls (between the test for null and the comparison). 
+* Proposition G. The height of a red-black BST with N nodes is no more than 2 lg N.
+
+* Property H. The average length of a path from the root to a node in a red-black
+BST with N nodes is ~1.00 lg N.
+
+* Proposition I. In a red-black BST, the following operations take logarithmic time
+in the worst case: search, insertion, finding the minimum, finding the maximum,
+floor, ceiling, rank, select, delete the minimum, delete the maximum, delete, and
+range count.
+
 */
 
 import lib.*;
@@ -135,6 +142,138 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         return h;
     }
 
+
+    public Key min(){
+        return min(root).key;
+    }
+
+    private Node min(Node x){
+        if(x.left == null){
+            return x;
+        }else {
+            return min(x.left);
+        }
+    }
+
+    public Key max(){
+        return max(root).key;
+    }
+
+    private Node max(Node x){
+        if(x.right == null){
+            return x;
+        }else {
+            return max(x.right);
+        }
+    }
+
+    public Key floor(Key key){
+        Node x = floor(root, key);
+        if(x == null){
+            return null;
+        }else{
+            return x.key;
+        }
+    }
+
+    private Node floor(Node x, Key key){
+        if(x == null){
+            return null;
+        }
+        int cmp = key.compareTo(x.key);
+        if(cmp == 0){
+            return x;
+        }
+        if(cmp < 0){
+            return floor(x.left, key);
+        }
+        // ! If key is greater than the key at the root, then the floor of key
+        // ! could be in the right subtree, but only if there is a key smaller 
+        // ! than or equal to key in the right subtree; if not, the key at the 
+        // ! root is the floor of key
+        Node temp = floor(x.right, key);
+        if(temp != null){
+            return temp;
+        }else {
+            return x;
+        }
+    }
+
+    public Key ceiling(Key key){
+        Node x = ceiling(root, key);
+        if(x == null){
+            return null;
+        }else {
+            return x.key;
+        }
+    }
+
+    private Node ceiling(Node x, Key key){
+        if (x == null){
+            return null;
+        }
+        int cmp = key.compareTo(x.key);
+        if(cmp == 0) {
+            return x;
+        }
+        if (cmp > 0){
+            return ceiling(x.right, key);
+        }
+        Node temp = ceiling(x.left, key);
+        if(temp == null){
+            return x;
+        }else {
+            return temp;
+        }
+    }
+
+    public Key select(int k){
+        return select(root, k).key;
+    }
+
+    private Node select(Node x, int k){
+        if (x == null){
+            return null;
+        }
+        int t = size(x.left);
+        if(t > k){
+            return select(x.left, k);
+        }else if (t < k){
+            return select(x.right, k-t-1);
+        }else {
+            return x;
+        }
+    }
+
+    public int rank(Key key){
+        return rank(root, key);
+    }
+
+    private int rank(Node x, Key key){
+        if(x == null){
+            return 0;
+        }
+        int cmp = key.compareTo(x.key);
+        if(cmp < 0){
+            return rank(x.left, key);
+        }else if(cmp > 0){
+            return 1 + size(x.left) + rank(x.right, key);
+        }else{
+            return size(x.left);
+        }
+    }
+
+    public void deleteMin(){
+
+    }
+
+    public void deleteMax() {
+        
+    }
+
+    public void delete(Key key){
+
+    }
 
     public void print(){
         print(this.root);
