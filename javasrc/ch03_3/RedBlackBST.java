@@ -275,6 +275,15 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
     }
 
+    // * official recursive method
+    public int pureHeight() {
+        return pureHeight(root);
+    }
+    private int pureHeight(Node x) {
+        if (x == null) return -1;
+        return 1 + Math.max(pureHeight(x.left), pureHeight(x.right));
+    }
+
     public void print(){
         print(this.root);
     }
