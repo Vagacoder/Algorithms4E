@@ -306,6 +306,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         rb.print();
         StdOut.println(rb.get("R"));
         StdOut.println(rb.get("Z"));
+        StdOut.println("All height: " + rb.pureHeight());
     }
 
     public static void main(String[] args){
