@@ -151,3 +151,8 @@ To fix it, run this command:
 
 Where :0 would mean the first X server running. If you are running several X servers (for example Xvnc) on the target host, :0 may become :1 or another number, depending on X server configuration.
 
+#### 2020-04-26
+10. Recomended vscode extension
+    1. Better Comments: very nice colorized comments, all my comments are based on it.
+    2. Bracket Pair Colorizer: help to identify bracket pairs.
+     
