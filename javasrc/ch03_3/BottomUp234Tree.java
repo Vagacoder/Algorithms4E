@@ -144,7 +144,6 @@ public class BottomUp234Tree<Key extends Comparable<Key>, Value> {
     }
 
     private Node put(Node h, Key key, Value value) {
-        // todo
         if (h == null) {
             return new Node(key, value, 1, RED);
         }
@@ -202,15 +201,15 @@ public class BottomUp234Tree<Key extends Comparable<Key>, Value> {
     }
 
     public static void check() {
-        BottomUp234Tree<String, Integer> t234 = new BottomUp234Tree<>();
+        BottomUp234Tree<String, Integer> b234 = new BottomUp234Tree<>();
         String[] strs = {"S", "E", "A", "R", "C", "H", "X", "M", "P", "L"};
         for(int i =0; i< strs.length;i++){
-            t234.put(strs[i], i);
+            b234.put(strs[i], i);
         }
-        t234.print();
-        StdOut.println(t234.get("R"));
-        StdOut.println(t234.get("Z"));
-        StdOut.println("All height: " + t234.pureHeight());
+        b234.print();
+        StdOut.println(b234.get("R"));
+        StdOut.println(b234.get("Z"));
+        StdOut.println("All height: " + b234.pureHeight());
     }
 
     public static void main(String[] args){
