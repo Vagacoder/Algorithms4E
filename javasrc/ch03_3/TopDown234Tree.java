@@ -18,7 +18,7 @@ to Exercise 3.3.25 that does not use recursion.
 
 * 3.3.27 Allow right-leaning red links. Develop a modified version of your solution to
 Exercise 3.3.25 that allows right-leaning red links in the tree.
-
+! NOT DONE YET
 */
 
 import lib.*;
@@ -203,16 +203,161 @@ public class TopDown234Tree<Key extends Comparable<Key>, Value>{
     // * 3.3.26
     public void putNoRecursive(Key key, Value value){
         Node cur = this.root;
+        Node parent = null;
+        // ? Cases are list on P.441, left panel, from top to bottom
+        // ? empty tree
         if(cur == null){
             this.root = new Node(key, value, 1, BLACK);
+            return;
+        }
+        // ? case 1, at root
+        if(isRed(root.left) && isRed(root.right)){
+            root.left.color = BLACK;
+            root.right.color = BLACK;
         }
 
-        while (cur.left != null && cur.right != null){
-
+        // ? keep going down until ??? 
+        // ? since this is left-lean, bottom node right must be null.
+        while (cur.right != null){
+            int cmp = key.compareTo(cur.key);
+            if(cmp < 0){
+                if(is4Node(cur.left)){
+                    // ? case 2
+                    flipColor(cur.left);
+                }else if(is3Node(cur) && cur.left != null && key.compareTo(cur.left.key)<0){
+                    // ? case 4
+                    if(is4Node(cur.left.left)){
+                        flipColor(cur.left.left);
+                        if(parent.left == cur){
+                            parent.left = rotateRight(cur);
+                            cur = parent.left;
+                        } else {
+                            parent.right = rotateRight(cur);
+                            cur = parent.right;
+                        }
+                    }
+                }else if(is3Node(cur) && cur.left != null && key.compareTo(cur.left.key)>0){
+                    // ? case 5
+                    if(is4Node(cur.left.right)){
+                        flipColor(cur.left.right);
+                        if(parent.left == cur){
+                            Node x = cur.left.right;
+                            cur.left.right = x.left;
+                            x.left = cur.left;
+                            cur.left = x.right;
+                            x.right = cur;
+                            x.color = cur.color;
+                            cur.color = RED;
+                            x.N = cur.N;
+                            cur.N = 1 + size(cur.left) + size(cur.right);
+                            x.left.N = 1 + size(x.left.left) + size(x.left.right);
+                            parent.left = x;
+                            cur = parent.left;
+                        }else {
+                            Node x = cur.left.right;
+                            cur.left.right = x.left;
+                            x.left = cur.left;
+                            cur.left = x.right;
+                            x.right = cur;
+                            x.color = cur.color;
+                            cur.color = RED;
+                            x.N = cur.N;
+                            cur.N = 1 + size(cur.left) + size(cur.right);
+                            x.left.N = 1 + size(x.left.left) + size(x.left.right);
+                            parent.right = x;
+                            cur = parent.right;
+                        }
+                        
+                    }
+                }
+                parent = cur;
+                cur = cur.left;
+            } else if(cmp > 0){
+                if(is2Node(cur) && is4Node(cur.right)){
+                    // ? case 3
+                    flipColor(cur.right);
+                    if(parent != null && parent.left != null && parent.left == cur){
+                        parent.left = rotateLeft(cur);
+                        cur = parent.left;
+                    }else if (parent != null){
+                        parent.right = rotateLeft(cur);
+                        cur = parent.right;
+                    }
+                }else if(is3Node(cur) && is4Node(cur.right)){
+                    // ? case 6
+                    flipColor(cur.right);
+                }
+                parent = cur;
+                cur = cur.right;
+            }else {
+                cur.value = value;
+                return; // no need update N
+            }
         }
 
+        // ? Insert at bottom
+        int cmp = key.compareTo(cur.key);
+        if(cur.left == null){
+            // ? case 7, insert to 2 node at the bottom
+            if(cmp < 0){
+                cur.left = new Node(key, value, 1, RED);
+                cur.N++;
+            }else if(cmp > 0){
+                cur.right = new Node(key, value, 1, RED);
+                if(parent.left == cur){
+                    parent.left = rotateLeft(cur); 
+                }else {
+                    parent.right = rotateLeft(cur); 
+                }
+            }else {
+                cur.value = value;
+                return; // no need update N
+            }
+        }else {
+            // ? case 8, insert to 3 node at the bottom
+            if(cmp < 0){
+                int cmp2 = key.compareTo(cur.left.key);
+                if(cmp2 < 0){
+                    cur.left.left = new Node(key, value, 1, RED);
+                    cur.N++;
+                    if(cur == root){
+                        root = rotateRight(cur);  
+                    } else{
+                        if(parent.left == cur){
+                            parent.left = rotateRight(cur); 
+                        }else {
+                            parent.right = rotateRight(cur); 
+                        }
+                    }
+                }else if(cmp>0){
+                    cur.left.right = new Node(key, value, 1, RED);
+                    cur.left = rotateLeft(cur.left);
+                    if(cur == root){
+                        root = rotateRight(cur);  
+                    }else {
+                        if(parent.left == cur){
+                            parent.left = rotateRight(cur); 
+                        }else {
+                            parent.right = rotateRight(cur); 
+                        }
+                    }
+                }else{
+                    cur.left.value = value;
+                    return;     // no need update N
+                }
+            }else if(cmp > 0){
+                cur.right = new Node(key, value, 1, RED);
+                cur.N++;
+            }else{
+                cur.value = value;
+                return;     // no need update N
+            }
+        }
 
+        // ! call recursiveUpdateN(root)
     }
+
+
 
     private boolean is4Node(Node h){
         if(h == null){
@@ -262,7 +407,7 @@ public class TopDown234Tree<Key extends Comparable<Key>, Value>{
         TopDown234Tree<String, Integer> t234 = new TopDown234Tree<>();
         String[] strs = {"S", "E", "A", "R", "C", "H", "X", "M", "P", "L"};
         for(int i =0; i< strs.length;i++){
-            t234.put(strs[i], i);
+            t234.putNoRecursive(strs[i], i);
         }
         t234.print();
         StdOut.println(t234.get("R"));

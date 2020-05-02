@@ -13,6 +13,11 @@ in the worst case: search, insertion, finding the minimum, finding the maximum,
 floor, ceiling, rank, select, delete the minimum, delete the maximum, delete, and
 range count.
 
+* 3.3.39 Delete the minimum. 
+Implement the deleteMin() operation for red-black BSTs by maintaining the correspondence 
+with the transformations given in the text for moving down the left spine of the 
+tree while maintaining the invariant that the current node is not a 2-node.
+
 */
 
 import lib.*;
@@ -263,8 +268,22 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         }
     }
 
+    // * 3.3.29
     public void deleteMin(){
+        root = deleteMin(root);
+    }
 
+    private Node deleteMin(Node h){
+        if(h.left == null){
+            return null;
+        }
+
+        h.left = deleteMin(h.left);
+        if(h.left == null && h.right != null){
+            h = rotateLeft(h);
+        }
+        h.N = 1 + size(h.left) + size(h.right);
+        return h;
     }
 
     public void deleteMax() {
@@ -307,6 +326,9 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         StdOut.println(rb.get("R"));
         StdOut.println(rb.get("Z"));
         StdOut.println("All height: " + rb.pureHeight());
+
+        rb.deleteMin();
+        rb.print();
     }
 
     public static void main(String[] args){
