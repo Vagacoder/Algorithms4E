@@ -269,20 +269,67 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     // * 3.3.29
+    // ? check P. 442 for cases
     public void deleteMin(){
+        // ? case #1 root with 2x 2-nodes
+        if(root.left != null && root.right!=null & !isRed(root.left)&& !isRed(root.right)){
+            root.left.color = RED;
+            root.right.color = RED;
+        }
+
         root = deleteMin(root);
+        if(root != null){
+            root.color = BLACK;
+        }
     }
 
     private Node deleteMin(Node h){
+        // ? case #5 at the bottom
         if(h.left == null){
             return null;
         }
 
+        if(is2Node(h.left)){
+            if(isRed(h.right.left)){
+                // ? case # 2 and 3
+                Node x = h.right;
+                Node y = x.left;
+                h.right = y.left;
+                x.left = y.right;
+                y.left = h;
+                y.right = x;
+                y.N = h.N;
+                y.color = h.color;
+                h.N = 1 + size(h.left) + size(h.right);
+                h.color = BLACK;
+                h.left.color = RED;
+                x.N = 1 + size(x.left) + size(x.right);
+                h = y;
+            }
+            if(!isRed(h.left) && !isRed(h.right)){
+                // ? case #4
+                h.color = !h.color;
+                h.left.color = !h.left.color;
+                h.right.color = !h.right.color;
+            }
+        }
+
+        // ? recursive call to delete min
         h.left = deleteMin(h.left);
-        if(h.left == null && h.right != null){
+
+        // TODO check balance on root
+        // ? Re-balance on the way up
+        if (isRed(h.right) && !isRed(h.left)){
             h = rotateLeft(h);
         }
+        if (isRed(h.left)&& isRed(h.left.left)){
+            h = rotateRight(h);
+        }
+        if(isRed(h.left) && isRed(h.right)){
+            flipColor(h);
+        }
         h.N = 1 + size(h.left) + size(h.right);
+
         return h;
     }
 
@@ -292,6 +339,27 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
     public void delete(Key key){
 
+    }
+
+    private boolean is4Node(Node h){
+        if(h == null){
+            return false;
+        }
+        return isRed(h.left) && isRed(h.right);
+    }
+
+    private boolean is3Node(Node h){
+        if(h == null){
+            return false;
+        }
+        return !isRed(h.right) && isRed(h.left);
+    }
+
+    private boolean is2Node(Node h){
+        if(h == null){
+            return false;
+        }
+        return !isRed(h) && !isRed(h.left) && !isRed(h.right);
     }
 
     // * official recursive method
@@ -328,6 +396,37 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         StdOut.println("All height: " + rb.pureHeight());
 
         rb.deleteMin();
+        rb.print();
+        StdOut.println("All height: " + rb.pureHeight());
+        StdOut.println();
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
+
+        // TODO: here is a problem, debug it
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
         rb.print();
     }
 

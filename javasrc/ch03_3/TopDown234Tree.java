@@ -111,11 +111,45 @@ public class TopDown234Tree<Key extends Comparable<Key>, Value>{
     }
 
     public void put(Key key, Value value){
-        root = put(root, key, value);
+        root = put1(root, key, value);
         root.color = BLACK;
     }
 
-    private Node put(Node h, Key key, Value value){
+    // !!! Very smart implementation for 2-3-4 tree!!!
+    private Node put0(Node h, Key key, Value value){
+        // ! whenever insert a new Noed, it is always RED!
+        if(h == null){
+            return new Node(key, value, 1, RED);
+        }
+
+        // ! move flip color here IS the trick of this implementation
+        if(isRed(h.left) && isRed(h.right)){
+            flipColor(h);
+        }
+
+        int cmp = key.compareTo(h.key);
+        if(cmp < 0){
+            h.left = put0(h.left, key, value);
+        } else if (cmp > 0){
+            h.right = put0(h.right, key, value);
+        }else{
+            h.value = value;
+        }
+
+        // ! Red-Black BST specific operations
+        if (isRed(h.right) && !isRed(h.left)){
+            h = rotateLeft(h);
+        }
+        if (isRed(h.left)&& isRed(h.left.left)){
+            h = rotateRight(h);
+        }
+
+
+        h.N = 1 + size(h.left) + size(h.right);
+        return h;
+    }
+
+    private Node put1(Node h, Key key, Value value){
 
         if(h == null){
             return new Node(key, value, 1, RED);
@@ -163,7 +197,7 @@ public class TopDown234Tree<Key extends Comparable<Key>, Value>{
                     h = x;
                 }
             }
-            h.left = put(h.left, key, value);
+            h.left = put1(h.left, key, value);
         } else if (cmp > 0){
             if(is2Node(h) && is4Node(h.right)){
                 // ? case 3
@@ -181,7 +215,7 @@ public class TopDown234Tree<Key extends Comparable<Key>, Value>{
                 // ? case 6
                 flipColor(h.right);
             }
-            h.right = put(h.right, key, value);
+            h.right = put1(h.right, key, value);
         } else{
             h.value = value;
         }
@@ -377,7 +411,7 @@ public class TopDown234Tree<Key extends Comparable<Key>, Value>{
         if(h == null){
             return false;
         }
-        return !isRed(h.left) && !isRed(h.right);
+        return !isRed(h) && !isRed(h.left) && !isRed(h.right);
     }
 
     public int pureHeight() {
