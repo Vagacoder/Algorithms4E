@@ -83,6 +83,46 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         h.right.color = BLACK;
     }
 
+    // ! 4 helpers from official implementation
+    private void flipColors(Node h) {
+        // h must have opposite color of its two children
+        h.color = !h.color;
+        h.left.color = !h.left.color;
+        h.right.color = !h.right.color;
+    }
+    // ! Assuming that h is red and both h.left and h.left.left
+    // ! are black, make h.left or one of its children red.
+    private Node moveRedLeft(Node h) {
+        flipColors(h);
+        if (isRed(h.right.left)) { 
+            h.right = rotateRight(h.right);
+            h = rotateLeft(h);
+            flipColors(h);
+        }
+        return h;
+    }
+
+    // ! Assuming that h is red and both h.right and h.right.left
+    // ! are black, make h.right or one of its children red.
+    private Node moveRedRight(Node h) {
+        flipColors(h);
+        if (isRed(h.left.left)) { 
+            h = rotateRight(h);
+            flipColors(h);
+        }
+        return h;
+    }
+
+    // ! restore red-black tree invariant
+    private Node balance(Node h) {
+        if (isRed(h.right))                      h = rotateLeft(h);
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left) && isRed(h.right))     flipColors(h);
+
+        h.N = size(h.left) + size(h.right) + 1;
+        return h;
+    }
+
     public int size(Node x){
         if(x == null){
             return 0;
@@ -268,11 +308,16 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    // * 3.3.29
+    // * 3.3.29 
+    // ! to study play check the official method in RedBlackBSTx.java
     // ? check P. 442 for cases
     public void deleteMin(){
+        if(root == null){
+            return;
+        }
         // ? case #1 root with 2x 2-nodes
-        if(root.left != null && root.right!=null & !isRed(root.left)&& !isRed(root.right)){
+        if(root.left != null && root.right!=null && is2Node(root.left) && 
+        is2Node(root.right) && !isRed(root.left)&& !isRed(root.right)){
             root.left.color = RED;
             root.right.color = RED;
         }
@@ -317,7 +362,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         // ? recursive call to delete min
         h.left = deleteMin(h.left);
 
-        // TODO check balance on root
         // ? Re-balance on the way up
         if (isRed(h.right) && !isRed(h.left)){
             h = rotateLeft(h);
@@ -333,12 +377,109 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         return h;
     }
 
-    public void deleteMax() {
-        
+    // * copied from official implementation
+    public void deleteMinx() {
+        if (root == null) {
+            return;
+        }
+
+        // ! Ensure every node on the path is Not a 2-node. Starting at root
+        // if both children of root are black, set root to red
+        if (!isRed(root.left) && !isRed(root.right))
+            root.color = RED;
+
+        root = deleteMinx(root);
+        if (root == null) root.color = BLACK;
+        // assert check();
     }
 
-    public void delete(Key key){
+    // delete the key-value pair with the minimum key rooted at h
+    private Node deleteMinx(Node h) { 
+        if (h.left == null)
+            return null;
 
+        if (!isRed(h.left) && !isRed(h.left.left))
+            h = moveRedLeft(h);
+
+        h.left = deleteMin(h.left);
+        return balance(h);
+    }
+
+    // * copied from official implementation
+    public void deleteMax() {
+        if (root == null){
+            return;
+        }
+
+        // if both children of root are black, set root to red
+        if (!isRed(root.left) && !isRed(root.right)){
+            root.color = RED;
+        }
+
+        root = deleteMax(root);
+        if (root == null){
+            root.color = BLACK;
+        }
+    }
+
+    // delete the key-value pair with the maximum key rooted at h
+    private Node deleteMax(Node h) { 
+        if (isRed(h.left))
+            h = rotateRight(h);
+
+        if (h.right == null)
+            return null;
+
+        if (!isRed(h.right) && !isRed(h.right.left))
+            h = moveRedRight(h);
+
+        h.right = deleteMax(h.right);
+
+        return balance(h);
+    }
+
+    public void delete(Key key) { 
+        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+        if (!contains(key)) return;
+
+        // if both children of root are black, set root to red
+        if (!isRed(root.left) && !isRed(root.right))
+            root.color = RED;
+
+        root = delete(root, key);
+        if (root == null) root.color = BLACK;
+        // assert check();
+    }
+
+    // delete the key-value pair with the given key rooted at h
+    private Node delete(Node h, Key key) { 
+        // assert get(h, key) != null;
+
+        if (key.compareTo(h.key) < 0)  {
+            if (!isRed(h.left) && !isRed(h.left.left))
+                h = moveRedLeft(h);
+            h.left = delete(h.left, key);
+        }
+        else {
+            if (isRed(h.left))
+                h = rotateRight(h);
+            if (key.compareTo(h.key) == 0 && (h.right == null))
+                return null;
+            if (!isRed(h.right) && !isRed(h.right.left))
+                h = moveRedRight(h);
+            if (key.compareTo(h.key) == 0) {
+                Node x = min(h.right);
+                h.key = x.key;
+                h.value = x.value;
+                h.right = deleteMin(h.right);
+            }
+            else h.right = delete(h.right, key);
+        }
+        return balance(h);
+    }
+
+    public boolean contains(Key key) {
+        return get(key) != null;
     }
 
     private boolean is4Node(Node h){
@@ -419,8 +560,18 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         StdOut.println("All height: " + rb.pureHeight());
         rb.print();
         StdOut.println();
-
-        // TODO: here is a problem, debug it
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
+        rb.deleteMin();
+        StdOut.println("All height: " + rb.pureHeight());
+        rb.print();
+        StdOut.println();
         rb.deleteMin();
         StdOut.println("All height: " + rb.pureHeight());
         rb.print();
