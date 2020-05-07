@@ -132,6 +132,11 @@ public class SequentialSearchST<Key, Value> {
         return lq;
     }
 
+    public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
+        return get(key) != null;
+    }
+
     public void print(){
         Node cur = this.first;
         while(cur != null){
