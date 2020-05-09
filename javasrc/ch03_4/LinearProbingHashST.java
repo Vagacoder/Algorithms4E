@@ -1,5 +1,7 @@
 package javasrc.ch03_4;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
 * Algorithm 3.6 Hashing with linear probing. P.470
 
@@ -21,6 +23,16 @@ an empty table. Under Assumption J, any sequence of t search, insert, and delete
 symbol-table operations is executed in expected time proportional to t and with
 memory usage always within a constant factor of the number of keys in the table.
 
+* 3.4.19 Implement keys() for SeparateChainingHashST and LinearProbingHashST
+
+* 3.4.20 Add a method to LinearProbingHashST that computes the average cost of a
+search hit in the table, assuming that each key in the table is equally likely 
+to be sought.
+
+* 3.4.21 Add a method to LinearProbingHashST that computes the average cost of a
+search miss in the table, assuming a random hash function. Note : You do not have to
+compute any hash functions to solve this problem.
+
 
 */
 
@@ -31,11 +43,17 @@ public class LinearProbingHashST<Key, Value> {
     // * Number of key-value pairs in table
     private int N;
     // * size of linear-probing table
-    private int M = 16;
+    private int M = 28;
     // * the keys
     private Key[] keys;
     // * values
     private Value[] values;
+
+    // * 3.4.20 and 3.4.21
+    private int totalSearch = 0;
+    private int totalCompare = 0;
+    private int totalMiss = 0;
+
 
     public LinearProbingHashST() {
         keys = (Key[]) new Object[M];
@@ -83,9 +101,16 @@ public class LinearProbingHashST<Key, Value> {
         this.N++;
     }
 
+    // * 3.4.20 and 3.4.21
     public Value get(Key key) {
+        this.totalSearch++;
+
         for (int i = hash(key); keys[i] != null; i = (i + 1) % M) {
+            this.totalCompare++;
+            this.totalMiss++;
+
             if (keys[i].equals(key)) {
+                this.totalMiss--;
                 return values[i];
             }
         }
@@ -141,6 +166,35 @@ public class LinearProbingHashST<Key, Value> {
         }
     }
 
+    // * 3.4.19
+    public Iterable<Key> keys(){
+        LinkedListQueue<Key> keys = new LinkedListQueue<>();
+        for(int i = 0; i < this.keys.length; i++){
+            if(this.keys[i] != null){
+                keys.enqueue(this.keys[i]);
+            }
+        }
+        return keys;
+    }
+
+    // * 3.4.20
+    public int getAverageCost(){
+        if(this.totalSearch != 0){
+            return this.totalCompare / this.totalSearch;
+        }else{
+            return 0;
+        }
+    }
+
+    // * 3.4.21
+    public int getAverageMiss(){
+        if(this.totalSearch != 0){
+            return this.totalMiss / this.totalSearch;
+        }else{
+            return 0;
+        }
+    }
+
     public boolean contains(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to contains() is null");
         return get(key) != null;
@@ -158,9 +212,33 @@ public class LinearProbingHashST<Key, Value> {
         for(int i =0; i < keys.length; i++){
             lpTable.put(keys[i], i);
         }
+        StdOut.println(lpTable.getAverageCost());
+        for(String key: lpTable.keys()){
+            StdOut.println(key);
+        }
+        StdOut.println();
         lpTable.print();
+
+        StdOut.println();
         lpTable.delete("C");
         lpTable.print();
+
+        StdOut.println();
+        lpTable.get("A");
+        StdOut.println(lpTable.getAverageCost());
+        StdOut.println(lpTable.getAverageMiss());
+        lpTable.get("E");
+        StdOut.println(lpTable.getAverageCost());
+        StdOut.println(lpTable.getAverageMiss());
+        lpTable.get("X");
+        StdOut.println(lpTable.getAverageCost());
+        StdOut.println(lpTable.getAverageMiss());
+        lpTable.get("P");
+        StdOut.println(lpTable.getAverageCost());
+        StdOut.println(lpTable.getAverageMiss());
+        lpTable.get("L");
+        StdOut.println(lpTable.getAverageCost());
+        StdOut.println(lpTable.getAverageMiss());
     }
 
     public static void main(String[] args){

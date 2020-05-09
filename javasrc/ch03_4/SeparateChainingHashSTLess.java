@@ -11,8 +11,6 @@ for which the field is greater than a given integer k.
 
 ! Note : This extra functionality is useful in implementing the symbol table for a compiler.
 
-
-
 */
 
 import lib.*;
