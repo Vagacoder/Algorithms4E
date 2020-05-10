@@ -33,12 +33,20 @@ to be sought.
 search miss in the table, assuming a random hash function. Note : You do not have to
 compute any hash functions to solve this problem.
 
+* 3.4.26 Lazy delete for linear probing. Add to LinearProbingHashST a delete()
+method that deletes a key-value pair by setting the value to null (but not removing
+the key) and later removing the pair from the table in resize(). Your primary chal-
+lenge is to decide when to call resize(). Note : You should overwrite the null value if
+a subsequent put() operation associates a new value with the key. Make sure that your
+program takes into account the number of such tombstone items, as well as the number
+of empty positions, in making the decision whether to expand or contract the table.
+
 
 */
 
 import lib.*;
 
-public class LinearProbingHashST<Key, Value> {
+public class LinearProbingHashST2<Key, Value> {
 
     // * Number of key-value pairs in table
     private int N;
@@ -55,12 +63,12 @@ public class LinearProbingHashST<Key, Value> {
     private int totalMiss = 0;
 
 
-    public LinearProbingHashST() {
+    public LinearProbingHashST2() {
         keys = (Key[]) new Object[M];
         values = (Value[]) new Object[M];
     }
 
-    public LinearProbingHashST(int n) {
+    public LinearProbingHashST2(int n) {
         this.M = n;
         keys = (Key[]) new Object[M];
         values = (Value[]) new Object[M];
@@ -72,10 +80,24 @@ public class LinearProbingHashST<Key, Value> {
     }
 
     private void resize(int n) {
-        LinearProbingHashST<Key, Value> temp;
-        temp = new LinearProbingHashST<>(n);
+        LinearProbingHashST2<Key, Value> temp;
+        temp = new LinearProbingHashST2<>(n);
         for(int i = 0; i < M; i++){
             if(keys[i] != null){
+                temp.put(keys[i], values[i]);
+            }
+        }
+        this.keys = temp.keys;
+        this.values = temp.values;
+        this.M = temp.M;
+    }
+
+    // * 3.4.26 
+    private void resizeLazy(int n) {
+        LinearProbingHashST2<Key, Value> temp;
+        temp = new LinearProbingHashST2<>(n);
+        for(int i = 0; i < M; i++){
+            if(keys[i] != null&& values[i] != null){
                 temp.put(keys[i], values[i]);
             }
         }
@@ -117,6 +139,7 @@ public class LinearProbingHashST<Key, Value> {
         return null;
     }
 
+    // * 3.4.29
     public void delete(Key key) {
         int hash = hash(key);
         int i;
@@ -126,6 +149,30 @@ public class LinearProbingHashST<Key, Value> {
                 if (keys[i].equals(key)) {
                     keys[i] = null;
                     values[i] = null;
+                    this.N--;
+                    found = true;
+                }
+            }else{
+                Key tempKey = keys[i];
+                Value tempValue = values[i];
+                keys[i] = null;
+                values[i] = null;
+                N--;
+                put(tempKey, tempValue);
+            }
+        }
+    }
+
+    // * 3.4.26
+    public void deleteLazy(Key key) {
+        int hash = hash(key);
+        int i;
+        boolean found = false;
+        for (i = hash; keys[i] != null; i = (i + 1) % M) {
+            if (!found) {
+                if (keys[i].equals(key)) {
+                    keys[i] = null;
+                    // values[i] = null;
                     this.N--;
                     found = true;
                 }
@@ -208,7 +255,7 @@ public class LinearProbingHashST<Key, Value> {
     }
 
     public static void check(){
-        LinearProbingHashST<String, Integer> lpTable = new LinearProbingHashST<>();
+        LinearProbingHashST2<String, Integer> lpTable = new LinearProbingHashST2<>();
         String[] keys = {"S", "E", "A", "R", "C", "H", "E","X", "A", "M", "P", "L", "E"};
         for(int i =0; i < keys.length; i++){
             lpTable.put(keys[i], i);

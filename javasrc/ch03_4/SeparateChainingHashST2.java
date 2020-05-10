@@ -26,6 +26,21 @@ to keep the average list size less than the specified value, and use the techniq
 on page 478 to ensure that the modulus for hash() is prime.
 
 * 3.4.19 Implement keys() for SeparateChainingHashST and LinearProbingHashST
+
+* 3.4.27 Double probing. Modify SeparateChainingHashST to use a second hash func-
+tion and pick the shorter of the two lists. Give a trace of the process of inserting the keys
+E A S Y Q U T I O N in that order into an initially empty table of size M =3 using
+the function 11 k % M (for the kth letter) as the first hash function and the function
+17 k % M (for the kth letter) as the second hash function. Give the average number of
+probes for random search hit and search miss in this table.
+
+* 3.4.30 Chi-square statistic. Add a method to SeparateChainingHashST to compute
+the Chi 2 statistic for the hash table. With N keys and table size M, this number 
+is defined by the equation: ... 
+
+
+
+
 */
 
 import lib.*;
@@ -83,6 +98,20 @@ public class SeparateChainingHashST2<Key, Value> {
             t = t % primes[lgM+5];
         }
         return t % M;
+    }
+
+    // * 3.4.27
+    private int hash11(char c){
+        int k = c - 'a';
+        int t = 11 * k % M;
+        return t;
+    }
+
+    // * 3.4.27
+    private int hash17(char c){
+        int k = c - 'a';
+        int t = 17 * k % M;
+        return t;
     }
 
     // * return a non-negative int, used as array index
@@ -145,6 +174,18 @@ public class SeparateChainingHashST2<Key, Value> {
         return keys;
     }
 
+    // * 3.4.30
+    public double getChiSquare(){
+        double sumOfSq = 0;
+
+        for(int i = 0; i < this.M; i++){
+            int temp = table[i].size();
+            sumOfSq += Math.pow((temp - (this.N * 1.0/this.M)), 2);
+        }
+
+        return sumOfSq * this.M / this.N;
+    }
+
     public void print(){
         for(int i = 0; i < this.M; i++){
             this.table[i].print();
@@ -162,6 +203,7 @@ public class SeparateChainingHashST2<Key, Value> {
         }
         
         StdOut.println();
+        StdOut.println(scTable.getChiSquare());
         scTable.print();
 
         StdOut.println();

@@ -30,7 +30,7 @@ public class Transaction implements Comparable<Transaction> {
     private final String  who;      // customer
     private final Date    when;     // date
     private final double  amount;   // amount
-
+    private int hash = -1;
 
     /**
      * Initializes a new transaction from the given arguments.
@@ -133,16 +133,21 @@ public class Transaction implements Comparable<Transaction> {
     }
 
 
+    // * 3.4.25
     /**
      * Returns a hash code for this transaction.
      *
      * @return a hash code for this transaction
      */
     public int hashCode() {
+        if(this.hash >= 0){
+            return this.hash;
+        }
         int hash = 1;
         hash = 31*hash + who.hashCode();
         hash = 31*hash + when.hashCode();
         hash = 31*hash + ((Double) amount).hashCode();
+        this.hash = hash;
         return hash;
         // return Objects.hash(who, when, amount);
     }
