@@ -11,7 +11,7 @@ import lib.*;
 public class FileIndex {
 
     public static void main(String[] args) {
-        SeparateChainingHashST<String, SET<File>> st = new SeparateChainingHashST<>();
+        SeparateChainingHashST<String, SETx<File>> st = new SeparateChainingHashST<>();
 
         for (String filename : args) {
             File file = new File(filename);
@@ -19,16 +19,16 @@ public class FileIndex {
             while (!in.isEmpty()) {
                 String word = in.readString();
                 if (st.get(word) == null) {
-                    st.put(word, new SET<File>());
+                    st.put(word, new SETx<File>());
                 }
-                SET<File> set = st.get(word);
+                SETx<File> set = st.get(word);
                 set.add(file);
             }
         }
 
         while (!StdIn.isEmpty()) {
             String query = StdIn.readString();
-            SET<File> files = st.get(query);
+            SETx<File> files = st.get(query);
             if (files != null) {
                 for (File file : files) {
                     StdOut.println("  " + file.getName());

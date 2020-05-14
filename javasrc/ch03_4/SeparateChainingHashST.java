@@ -104,6 +104,10 @@ public class SeparateChainingHashST<Key, Value> {
         return keys;
     }
 
+    public int size(){
+        return this.N;
+    }
+
     public void print(){
         for(int i = 0; i < this.M; i++){
             this.table[i].print();

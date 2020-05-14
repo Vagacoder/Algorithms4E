@@ -123,7 +123,11 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         return h;
     }
 
-    public int size(Node x){
+    public int size(){
+        return size(this.root);
+    }
+
+    private int size(Node x){
         if(x == null){
             return 0;
         }else {

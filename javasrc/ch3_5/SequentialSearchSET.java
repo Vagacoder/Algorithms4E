@@ -1,49 +1,54 @@
 package javasrc.ch3_5;
 
-import javasrc.ch03_3.RedBlackBST;
+import javasrc.ch03_1.SequentialSearchST;
 
 /*
-* * 3.5.1 Implement SET and HashSET as “wrapper class” clients of ST and HashST, 
-respectively (provide dummy values and ignore them).
+* 3.5.2 Develop a SET implementation SequentialSearchSET by starting with the code
+for SequentialSearchST and eliminating all of the code involving values.
+
 */
 
 import lib.*;
 
-public class SET<Key extends Comparable<Key>> implements ISet<Key>{
+public class SequentialSearchSET<Key> implements ISet<Key>{
 
-    private RedBlackBST<Key, Integer> tree;
-    
-    public SET(){
-        tree = new RedBlackBST<>();
-    }   
+    private SequentialSearchST<Key, Integer> st;
+
+    public SequentialSearchSET(){
+        st = new SequentialSearchST<>();
+    }
 
     public void add(Key key){
-        tree.put(key, 1);
+        st.put(key, 1);
     }
 
     public void delete(Key key){
-        tree.delete(key);
+        st.delete(key);
     }
 
     public boolean contains(Key key){
-        return tree.contains(key);
+        return st.contains(key);
     }
 
     public boolean isEmpty(){
-        return tree.size() == 0;
+        return st.size() == 0;
     }
 
     public int size(){
-        return tree.size();
+        return st.size();
+    }
+
+    public String toString(){
+        return "Not implemented";
     }
 
     public void print(){
-        tree.print();
+        st.print();
     }
 
     public static void main(String[] args){
         String[] keys = {"S", "E", "A", "R", "C", "H", "E","X", "A", "M", "P", "L", "E"};
-        SET<String> set = new SET<>();
+        SequentialSearchSET<String> set = new SequentialSearchSET<>();
         for(int i =0; i < keys.length; i++){
             set.add(keys[i]);
         }
