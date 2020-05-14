@@ -28,7 +28,7 @@ public class LookupIndex {
                 if(st.get(key) == null){
                     st.put(key, new LinkedListQueue<String>());
                 }
-                if(ts.get(key) == null){
+                if(ts.get(value) == null){
                     ts.put(value, new LinkedListQueue<String>());
                 }
                 st.get(key).enqueue(value);
