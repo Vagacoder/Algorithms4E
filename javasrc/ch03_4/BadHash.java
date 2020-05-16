@@ -13,7 +13,7 @@ think it was abandoned in favor of the one in the previous exercise.
 
 import lib.*;
 
-public class BasHash {
+public class BadHash {
     
     public static long hashCode(String s){
         long hash = 0;

@@ -32,6 +32,9 @@ public class HashSTint<Value>{
     public HashSTint(int tableSize){
         this.tableSize = tableSize;
         keys = new int[tableSize];
+        for(int i = 0; i < tableSize; i++){
+            keys[i] = Integer.MIN_VALUE;
+        }
         values = (Value[]) new Object[tableSize];
     }
 
@@ -77,7 +80,7 @@ public class HashSTint<Value>{
     public void put(int key, Value value){
         // ! using Integer.MIN_VALUE as sign of empty
         if(key == Integer.MIN_VALUE){
-            throw new IllegalArgumentException("Key out of arange");
+            throw new IllegalArgumentException("Key out of range");
         }
         if(this.size >= this.tableSize /2){
             resize(2 * tableSize);
@@ -98,7 +101,7 @@ public class HashSTint<Value>{
     public Value get(int key){
         // ! using Integer.MIN_VALUE as sign of empty
         if(key == Integer.MIN_VALUE){
-            throw new IllegalArgumentException("Key out of arange");
+            throw new IllegalArgumentException("Key out of range");
         }
 
         for(int i = hash(key); keys[i] != Integer.MIN_VALUE; i = (i+1)% tableSize){
@@ -146,7 +149,7 @@ public class HashSTint<Value>{
         HashSTint<String> intSt = new HashSTint<>();
         String[] keys = {"S", "E", "A", "R", "C", "H", "E","X", "A", "M", "P", "L", "E"};
         for(int i =0; i < keys.length; i++){
-            intSt.put(i, keys[i]);
+            intSt.put(i-5, keys[i]);
         }
 
         intSt.print();
@@ -167,6 +170,9 @@ public class HashSTint<Value>{
         StdOut.println();
         StdOut.println(intSt.get(-1));
 
+        StdOut.println();
+        intSt.delete(-4);
+        intSt.print();
     }
 
 }
