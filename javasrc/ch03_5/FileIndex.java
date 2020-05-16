@@ -1,4 +1,4 @@
-package javasrc.ch3_5;
+package javasrc.ch03_5;
 
 import java.io.File;
 import javasrc.ch03_4.SeparateChainingHashST;

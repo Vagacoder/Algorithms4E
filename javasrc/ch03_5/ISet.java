@@ -1,4 +1,4 @@
-package javasrc.ch3_5;
+package javasrc.ch03_5;
 
 public interface ISet<Key> {
     

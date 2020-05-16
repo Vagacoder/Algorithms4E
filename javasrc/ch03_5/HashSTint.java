@@ -1,4 +1,4 @@
-package javasrc.ch3_5;
+package javasrc.ch03_5;
 
 /*
 * 3.5.4 Develop classes HashSTint and HashSTdouble for maintaining sets of keys of
