@@ -152,6 +152,10 @@ public class LinearProbingHashSTdup<Key, Value> {
         }
     }
 
+    public int size(){
+        return this.N;
+    }
+
     // * 3.4.19
     public Iterable<Key> keys() {
         LinkedListQueue<Key> keys = new LinkedListQueue<>();
