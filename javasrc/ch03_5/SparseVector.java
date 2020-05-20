@@ -7,7 +7,7 @@ import java.util.Set;
 import lib.*;
 
 /*
-* Sparse vector with dot product 
+* Sparse vector with dot product. P.503
 
 * 3.5.16 Add a method sum() to SparseVector that takes a SparseVector as argument
 and returns a SparseVector that is the term-by-term sum of this vector and the argu-
@@ -19,9 +19,18 @@ case where an entry becomes 0.
 public class SparseVector {
 
     private HashMap<Integer, Double> st;
+    private int n;
 
     public SparseVector(){
         st = new HashMap<Integer, Double>();
+    }
+    public SparseVector(int n){
+        st = new HashMap<Integer, Double>();
+        this.n = n;
+    }
+
+    public int getDemision(){
+        return this.n;
     }
 
     public int size(){
