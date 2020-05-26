@@ -217,5 +217,13 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         st.put("B", 2);
 
         st.printAll();
+
+        // ! Debug this example to get better understanding on rank()
+        BinarySearchST<Integer, Integer> st1 = new BinarySearchST<>(3);
+        st1.put(1, 1);
+        st1.put(3, 3);
+        st1.put(5, 5);
+        StdOut.println(st1.rank(2));
+        StdOut.println(st1.rank(4));
     }
 }
