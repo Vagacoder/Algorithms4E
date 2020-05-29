@@ -6,20 +6,13 @@ package javasrc.ch04_1;
 
 import lib.*;
 
-public class Search{
+public abstract class Search{
 
     Search(Graph G, int s){
 
     }
 
-    public boolean marked(int v){
+    public abstract boolean marked(int v);
 
-        return false;
-    }
-
-    public int count(){
-
-        return 0;
-    }
-
+    public abstract int count();
 }
