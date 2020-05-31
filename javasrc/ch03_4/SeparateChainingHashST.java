@@ -108,6 +108,10 @@ public class SeparateChainingHashST<Key, Value> {
         return this.N;
     }
 
+    public boolean contains(Key key){
+        return get(key) != null;
+    }
+
     public void print(){
         for(int i = 0; i < this.M; i++){
             this.table[i].print();

@@ -22,7 +22,7 @@ public class Cycle {
         }
     }
 
-    // ! v = current vertex, u = vertex from
+    // ! v = current vertex, u = vertex from, current edge is from u => v
     private void dfs(Graph G, int v, int u){
         marked[v] = true;
         for(int w: G.adj(v)){       // ! w = vertex adjacent to current on
