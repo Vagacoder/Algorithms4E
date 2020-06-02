@@ -5,6 +5,8 @@ import java.util.Stack;
 /*
  * Algorithm 4.1 Depth-first search to find paths in a graph. P.536
  * 
+// ? upgraded from DepthFirstSearch.java by adding edgeTo[]
+ * 
  * Proposition A. DFS marks all the vertices connected to a given source in time 
  * proportional to the sum of their degrees. DFS allows us to provide clients 
  * with a path from a given source to any marked vertex in time proportional its 

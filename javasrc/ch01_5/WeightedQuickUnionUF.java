@@ -9,7 +9,10 @@ N sites is at most lg N.
 * Corollary. For weighted quick-union with N sites, the worst-case order of growth
 of the cost of find(), connected(), and union() is log N.
 
-
+* 4.1.8 Develop an implementation for the Search API on page 528 that uses UF, 
+ * as described in the text.
+* Implementing count() requires using a weighted UF implementation and extending 
+ * its API to use a size() method that returns wt[find(v)]
 usage:
 % java WeightedQuickUnionUF < tinyUF.txt
 4 3
@@ -134,6 +137,10 @@ public class WeightedQuickUnionUF {
         count--;
     }
 
+    // * 4.1.8
+    public int size(int i){
+        return this.size[find(i)];
+    }
 
     /**
      * Reads in a an integer {@code n} and a sequence of pairs of integers

@@ -3,6 +3,7 @@ package javasrc.ch04_1;
 /*
  * Depth-first search. P.531 
  * 
+// ? Upgrade version is DepthFirstPaths.java
  * 
  * Proposition A. DFS marks all the vertices connected to a given source in time 
  * proportional to the sum of their degrees.
