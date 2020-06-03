@@ -45,6 +45,22 @@ public class Graph {
         }
     }
 
+    public Graph(In in, String adj){
+        this(in.readInt());
+        int E = in.readInt();
+        while(in.hasNextLine()){
+            String line = in.readLine();
+            String[] vertices = line.split(" ");
+            for(int i=1; i<vertices.length; i ++){
+                addEdge(Integer.parseInt(vertices[0]), Integer.parseInt(vertices[i]));
+            }
+        }
+        if(E!= this.E){
+            StdOut.println("Miss some edge data line(s)");
+        }
+    }
+
+
     // * 4.1.3 clone constructor
     public Graph(Graph g) {
         this.V = g.V;
@@ -179,24 +195,30 @@ public class Graph {
         // check();
 
         // * 4.1.7
-        Scanner scanner = new Scanner(new File(args[0]));
-        int v = Integer.parseInt(scanner.nextLine());
-        int e = Integer.parseInt(scanner.nextLine());
-        Graph g = new Graph(v);
+        // Scanner scanner = new Scanner(new File(args[0]));
+        // int v = Integer.parseInt(scanner.nextLine());
+        // int e = Integer.parseInt(scanner.nextLine());
+        // Graph g = new Graph(v);
         
-        int lineNumber = 0;
-        while(scanner.hasNextLine()){
-            String line = scanner.nextLine();
-            String[] edge = line.trim().split(" ");
-            if(edge.length != 2){
-                throw new Exception("File format is not correct: need 2 vertices each line");
-            }
-            g.addEdge(Integer.parseInt(edge[0]), Integer.parseInt(edge[1]));
-            lineNumber++;
-        }
-        if(lineNumber != e){
-            System.out.println("Edges' number does not match header");
-        }
+        // int lineNumber = 0;
+        // while(scanner.hasNextLine()){
+        //     String line = scanner.nextLine();
+        //     String[] edge = line.trim().split(" ");
+        //     if(edge.length != 2){
+        //         throw new Exception("File format is not correct: need 2 vertices each line");
+        //     }
+        //     g.addEdge(Integer.parseInt(edge[0]), Integer.parseInt(edge[1]));
+        //     lineNumber++;
+        // }
+        // if(lineNumber != e){
+        //     System.out.println("Edges' number does not match header");
+        // }
+
+        // StdOut.println(g.toString());
+
+        // * 4.1.15
+        In in = new In(args[0]);
+        Graph g = new Graph(in, "adj");
 
         StdOut.println(g.toString());
     }
