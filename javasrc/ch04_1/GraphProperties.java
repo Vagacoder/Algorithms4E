@@ -18,6 +18,12 @@ package javasrc.ch04_1;
  * correspond to chemical bonds. Add a method wiener() to GraphProperties that 
  * returns the Wiener index of a graph.
 
+ * 4.1.18 The girth of a graph is the length of its shortest cycle. If a graph is 
+ * acyclic, then its girth is infinite. Add a method girth() to GraphProperties 
+ * that returns the girth of the graph. Hint : Run BFS from each vertex. The 
+ * shortest cycle containing s is an edge between s and some vertex v concatenated 
+ * with a shortest path between s and v (that doesn’t use the edge s-v).
+
 */
 
 import lib.*;
@@ -84,15 +90,52 @@ public class GraphProperties {
         return wiener;
     }
 
+    // * 4.1.18
     public int girth(){
+        // * check is acyclic
         Cycle cycle = new Cycle(graph);
         if(!cycle.hasCycle()){
             return -1;
         }
 
+        int shortestCycle = Integer.MAX_VALUE;
 
+        // ? i is starting vertex
+        for(int i = 0; i< this.graph.V(); i++){
 
-        return 0;
+            // ? bfp based on vertex, all paths start from i
+            BreadthFirstPaths bfp = new BreadthFirstPaths(this.graph, i);
+
+            // ? j is ending vertex, iterating all vertices in graph
+            for(int j = 0; j < this.graph.V(); j++){
+
+                // ? j should not be i, and j must connect to i
+                if(j != i && bfp.hasPathTo(j)){
+                    int s1 = Integer.MAX_VALUE;
+                    int s2 = Integer.MAX_VALUE;
+
+                    // ? check vertices surrounding with j, find 2 shortest paths
+                    for(int w: this.graph.adj(j)){
+                        int distance = bfp.distTo(w);
+                        if(distance < s1){
+                            s2 = s1;
+                            s1 = distance;
+                        }else if(distance < s2){
+                            s2 = distance;
+                        }
+                    }
+                    
+                    // ? calculate cycle lenth and compare with shortest cycle length
+                    if(s2 != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE){
+                        int currentCycle = s1 + s2 + 2;
+                        if(currentCycle < shortestCycle){
+                            shortestCycle = currentCycle;
+                        }
+                    }
+                }
+            }
+        }
+        return shortestCycle;
     }
 
     public static void check(){
@@ -121,7 +164,9 @@ public class GraphProperties {
         StdOut.println("radius: " + gp.radius());
         StdOut.println("center: " + gp.center());
         StdOut.println("wiener: " + gp.wiener());
+        StdOut.println("girth: " + gp.girth());
 
+        // ? using tinyG.txt as sample.
         StdOut.println("\n2. test tinyG.txt data");
         Graph g1 = new Graph(13);
         g1.addEdge(0, 5);
@@ -143,6 +188,7 @@ public class GraphProperties {
         StdOut.println("radius: " + gp1.radius());
         StdOut.println("center: " + gp1.center());
         StdOut.println("wiener: " + gp1.wiener());
+        StdOut.println("girth: " + gp1.girth());
     }
     public static void main(String[] args) {
         check();
