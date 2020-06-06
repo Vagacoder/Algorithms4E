@@ -26,7 +26,7 @@ import javasrc.ch03_1.SequentialSearchST;
 
 public class SeparateChainingHashST<Key, Value> {
 
-    public static final int INITIAL_SIZE = 997;
+    public static final int INITIAL_SIZE = 37;
     // * hash table size
     private int M;
     // * element number in table

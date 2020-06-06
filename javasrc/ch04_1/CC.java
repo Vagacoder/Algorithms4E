@@ -10,6 +10,11 @@ import lib.*;
  * 
  * Proposition c. DFS uses preprocessing time and space proportional to V + E to 
  * support constant-time connectivity queries in a graph.
+ * 
+ * 4.1.24 Compute the number of connected components in movies.txt, the size of 
+ * the largest component, and the number of components of size less than 10. 
+ * Find the eccentricity, diameter, radius, a center, and the girth of the largest 
+ * component in the graph. Does it contain Kevin Bacon?
  *
  */
 
@@ -53,6 +58,18 @@ public class CC {
     // * return number of connected components
     public int count(){
         return count;
+    }
+
+    // * 4.1.24
+    // * return the size of component, whose id == parameter:index.
+    public int componentSize(int index){
+        int size = 0;
+        for(int i = 0; i < this.componentId.length; i++){
+            if(this.componentId[i] == index){
+                size++;
+            }
+        }
+        return size;
     }
 
     // * client
