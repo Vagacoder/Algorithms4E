@@ -1,6 +1,9 @@
 package javasrc.ch04_1;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Stack;
+import lib.*;
 
 /*
  * Algorithm 4.1 Depth-first search to find paths in a graph. P.536
@@ -14,13 +17,13 @@ import java.util.Stack;
  * 
  */
 
-public class DepthFirstPaths extends Paths{
- 
-    private boolean[] marked;           // has dfs() been called for this vertex?
-    private int[] edgeTo;               // last vertex on known path to this vertex
+public class DepthFirstPaths extends Paths {
+
+    private boolean[] marked; // has dfs() been called for this vertex?
+    private int[] edgeTo; // last vertex on known path to this vertex
     private final int s;
 
-    public DepthFirstPaths(Graph G, int s){
+    public DepthFirstPaths(Graph G, int s) {
         marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
         this.s = s;
@@ -28,10 +31,10 @@ public class DepthFirstPaths extends Paths{
     }
 
     // ! Recursive calling dfs() is using a stack implicitly
-    private void dfs(Graph G, int v){
+    private void dfs(Graph G, int v) {
         marked[v] = true;
-        for(int w : G.adj(v)){
-            if(!marked[w]){
+        for (int w : G.adj(v)) {
+            if (!marked[w]) {
                 edgeTo[w] = v;
                 dfs(G, w);
             }
@@ -42,14 +45,14 @@ public class DepthFirstPaths extends Paths{
         return marked[v];
     }
 
-    // ! Important, understand the meaning of edgeTo[]: 
-    // !    edgeTo[w] = v  ==> a edge from v to w; v-w
+    // ! Important, understand the meaning of edgeTo[]:
+    // ! edgeTo[w] = v ==> a edge from v to w; v-w
     public Iterable<Integer> pathTo(int v) {
-        if(!hasPathTo(v)){
+        if (!hasPathTo(v)) {
             return null;
         }
         Stack<Integer> path = new Stack<>();
-        for(int x = v; x!=s; x = edgeTo[x]){
+        for (int x = v; x != s; x = edgeTo[x]) {
             path.push(x);
         }
         path.push(s);
