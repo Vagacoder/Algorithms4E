@@ -1,5 +1,6 @@
 package javasrc.ch04_1;
 
+import java.util.ArrayList;
 import java.util.Queue;
 
 import javasrc.ch01_3.LinkedListQueue;
@@ -60,16 +61,33 @@ public class CC {
         return count;
     }
 
-    // * 4.1.24
+    // * 4.1.24 helper
     // * return the size of component, whose id == parameter:index.
-    public int componentSize(int index){
+    public int componentSize(int componentIndex){
         int size = 0;
         for(int i = 0; i < this.componentId.length; i++){
-            if(this.componentId[i] == index){
+            if(this.componentId[i] == componentIndex){
                 size++;
             }
         }
         return size;
+    }
+
+    // * 4.1.24 helper
+    // * input componentIndex, return id of first vertex which belongs to this component
+    public int[] getFirstVertexId(int componentIndex){
+        ArrayList<Integer> vertices = new ArrayList<>();
+        for(int i = 0; i < this.componentId.length; i++){
+            if(this.componentId[i] == componentIndex){
+                vertices.add(i);
+            }
+        }
+        int length = vertices.size();
+        int[] result = new int[length];
+        for(int i = 0; i < length; i++){
+            result[i] = vertices.get(i);
+        }
+        return result;
     }
 
     // * client
