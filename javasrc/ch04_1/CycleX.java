@@ -167,16 +167,35 @@ public class CycleX {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        In in = new In(args[0]);
-        Graph G = new Graph(in);
-        CycleX finder = new CycleX(G);
-        if (finder.hasCycle()) {
-            for (int v : finder.cycle()) {
-                StdOut.print(v + " ");
+        // * original test
+        // In in = new In(args[0]);
+        // Graph G = new Graph(in);
+        // CycleX finder = new CycleX(G);
+        // if (finder.hasCycle()) {
+        //     for (int v : finder.cycle()) {
+        //         StdOut.print(v + " ");
+        //     }
+        //     StdOut.println();
+        // } else {
+        //     StdOut.println("Graph is acyclic");
+        // }
+
+        String filename = "data/eulerCycle.txt";
+        In in = new In(filename);
+        while(in.hasNextLine()){
+            String line = in.readLine();
+            String[] edges = line.split(" ");
+            Graph g = new Graph(10);
+            for(int i = 0; i < edges.length; i++){
+                String edge = edges[i];
+                g.addEdge(Integer.parseInt(edge.substring(0, 1)), 
+                    Integer.parseInt(edge.substring(2, 3)));
             }
+            StdOut.println(g.toString());
+
+            Cycle cy = new Cycle(g);
+            StdOut.println(cy.hasCycle());
             StdOut.println();
-        } else {
-            StdOut.println("Graph is acyclic");
         }
     }
 

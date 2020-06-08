@@ -5,6 +5,9 @@ import lib.*;
 /*
 * Cycle detection in graph. P. 547
 
+* 4.1.29 Modify Cycle so that it works even if the graph contains self-loops and 
+* parallel edges.
+
 ! Important algorithm, see comments on dfs(). Must understand it!
 */
 
@@ -26,6 +29,16 @@ public class Cycle {
     private void dfs(Graph G, int v, int u){
         marked[v] = true;
         for(int w: G.adj(v)){       // ! w = vertex adjacent to current on
+
+            // * 4.1.29 allow self loop
+            if(w == v){       
+                hasCycle = true;
+            }
+            // * 4.1.29 allow paralle loop
+            if(w == u){
+                hasCycle = true;
+            }
+
             if(!marked[w]){
                 dfs(G, w, v);
             }else if(w != u){       // ! (w is marked and w != u) means there must be another path from u to v through w
