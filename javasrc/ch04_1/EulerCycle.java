@@ -10,7 +10,8 @@ package javasrc.ch04_1;
  *  Develop a linear-time DFS-based algorithm to determine whether a graph has an 
  * Euler cycle (and if so find one).
  * 
- 
+ * To test Hamilton cycle, just check whether intance variable cycle contain all
+ * vertieces and only one of any vertex.
  */
 
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class EulerCycle {
                 cycle.add(neighborV);
                 cycle.add(thisV);
 
+                // * test Euler cycle
                 boolean areAllEdgeInCycle = true;
                 for(int i = 0; i < graph.V(); i++){
                     for(int j: graph.adj(i)){

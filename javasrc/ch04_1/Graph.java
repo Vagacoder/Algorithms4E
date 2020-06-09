@@ -18,6 +18,9 @@ import lib.*;
  * 
  * 4.1.5 Modify Graph to disallow parallel edges and self-loops.
  * 
+ * 4.1.32 Parallel edge detection. Devise a linear-time algorithm to count the 
+ * parallel edges in a graph.
+
  * 
 */
 
@@ -25,6 +28,8 @@ public class Graph {
     private final int V; // number of vertices
     private int E; // number of edges
     private BagX<Integer>[] adj; // adjacency lists
+
+    private int parallelEdge;
 
     public Graph(int V) {
         this.V = V;
@@ -84,12 +89,17 @@ public class Graph {
         return this.E;
     }
 
-    // * 4.1.5
+    // * 4.1.5, 4.1.32
     public void addEdge(int v, int w) {
+        boolean isParalle = false;
         for (int i : adj[v]) {
             if (i == w) {
-                return;
+                this.parallelEdge++;
+                isParalle = true;
             }
+        }
+        if(isParalle){
+            return;
         }
 
         adj[v].add(w); // add w to v's list
@@ -146,6 +156,12 @@ public class Graph {
             }
         }
         return count / 2;
+    }
+
+
+    // * 4.1.32
+    public int parallelEdge(){
+        return this.parallelEdge;
     }
 
     public String toString() {
