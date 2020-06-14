@@ -25,8 +25,8 @@ public class Digraph {
 
     public Digraph(In in) {
         this(in.readInt()); // read V and construct this graph
-        int E = in.readInt(); // read E
-        for (int i = 0; i < E; i++) {
+        int e = in.readInt(); // read E
+        for (int i = 0; i < e; i++) {
             int v = in.readInt(); // read a vertex
             int w = in.readInt(); // read another vertex
             addEdge(v, w); // add edge connecting them

@@ -1,8 +1,6 @@
 package javasrc.ch04_1;
 
 import java.util.ArrayList;
-import java.util.Queue;
-
 import javasrc.ch01_3.LinkedListQueue;
 import lib.*;
 

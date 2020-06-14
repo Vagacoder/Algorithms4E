@@ -28,6 +28,7 @@ public class DirectedCycle{
         }
     }
 
+    // ! onStack [] marks whether current vertex is on recursove call stack
     private void dfs(Digraph G, int v){
         onStack[v] = true;
         marked[v] = true;

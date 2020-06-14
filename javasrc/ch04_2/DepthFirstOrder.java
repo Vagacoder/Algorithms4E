@@ -1,8 +1,7 @@
 package javasrc.ch04_2;
 
-import java.util.Stack;
-
 import javasrc.ch01_3.LinkedListQueue;
+import javasrc.ch01_3.LinkedListStack;
 
 /*
  * Depth-first search vertex ordering in a digraph. P.580
@@ -14,12 +13,12 @@ public class DepthFirstOrder {
     private boolean[] marked;
     private LinkedListQueue<Integer> pre;
     private LinkedListQueue<Integer> post;
-    private Stack<Integer> reversePost;
+    private LinkedListStack<Integer> reversePost;
 
     public DepthFirstOrder(Digraph G){
         this.pre = new LinkedListQueue<>();
         this.post = new LinkedListQueue<>();
-        this.reversePost = new Stack<>();
+        this.reversePost = new LinkedListStack<>();
         marked = new boolean[G.V()];
 
         for(int v = 0; v< G.V(); v++){
