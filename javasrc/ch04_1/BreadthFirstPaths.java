@@ -51,7 +51,7 @@ public class BreadthFirstPaths extends Paths{
     }
     
     // ! Important, understand the meaning of edgeTo[]: 
-    // !    edgeTo[w] = v  ==> a edge from v to w; v-w
+    // ! edgeTo[w] = v means: an edge from v to w; v-w
     public Iterable<Integer> pathTo(int v) {
         if(!hasPathTo(v)){
             return null;

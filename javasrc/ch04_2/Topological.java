@@ -5,6 +5,11 @@ import lib.StdOut;
 /*
  * Algorithm 4.5 Topological sort. P.581
  * 
+ * Step 1: check whether a cycle;
+ * Step 2: if acyclic, get depth-first reverse post order.
+ * 
+ * Client solves the precedence-constrained scheduling problem for a SymbolDigraph.
+ * 
  * Proposition F. Reverse postorder in a DAG is a topological sort. P.582
  * 
  * Proposition G. With DFS, we can topologically sort a DAG in time proportional to V+E.

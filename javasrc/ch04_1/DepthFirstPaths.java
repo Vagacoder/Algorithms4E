@@ -1,15 +1,12 @@
 package javasrc.ch04_1;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Stack;
-import lib.*;
 
 /*
  * Algorithm 4.1 Depth-first search to find paths in a graph. P.536
- * 
-// ? upgraded from DepthFirstSearch.java by adding edgeTo[]
- * 
+  
+ ? upgraded from DepthFirstSearch.java by adding edgeTo[]
+
  * Proposition A. DFS marks all the vertices connected to a given source in time 
  * proportional to the sum of their degrees. DFS allows us to provide clients 
  * with a path from a given source to any marked vertex in time proportional its 
@@ -46,7 +43,7 @@ public class DepthFirstPaths extends Paths {
     }
 
     // ! Important, understand the meaning of edgeTo[]:
-    // ! edgeTo[w] = v ==> a edge from v to w; v-w
+    // ! edgeTo[w] = v means: an edge from v to w; v-w
     public Iterable<Integer> pathTo(int v) {
         if (!hasPathTo(v)) {
             return null;

@@ -6,8 +6,9 @@ import javasrc.ch01_3.LinkedListQueue;
 
 /*
  *
- // ! this is copied from chapter 4.1, with only change of Grapgh to Digraph
- *
+ 
+ ! this is copied from chapter 4.1, with only change of Grapgh to Digraph. P.573
+ 
  * Algorithm 4.2 Breadth-first search to find paths in a graph. P.540
  * 
  * Proposition B. For any vertex v reachable from s, BFS computes a shortest 
@@ -50,8 +51,7 @@ public class BreadthFirstPaths{
 		return marked[v];
     }
     
-    // ! Important, understand the meaning of edgeTo[]: 
-    // !    edgeTo[w] = v  ==> a edge from v to w; v-w
+    // !  edgeTo[w] = v means: an edge from v to w; v-w
     public Iterable<Integer> pathTo(int v) {
         if(!hasPathTo(v)){
             return null;

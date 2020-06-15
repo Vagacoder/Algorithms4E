@@ -4,8 +4,10 @@ import lib.*;
 
 /*
  * Algorithm 4.6 Kosaraju-Sharir algorithm for Strong Component. P.587
- * 
- * Postorder lemma. Let C be a strong component in a digraph G and let v be any 
+ 
+ ! Detailed explaination is on P.588
+  
+ * Postorder Lemma. Let C be a strong component in a digraph G and let v be any 
  * vertex not in C. If there is an edge e pointing from any vertex in C to v, 
  * then vertex v appears before every vertex in C in the reverse postorder of G^r.
  * 
@@ -15,7 +17,6 @@ import lib.*;
  * Proposition I. The Kosaraju–Sharir algorithm uses preprocessing time and space 
  * proportional to V + E to support constant-time strong connectivity queries in 
  * a digraph.
- * 
  * 
 */
 public class KosarajuSharirSCC {

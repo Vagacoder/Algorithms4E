@@ -50,6 +50,7 @@ public class Digraph {
         return adj[v];
     }
 
+    // * very useful for advanced graph algorithm
     public Digraph reverse() {
         Digraph R = new Digraph(V);
         for (int v = 0; v < V; v++) {

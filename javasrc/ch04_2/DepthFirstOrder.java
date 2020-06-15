@@ -5,7 +5,8 @@ import javasrc.ch01_3.LinkedListStack;
 
 /*
  * Depth-first search vertex ordering in a digraph. P.580
- *  
+ * 
+ * This is a helper class. Useful for Strong Connection.
  */
 
 public class DepthFirstOrder {

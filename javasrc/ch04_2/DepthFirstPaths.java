@@ -7,12 +7,15 @@ import lib.*;
 
 /*
  *
- // ! this is copied from chapter 4.1, with only change of Grapgh to Digraph
+ 
+ ! this is copied from chapter 4.1, with only change of Grapgh to Digraph. P.573
+
  *
  * Algorithm 4.1 Depth-first search to find paths in a graph. P.536
  * 
-// ? upgraded from DepthFirstSearch.java by adding edgeTo[]
- * 
+ 
+ ? upgraded from DepthFirstSearch.java by adding edgeTo[]
+  
  * Proposition A. DFS marks all the vertices connected to a given source in time 
  * proportional to the sum of their degrees. DFS allows us to provide clients 
  * with a path from a given source to any marked vertex in time proportional its 
@@ -22,8 +25,8 @@ import lib.*;
 
 public class DepthFirstPaths {
 
-    private boolean[] marked; // has dfs() been called for this vertex?
-    private int[] edgeTo; // last vertex on known path to this vertex
+    private boolean[] marked;
+    private int[] edgeTo;
     private final int s;
 
     public DepthFirstPaths(Digraph G, int s) {
@@ -33,7 +36,6 @@ public class DepthFirstPaths {
         dfs(G, s);
     }
 
-    // ! Recursive calling dfs() is using a stack implicitly
     private void dfs(Digraph G, int v) {
         marked[v] = true;
         for (int w : G.adj(v)) {
@@ -48,8 +50,7 @@ public class DepthFirstPaths {
         return marked[v];
     }
 
-    // ! Important, understand the meaning of edgeTo[]:
-    // ! edgeTo[w] = v ==> a edge from v to w; v-w
+    // ! edgeTo[w] = v means: an edge from v to w; v-w
     public Iterable<Integer> pathTo(int v) {
         if (!hasPathTo(v)) {
             return null;
