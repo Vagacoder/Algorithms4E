@@ -6,6 +6,15 @@ import lib.*;
 /*
  * Directed graph (digraph) P.569
  * 
+ * 4.2.3 Create a copy constructor for Digraph that takes as input a digraph G 
+ * and creates and initializes a new copy of the digraph.
+ * 
+ * 4.2.4 Add a method hasEdge() to Digraph which takes two int arguments v and w 
+ * and returns true if the graph has an edge v->w, false otherwise.
+ * 
+ * 4.2.5 Modify Digraph to disallow parallel edges and self-loops.
+ * 
+ * 4.2.6 Develop a test client for Digraph.
  */
 
 public class Digraph {
@@ -33,6 +42,16 @@ public class Digraph {
         }
     }
 
+    // * 4.2.3 
+    public Digraph(Digraph g){
+        this(g.V);
+        for(int i = 0; i < g.V; i++){
+            for(int v: g.adj[i]){
+                this.addEdge(i, v);
+            }
+        }
+    }
+
     public int V() {
         return this.V;
     }
@@ -44,6 +63,34 @@ public class Digraph {
     public void addEdge(int v, int w) {
         adj[v].add(w);
         E++;
+    }
+
+    // * 4.2.5
+    public void addStrictEdge(int v, int w){
+        // ? disallow self loop
+        if(v == w){
+            return;
+        }
+
+        // ? disallow parallel edges
+        for(int i: adj[v]){
+            if(i == w){
+                return;
+            }
+        }
+
+        adj[v].add(w);
+        this.E++;
+    }
+
+    // * 4.2.4
+    public boolean hasEdge(int v, int w){
+        for(int i: adj[v]){
+            if(i == w){
+                return true;
+            }
+        }
+        return false;
     }
 
     public Iterable<Integer> adj(int v) {
@@ -74,6 +121,12 @@ public class Digraph {
     }
 
     public static void main(String[] args) {
+
+        Digraph dg = new Digraph(new In(args[0]));
+        StdOut.println(dg.toString());
+        StdOut.println();
+        Digraph dg1 = new Digraph(dg);
+        StdOut.println(dg1.toString());
 
     }
 }

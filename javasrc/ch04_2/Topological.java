@@ -1,10 +1,14 @@
 package javasrc.ch04_2;
 
-import lib.StdOut;
+import lib.*;
 
 /*
  * Algorithm 4.5 Topological sort. P.581
- * 
+  
+ ? Topological sort: Given a digraph, put the vertices in order such that all its 
+ ? directed edges point from a vertex earlier in the order to a vertex later in 
+ ? the order
+  
  * Step 1: check whether a cycle;
  * Step 2: if acyclic, get depth-first reverse post order.
  * 
