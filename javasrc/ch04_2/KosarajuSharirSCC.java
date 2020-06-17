@@ -18,6 +18,12 @@ import lib.*;
  * proportional to V + E to support constant-time strong connectivity queries in 
  * a digraph.
  * 
+ * 
+ * 4.2.22 True or false: If we modify the Kosaraju–Sharir algorithm to run the 
+ * first depth-first search in the digraph G (instead of the reverse digraph GR) 
+ * and the second depth-first search in GR (instead of G), then it will still 
+ * find the strong components.
+ * 
 */
 public class KosarajuSharirSCC {
     
@@ -63,8 +69,21 @@ public class KosarajuSharirSCC {
         Digraph g = new Digraph(new In(args[0]));
 
         KosarajuSharirSCC scc = new KosarajuSharirSCC(g);
+
+        StdOut.println("component #: " + scc.count());
+
         for(int i = 0; i < g.V(); i++){
             StdOut.println(i + ": " + scc.id(i));
+        }
+
+        // * 4.2.22
+        StdOut.println();
+        KosarajuSharirSCC sccr = new KosarajuSharirSCC(g.reverse());
+
+        StdOut.println("component #: " + sccr.count());
+
+        for(int i = 0; i < g.V(); i++){
+            StdOut.println(i + ": " + sccr.id(i));
         }
     }
 }
