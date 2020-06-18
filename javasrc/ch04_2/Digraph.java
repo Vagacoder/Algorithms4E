@@ -15,6 +15,15 @@ import lib.*;
  * 4.2.5 Modify Digraph to disallow parallel edges and self-loops.
  * 
  * 4.2.6 Develop a test client for Digraph.
+ * 
+ * 4.2.28 Directed Eulerian cycle. A directed Eulerian cycle is a directed cycle 
+ * that contains each edge exactly once. Write a Digraph client DirectedEulerianCycle 
+ * that finds a directed Eulerian cycle or reports that no such cycle exists. 
+ * Hint : Prove that a digraph G has a directed Eulerian cycle if and only if G 
+ * is strongly connected and each vertex has its indegree equal to its outdegree.
+ 
+ ! add outdegree() and indegree()
+  
  */
 
 public class Digraph {
@@ -22,6 +31,7 @@ public class Digraph {
     private final int V;
     private int E;
     private BagX<Integer>[] adj;
+    private int[] indegree;
 
     public Digraph(int V) {
         this.V = V;
@@ -62,6 +72,7 @@ public class Digraph {
 
     public void addEdge(int v, int w) {
         adj[v].add(w);
+        this.indegree[w]++;
         E++;
     }
 
@@ -118,6 +129,14 @@ public class Digraph {
             s += "\n";
         }
         return s;
+    }
+
+    public int outdegree(int v){
+        return this.adj[v].size();
+    }
+
+    public int indegree(int v){
+        return this.indegree[v];
     }
 
     public static void main(String[] args) {

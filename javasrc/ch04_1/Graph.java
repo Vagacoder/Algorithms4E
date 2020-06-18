@@ -121,6 +121,10 @@ public class Graph {
         return false;
     }
 
+    public int degree(int v){
+        return this.adj[v].size();
+    }
+
     public static int degree(Graph G, int v) {
         // ? is this implementation easier?
         // return G.adj[v].size();
