@@ -62,4 +62,15 @@ public class DepthFirstPaths {
         path.push(s);
         return path;
     }
+
+    public int distanceTo(int v){
+        if(!hasPathTo(v)){
+            return -1;
+        }
+        int distance = -1;
+        for(int i: pathTo(v)){
+            distance++;
+        }
+        return distance;
+    }
 }

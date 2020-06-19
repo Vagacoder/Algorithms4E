@@ -36,6 +36,7 @@ public class Digraph {
     public Digraph(int V) {
         this.V = V;
         this.E = 0;
+        this.indegree = new int[V];
         adj = (BagX<Integer>[]) new BagX[V];
         for (int v = 0; v < V; v++) {
             adj[v] = new BagX<Integer>();
