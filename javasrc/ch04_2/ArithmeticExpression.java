@@ -13,53 +13,105 @@ package javasrc.ch04_2;
 
 ! check Bigjava ch15 ExpressionCalculator.java for expression evaluation
 
+! meet some difficulty to implement DAG. Has no idea how DAG should look like.
 */
 
-import java.util.ArrayList;
+import javasrc.ch01_3.LinkedListStack;
+import javasrc.ch03_4.SeparateChainingHashST;
 import lib.*;
 
 public class ArithmeticExpression {
     
-    private int[] values;
-
+    
+    private Digraph expression;
+    private String[] ops;
+    private SeparateChainingHashST<String, Integer> table;
+    
     public ArithmeticExpression(String integerExpression){
-        ArrayList<Integer> intValues = new ArrayList<>();
+
+        // * parse expression string
+        LinkedListStack<Integer> operands = new LinkedListStack<>();
+        LinkedListStack<Character> operators = new LinkedListStack<>();
         int cur = 0;
 
         while(cur < integerExpression.length()){
             char c = integerExpression.charAt(cur);
+            
             if(Character.isDigit(c)){
                 String value = "";
                 value += c;
                 cur++;
+
                 while(cur < integerExpression.length()){
                     c = integerExpression.charAt(cur);
                     if(Character.isDigit(c)){
                         value += c;
                         cur++;
                     }else{
-                        intValues.add(Integer.parseInt(value));
+                        operands.push(Integer.parseInt(value));
                         break;
                     }
                 }
-                if(cur == integerExpression.length()){
-                    intValues.add(Integer.parseInt(value));
-                }
-            }else{
 
+                if(cur == integerExpression.length()){
+                    operands.push(Integer.parseInt(value));
+                }
+
+                continue;
+            } else if(isOperator(c)){
+                operators.push(c);
+            } else if(c == '('){
+                operators.push(c);
+            } else if( c== ')'){
+                operators.push(c);
+            } else if(Character.isWhitespace(c)){
+                // do nothing
+            } else{
+                throw new IllegalArgumentException("Not a number, operator or parenthesis");
             }
+
             cur++;
         }
-
-        StdOut.println(intValues);
-        this.values = new int[intValues.size()];
-        for (int i = 0; i < values.length; i++){
-            values[i] = intValues.get(i);
+        
+        // * for debug =================
+        while (!operands.isEmpty()){
+            StdOut.println(operands.pop());
         }
+
+        while (!operators.isEmpty()){
+            StdOut.println(operators.pop());
+        }
+        // * ===========================
+
+        // * construct symbol digraph
+        // ! here is some difficulty to implement
+
+        int v = operands.size() + operators.size();
+        this.expression = new Digraph(v);
+        this.ops = new String[v];
+        this.table = new SeparateChainingHashST<>(v);
+        int index = 0;
+
+        while(!operands.isEmpty()){
+            int op2 = operands.pop();
+            if(operands.isEmpty()){
+                throw new Error("Wrong expression, can not get operand 1");
+            }
+            int op1 = operands.pop();
+            char operator = operators.pop();
+            
+        }
+
+
+    }
+
+    private boolean isOperator(char c){
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
     }
 
 
     public static void main(String[] args){
-        ArithmeticExpression ae1 = new ArithmeticExpression("3 +4 * 5/ 6-7");
+        // ArithmeticExpression ae1 = new ArithmeticExpression("3 +4 * 5/ 6-7");
+        ArithmeticExpression ae1 = new ArithmeticExpression("3 +4 * 5/ 6-7 % 85 +94 *103/ 112-120");
     }
 }
