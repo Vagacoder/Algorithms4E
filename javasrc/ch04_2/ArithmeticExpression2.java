@@ -11,7 +11,7 @@ package javasrc.ch04_2;
 * logarithm of the running time for the tree).
 * 
 
-! This is a simple experiemental version, numbers are from 0-9.
+! This is a simple experiemental version, numbers are from 0-9 (single digit integer).
 
 */
 
@@ -37,13 +37,13 @@ public class ArithmeticExpression2 {
         Main:
         while(i < tokens.length) {
             char c = tokens[i].charAt(0);
-            StdOut.println(c);
+            // StdOut.println(c);
 
-            // * for operands
+            // ! for operands
             if (Character.isDigit(c)) {
                 operandsI.push(i);
             }
-            // * for operators
+            // !  for operators
             else {
                 // * first operator, always push
                 if (operatorsI.isEmpty()) {
@@ -60,6 +60,21 @@ public class ArithmeticExpression2 {
                     }
                     // * if this op <= previous op, evaluate previous op wiht operands
                     else {
+
+                        // * special case no operand in stack, pop 2 used operators
+                        if(operandsI.isEmpty()){
+                            int usedOperator1I = usedOperatorsI.pop();
+                            int usedOperator2I = usedOperatorsI.pop();
+
+                            this.expression.addEdge(oldOperatorI, usedOperator2I);
+                            this.expression.addEdge(oldOperatorI, usedOperator1I);
+                            usedOperatorsI.push(oldOperatorI);
+
+                            // ! current operator need re-evaluation, skip i++
+                            continue;
+                        }
+
+
                         int operand1I = operandsI.pop();
                         // int operand1 = Integer.parseInt(tokens[operand1I]);
                         
@@ -78,13 +93,39 @@ public class ArithmeticExpression2 {
                             this.expression.addEdge(oldOperatorI, operand1I);
                             usedOperatorsI.push(oldOperatorI);
                         }
-                        // * if has used operator, pop 1 operand (already done) and previous operator
+
+                        // * if has used operator, compare this op with 1st used operator
                         else{
                             int usedOperatorI = usedOperatorsI.peek();
+                            char usedOperator = tokens[usedOperatorI].charAt(0);
 
-                            this.expression.addEdge(oldOperatorI, operand1I);
-                            this.expression.addEdge(oldOperatorI, usedOperatorI);
-                            usedOperatorsI.push(oldOperatorI);
+                            // * compare previous op with 1st used operator
+                            // * if previous op > useed op, pop 2 operands
+                            if(precedence(oldOperator) > precedence(usedOperator)){
+                                // * since need 2nd operands, check stack is empty or not
+                                if (operandsI.isEmpty()) {
+                                    throw new Error("Stack of operands is empty, can not evaluate expression");
+                                }
+
+                                int operand2I = operandsI.pop();
+                                this.expression.addEdge(oldOperatorI, operand2I);
+                                this.expression.addEdge(oldOperatorI, operand1I);
+                                usedOperatorsI.push(oldOperatorI);
+
+                                // ! current operator need re-evaluation, skip i++
+                                continue;
+                            }
+                            // * if previous op <= used op, pop 1 operand, 1 used operator, 
+                            else{
+                                usedOperatorsI.pop(); // ! discard, already have usedOperator;
+
+                                this.expression.addEdge(oldOperatorI, usedOperatorI);
+                                this.expression.addEdge(oldOperatorI, operand1I);
+                                usedOperatorsI.push(oldOperatorI);
+
+                                // ! current operator need re-evaluation, skip i++
+                                continue;
+                            }
                         }
 
                     }
@@ -94,8 +135,34 @@ public class ArithmeticExpression2 {
                 }
 
             }
-
             i++;
+        }
+
+        // * after loop, clean stacks
+        if(!operatorsI.isEmpty()){
+            int operatorI = operatorsI.pop();
+
+            // * 2 used operators left
+            if(operandsI.isEmpty()){
+                int usedOperator1I = usedOperatorsI.pop();
+                int usedOperator2I = usedOperatorsI.pop();
+                this.expression.addEdge(operatorI, usedOperator2I);
+                this.expression.addEdge(operatorI, usedOperator1I);
+            }
+            // * 2 operands left
+            else if( usedOperatorsI.isEmpty()){
+                int operand1I = operandsI.pop();
+                int operand2I = operandsI.pop();
+                this.expression.addEdge(operatorI, operand2I);
+                this.expression.addEdge(operatorI, operand1I);
+            }
+            // * 1 operand, 1 used operator left 
+            else{
+                int usedOperatorI = usedOperatorsI.pop();
+                int operandI = operandsI.pop();
+                this.expression.addEdge(operatorI, operandI);
+                this.expression.addEdge(operatorI, usedOperatorI);
+            }
         }
 
     }
@@ -112,7 +179,26 @@ public class ArithmeticExpression2 {
         }
     }
 
+    public Digraph getDigraph(){
+        return this.expression;
+    }
+
+    public String[] getTokens(){
+        return this.tokens;
+    }
+
     public static void main(String[] args) {
-        ArithmeticExpression2 ae2 = new ArithmeticExpression2("3 +\t4*5/6\n-7");
+        ArithmeticExpression2 ae2 = new ArithmeticExpression2("3 +\t4-5* 6\n/ 7 + 8");
+        Digraph expression = ae2.getDigraph();
+        String[] tokens = ae2.getTokens();
+
+        StdOut.println("Check whether all digits are leaves, (outdegree = 0)");
+        for(int i = 0; i < expression.V(); i++ ){
+            StdOut.print(tokens[i] + ": ");
+            for(int w: expression.adj(i)){
+                StdOut.print(tokens[w] + ",");
+            }
+            StdOut.println();
+        }
     }
 }

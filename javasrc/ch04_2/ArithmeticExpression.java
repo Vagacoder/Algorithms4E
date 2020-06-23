@@ -11,9 +11,12 @@ package javasrc.ch04_2;
 * logarithm of the running time for the tree).
 * 
 
-! check Bigjava ch15 ExpressionCalculator.java for expression evaluation
+! Have met some difficulty to implement DAG. Has no idea how DAG should look like.
+! the code below are based on Bigjava ch15 ExpressionCalculator.java for expression evaluation
 
-! meet some difficulty to implement DAG. Has no idea how DAG should look like.
+! Hoorah!, done with a simple version (numbers are 1 digit integer) on ArithmeticExpression2.java
+! need add a nested loop to detect multi-digit integer.
+
 */
 
 import javasrc.ch01_3.LinkedListStack;
