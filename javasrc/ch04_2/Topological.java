@@ -8,12 +8,22 @@ import lib.*;
  ? Topological sort: Given a digraph, put the vertices in order such that all its 
  ? directed edges point from a vertex earlier in the order to a vertex later in 
  ? the order
+
+ ! A sequence of vertices is topological sort if and only if:
+ ? 1. sequence contains all vertices, and each vertex presents only once;
+ ? 2. if vertex a presents before vertex b in sequence, there is no edge from b
+ ?    to a.
+
+ ! Any DAG has at least one topological sort, could has more.
   
  * Step 1: check whether a cycle;
  * Step 2: if acyclic, get depth-first reverse post order.
  * 
  * Client solves the precedence-constrained scheduling problem for a SymbolDigraph.
  * 
+ 
+ ! Proposition E. A digraph has a topological order if and only if it is a DAG. P.578
+ 
  * Proposition F. Reverse postorder in a DAG is a topological sort. P.582
  * 
  * Proposition G. With DFS, we can topologically sort a DAG in time proportional to V+E.

@@ -14,7 +14,8 @@ import lib.*;
  * Algorithm 4.1 Depth-first search to find paths in a graph. P.536
  * 
  
- ? upgraded from DepthFirstSearch.java by adding edgeTo[]
+ ? upgraded from ch04_1.DepthFirstSearch.java by adding edgeTo[]
+ ? this is also a upgraded version of ch04_2.DepthFirstDFS.java by adding edgeTo[] and s
   
  * Proposition A. DFS marks all the vertices connected to a given source in time 
  * proportional to the sum of their degrees. DFS allows us to provide clients 
