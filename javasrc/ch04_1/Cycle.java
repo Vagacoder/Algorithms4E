@@ -9,6 +9,8 @@ import lib.*;
 * parallel edges.
 
 ! Important algorithm, see comments on dfs(). Must understand it!
+
+!! CycleX.java provids more useful methods, check them.
 */
 
 public class Cycle {

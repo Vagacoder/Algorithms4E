@@ -69,6 +69,10 @@ public class LazyPrimMST {
         return this.mst;
     }
 
+    public int mstEdgeNumber(){
+        return this.mst.size();
+    }
+
     public double weight(){
         // TODO
         return -1;
