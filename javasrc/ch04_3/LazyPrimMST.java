@@ -3,14 +3,21 @@ package javasrc.ch04_3;
 /*
  * Lazy version or Prim's MST algorithm. P.619
  * 
+ * Proposition K. (Greedy mst algorithm) The following method colors black all 
+ * edges in the the MST of any connected edge-weighted graph with V vertices: 
+ * starting with all edges colored gray, find a cut with no black edges, color 
+ * its minimum-weight edge black, and continue until V-1 edges have been colored 
+ * black.
+ * 
  * Proposition L. Prim’s algorithm computes the MST of any connected edge-weighted 
  * graph.
  * 
  * Proposition M. The lazy version of Prim’s algorithm uses space proportional to 
  * E and time proportional to E*log E (in the worst case) to compute the MST of a 
  * connected edge-weighted graph with E edges and V vertices.
- * 
- * 
+  
+ ? Comparison table at P.628
+
  * 
 */
 
