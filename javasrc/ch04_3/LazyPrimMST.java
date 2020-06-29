@@ -23,7 +23,7 @@ package javasrc.ch04_3;
 
 import javasrc.ch01_3.LinkedListQueue;
 import javasrc.ch02_4.MinPQ;
-// import lib.*;
+import lib.*;
 
 public class LazyPrimMST {
     
@@ -38,6 +38,7 @@ public class LazyPrimMST {
         this.marked = new boolean[g.V()];
 
         visit(g, 0);
+
         while(!pq.isEmpty()){
             Edge e = pq.delMin();
             int v = e.either(), w = e.other(v);
@@ -76,5 +77,14 @@ public class LazyPrimMST {
     public double weight(){
         // TODO
         return -1;
+    }
+
+    public static void main(String[] args){
+        String filename = "data/tinyEWG2.txt";
+        EdgeWeightedGraph g = new EdgeWeightedGraph(new In(filename));
+        LazyPrimMST lp = new LazyPrimMST(g);
+        for (Edge e: lp.edges()){
+            StdOut.println(e.toString());
+        }
     }
 }

@@ -7,7 +7,7 @@ package javasrc.ch04_3;
  * graph from the input stream, by suitably modifying the constructor from Graph 
  * (see page 526).
  * 
- * 
+ * 4.3.17 Implement toString() for EdgeWeightedGraph.
  *
   
  ? Sample file tinyEWG.txt at P.609, 617, 621, 624
@@ -117,12 +117,24 @@ public class EdgeWeightedGraph {
         return edges;
     }
 
+    // * 4.3.17
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for(Edge e: this.edges()){
+            sb.append(e.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     public static void main(String[] args){
         String filename = "data/tinyEWG.txt";
         EdgeWeightedGraph ewg = new EdgeWeightedGraph(new In(filename));
         for(Edge e: ewg.edges()){
             StdOut.println(e.toString());
         }
+        StdOut.println();
+        StdOut.println(ewg.toString());
         StdOut.println();
 
         EdgeWeightedGraph ewg1 = new EdgeWeightedGraph(ewg);

@@ -35,6 +35,8 @@ public class PrimMST {
     // * This store edges of mst, which has more infor than this.pq, but no sorting.
     private Edge[] edgeTo;
 
+    // * store the weighte of edge
+    // ? Is this redundant? weight can be obtained from edgeTo[]
     private double[] distTo;
     private boolean[] marked;
 
