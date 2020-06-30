@@ -27,6 +27,7 @@ package javasrc.ch04_3;
 import javasrc.ch01_3.LinkedListQueue;
 import javasrc.ch01_5.UF;
 import javasrc.ch02_4.MinPQ;
+import lib.*;
 
 public class KruskalMST {
     
@@ -60,6 +61,40 @@ public class KruskalMST {
         }
     }
 
+    // ! Note: this constructor does not work! it missed the edge of 0-2,
+    // ! since 0 and 2 are in different trees, and both are marked.
+    // * test constructor, using a marked[] instead of UF 
+    public KruskalMST(EdgeWeightedGraph g, int l){
+        // * collect mst edges
+        mst = new LinkedListQueue<>();
+        
+        // * priority queue store all edges at beginning
+        MinPQ<Edge> pq = new MinPQ<>();
+
+        for(Edge e: g.edges()){
+            pq.insert(e);
+        }
+
+        // ! NOT working
+        // * using boolean[] marked to track whether 2 vertices are connected
+        boolean[] marked = new boolean[g.V()];
+
+        while(!pq.isEmpty() && mst.size() < g.V()-1){
+            Edge e = pq.delMin();
+            int v = e.either();
+            int w = e.other(v);
+            
+            // ! here, we miss any edge connecting vertices are in different trees
+            if(marked[v] && marked[w]){
+                continue;
+            }
+            
+            marked[v] = true;
+            marked[w] = true;
+            mst.enqueue(e);
+        }
+    }
+
     public Iterable<Edge> edges(){
         return this.mst;
     }
@@ -69,4 +104,21 @@ public class KruskalMST {
         return -1;
     }
 
+    public static void main(String[] args){
+        String filename = "data/tinyEWG.txt";
+        EdgeWeightedGraph ewg = new EdgeWeightedGraph(new In(filename));
+        KruskalMST mst = new KruskalMST(ewg);
+
+        for(Edge e: mst.edges()){
+            StdOut.println(e.toString());
+        }
+
+        StdOut.println("\nTest using marked[] instead of UF");
+        EdgeWeightedGraph ewg1 = new EdgeWeightedGraph(new In(filename));
+        KruskalMST mst1 = new KruskalMST(ewg1, 1);
+
+        for(Edge e: mst1.edges()){
+            StdOut.println(e.toString());
+        }
+    }
 }
