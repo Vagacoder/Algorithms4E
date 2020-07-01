@@ -18,9 +18,12 @@ Then implement static methods for the following tasks:
 */
 
 import lib.StdOut;
+
+import java.util.Iterator;
+
 import lib.StdIn;
 
-public class DoubleLinkedList<T> {
+public class DoubleLinkedList<T> implements Iterable<T> {
 
     private class Node {
         T item;
@@ -198,6 +201,29 @@ public class DoubleLinkedList<T> {
         return false;
     }
 
+
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkListIterator();
+    }
+
+    private class LinkListIterator implements Iterator<T>{
+
+        private Node cursor = first;
+
+        @Override
+        public boolean hasNext() {
+            return this.cursor != null;
+        }
+
+        @Override
+        public T next() {
+            T result = this.cursor.item;
+            this.cursor = this.cursor.next;
+            return result;
+        }
+    }
+
     public void print() {
         Node cursor = first;
         while (cursor != null) {
@@ -253,4 +279,5 @@ public class DoubleLinkedList<T> {
         list.insertAfter("too", ".");
         list.print();
     }
+
 }

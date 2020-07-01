@@ -80,7 +80,7 @@ public class LazyPrimMST {
     }
 
     public static void main(String[] args){
-        String filename = "data/tinyEWG2.txt";
+        String filename = "data/tinyEWG.txt";
         EdgeWeightedGraph g = new EdgeWeightedGraph(new In(filename));
         LazyPrimMST lp = new LazyPrimMST(g);
         for (Edge e: lp.edges()){
