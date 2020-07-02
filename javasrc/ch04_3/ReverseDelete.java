@@ -52,9 +52,9 @@ public class ReverseDelete {
         });
         
         // * assert all edges
-        // for(Edge e:allEdges){
-        //     StdOut.println(e.toString());
-        // }
+        for(Edge e:allEdges){
+            StdOut.println(e.toString());
+        }
         if(allEdges.size() != E || allEdges.size() != isInMstEdges.length){
             throw new Exception("allEdges size does not isInMstEdges! Both should be E");
         }
@@ -63,7 +63,7 @@ public class ReverseDelete {
         for(int i = 0; i <E; i++){
             isInMstEdges[i] = false;
             EdgeWeightedGraph newMst = new EdgeWeightedGraph(V);
-            for(int j = 0; j < V; j++){
+            for(int j = 0; j < E; j++){
                 if(isInMstEdges[j]){
                     newMst.addEdge(allEdges.get(j));
                 }
@@ -93,6 +93,7 @@ public class ReverseDelete {
         String filename = "data/tinyEWG.txt";
         EdgeWeightedGraph g = new EdgeWeightedGraph(new In(filename));
         ReverseDelete rd = new ReverseDelete(g);
+        StdOut.println("MST:");
         for (Edge e: rd.edges()){
             StdOut.println(e.toString());
         }
