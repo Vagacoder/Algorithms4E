@@ -1,6 +1,5 @@
 package javasrc.ch04_3;
 
-
 /*
 * 4.3.26 Critical edges. An MST edge whose deletion from the graph would cause 
 * the MST weight to increase is called a critical edge. Show how to find all 
@@ -9,76 +8,66 @@ package javasrc.ch04_3;
 * (otherwise all edges in the MST are critical).
 * 
 
-? based on lazy prim
+? based on Kruskal, tried lazy Prim which did not work
 
 */
 
 import java.util.ArrayList;
 
 import javasrc.ch01_3.LinkedListQueue;
+import javasrc.ch01_5.UF;
 import javasrc.ch02_4.MinPQ;
 
 import lib.*;
 
 public class CriticalEdges {
     
-    private boolean[] marked;
+    private ArrayList<Edge> criticals;
+    
+    // ? not need to be instance variable ?
     private LinkedListQueue<Edge> mst;
     private MinPQ<Edge> pq;
-    private ArrayList<Edge> criticals;
 
     public CriticalEdges(EdgeWeightedGraph g){
+
+        // * using Kruskal
         int V = g.V();
-        this.pq = new MinPQ<>();
         this.mst = new LinkedListQueue<>();
-        this.marked = new boolean[V];
         this.criticals = new ArrayList<>();
+        this.pq = new MinPQ<>();
 
-        visit(g, 0);
+        for(Edge e: g.edges()){
+            pq.insert(e);
+        }
 
-        while(!pq.isEmpty()){
+        UF uf = new UF(V);
+
+        Edge lastMstE = null;
+        
+        while(!pq.isEmpty() && mst.size() < V-1 ){
             Edge e = pq.delMin();
             int v = e.either();
             int w = e.other(v);
 
-            if(marked[v] && marked[w]){
+            if(uf.connected(v, w)){
                 continue;
             }
+
+            uf.union(v, w);
             mst.enqueue(e);
 
-            // * handle critical edge
-            if(pq.isEmpty()){
-                criticals.add(e);
-            }else{
-                Edge eNext = pq.min();
-                if (e.weight() != eNext.weight()){
-                    // int vNext = eNext.either();
-                    // int wNext = eNext.other(vNext);
-                    // if(!(marked[vNext] && marked[wNext])){
-                        criticals.add(e);
-                    // }
+            if(lastMstE != null){
+                if(e.weight()!= lastMstE.weight()){
+                    this.criticals.add(lastMstE);
                 }
             }
-
-            if(!marked[v]){
-                visit(g, v);
-            }
-            if(!marked[w]){
-                visit(g, w);
-            }
-
+            lastMstE = e;
+        }
+        if(this.criticals.size()>0 && 
+            criticals.get(criticals.size()-1).weight() != lastMstE.weight()){
+            criticals.add(lastMstE);
         }
 
-
-    }
-
-    private void visit(EdgeWeightedGraph g, int v){
-        marked[v] = true;
-        for(Edge e: g.adj(v)){
-            if(!marked[e.other(v)]){
-                pq.insert(e);
-            }
-        }
     }
 
     public Iterable<Edge> getCriticals(){

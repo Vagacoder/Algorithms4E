@@ -3,8 +3,16 @@ package javasrc.ch04_1;
 import lib.*;
 
 /*
-* Official Bridge class from website
+ * 4.1.36 Two-edge connectivity. A bridge in a graph is an edge that, if removed, 
+ * would increase the number of connected components. A graph that has no bridges 
+ * is said to be two-edge connected. Develop a linear-time DFS-based algorithm 
+ * for determining whether a given graph is edge connected.
+ * 
+
+ * Official Bridge class from website
 */
+
+
 /******************************************************************************
  * Compilation: javac Bridge.java Execution: java Bridge V E Dependencies:
  * Graph.java GraphGenerator.java
@@ -48,6 +56,7 @@ public class Bridge {
         pre[v] = cnt++;
         low[v] = pre[v];
         for (int w : G.adj(v)) {
+            // * if w is not visited
             if (pre[w] == -1) {
                 dfs(G, v, w);
                 low[v] = Math.min(low[v], low[w]);
@@ -56,7 +65,7 @@ public class Bridge {
                     bridges++;
                 }
             }
-
+            // * if w is visited
             // update low number - ignore reverse of edge leading to v
             else if (w != u)
                 low[v] = Math.min(low[v], pre[w]);
@@ -65,13 +74,19 @@ public class Bridge {
 
     // test client
     public static void main(String[] args) {
-        int V = Integer.parseInt(args[0]);
-        int E = Integer.parseInt(args[1]);
-        Graph G = GraphGenerator.simple(V, E);
-        StdOut.println(G);
+        // * official tester
+        // int V = Integer.parseInt(args[0]);
+        // int E = Integer.parseInt(args[1]);
+        // Graph G = GraphGenerator.simple(V, E);
+        // StdOut.println(G);
 
-        Bridge bridge = new Bridge(G);
-        StdOut.println("Edge connected components = " + bridge.components());
+        // Bridge bridge = new Bridge(G);
+        // StdOut.println("Edge connected components = " + bridge.components());
+
+        String filename = "data/tinyG1.txt";
+        Graph g = new Graph(new In(filename));
+        Bridge b = new Bridge(g);
+        StdOut.println(b.components());
     }
 
 }
