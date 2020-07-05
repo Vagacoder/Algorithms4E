@@ -20,6 +20,11 @@ package javasrc.ch04_3;
 
  * 4.3.21 Provide an implementation of edges() for PrimMST (page 622).
  * 
+ * 4.3.31 MST weights. Develop implementations of weight() for PrimMST using a 
+ * lazy strategy that iterates through the MST edges when the client calls weight(). 
+ * Then develop alternate implementations that use an eager strategy that maintains 
+ * a running total as the MST is computed.
+ * 
 
  */
 
@@ -104,9 +109,13 @@ public class PrimMST {
         return edges;
     }
 
+    // * 4.3.31
     public double weight(){
-        // TODO
-        return 0.0;
+        double weightSum = 0;
+        for(Edge e: this.edges()){
+            weightSum += e.weight();
+        }
+        return weightSum;
     }
 
     public static void main(String[] args){

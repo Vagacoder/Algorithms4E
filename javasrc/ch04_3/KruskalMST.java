@@ -21,7 +21,12 @@ package javasrc.ch04_3;
     
  ? Comparison table at P.628
 
+ * 4.3.31 MST weights. Develop implementations of weight() for KruskalMST, using 
+ * a lazy strategy that iterates through the MST edges when the client calls 
+ * weight(). Then develop alternate implementations that use an eager strategy 
+ * that maintains a running total as the MST is computed.
  * 
+
 */
 
 import javasrc.ch01_3.LinkedListQueue;
@@ -99,9 +104,13 @@ public class KruskalMST {
         return this.mst;
     }
     
+    // * 4.3.31
     public double weight(){
-        // TODO
-        return -1;
+        double weightSum = 0;
+        for(Edge e: this.edges()){
+            weightSum += e.weight();
+        }
+        return weightSum;
     }
 
     public static void main(String[] args){
