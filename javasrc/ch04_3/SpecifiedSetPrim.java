@@ -100,7 +100,7 @@ public class SpecifiedSetPrim {
             StdOut.println(e.toString());            
         }
 
-        // * add 0-7, 0-2
+        // * add 0-7, 0-2, edges are connected
         StdOut.println("Specified set: 0-7, 0-2, find mst:");
         for(Edge e: g.adj(0)){
             int w = e.other(0);
@@ -113,7 +113,8 @@ public class SpecifiedSetPrim {
             StdOut.println(e.toString());            
         }
 
-        // * add 0-7, 0-2, 4-5, 6-2
+        // * add 0-7, 0-2, 4-5, 6-2, edges are disconnected, 
+        // ! NOT working, 4-5 is disconnected from other 3 edges
         StdOut.println("Specified set: 0-7, 0-2, 4-5, 6-2, find mst:");
         for(Edge e: g.adj(4)){
             int w = e.other(4);
