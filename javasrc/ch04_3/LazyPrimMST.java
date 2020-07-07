@@ -43,6 +43,10 @@ public class LazyPrimMST {
 
         visit(g, 0);
 
+        // * In 2 cases, edge is not need to be processed, 
+        // * Case 1 is for poping edge from pq; Case 2 for adding edge to pq, see details below
+        // * (1) both vertices of edge, which is poped from pq, are marked,
+        // * this suggests adding edge will form a cycle.
         while(!pq.isEmpty()){
             Edge e = pq.delMin();
             int v = e.either(), w = e.other(v);
@@ -64,6 +68,9 @@ public class LazyPrimMST {
     private void visit(EdgeWeightedGraph g, int v){
         marked[v] = true;
         for(Edge e: g.adj(v)){
+            // * (2) when checking adjance edges to current vertex, if other vertex
+            // * is marked, no need push into pq, for same reason that this edge
+            // * will form a cycle.
             if(!marked[e.other(v)]){
                 pq.insert(e);
             }

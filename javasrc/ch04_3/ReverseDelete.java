@@ -56,7 +56,7 @@ public class ReverseDelete {
             StdOut.println(e.toString());
         }
         if(allEdges.size() != E || allEdges.size() != isInMstEdges.length){
-            throw new Exception("allEdges size does not isInMstEdges! Both should be E");
+            throw new Exception("allEdges size does not equal to isInMstEdges! Both should be E");
         }
 
         // * test each edge in allEdges
