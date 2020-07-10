@@ -1,12 +1,11 @@
 package javasrc.ch04_2;
 
-import java.util.Stack;
-
 /*
- * Finding a directed cycle in digraph. P.577
- * 
+* Finding a directed cycle in digraph. P.577
+* 
 */
 
+import java.util.Stack;
 import lib.*;
 
 public class DirectedCycle{

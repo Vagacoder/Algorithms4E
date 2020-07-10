@@ -1,13 +1,15 @@
 package javasrc.ch04_2;
 
+/*
+* Depth-first search vertex ordering in a digraph. P.580
+* 
+* This is a helper class. Useful for Strong Connection.
+*/
+
 import javasrc.ch01_3.LinkedListQueue;
 import javasrc.ch01_3.LinkedListStack;
-
-/*
- * Depth-first search vertex ordering in a digraph. P.580
- * 
- * This is a helper class. Useful for Strong Connection.
- */
+import javasrc.ch04_4.DirectedEdge;
+import javasrc.ch04_4.EdgeWeightedDigraph;
 
 public class DepthFirstOrder {
 
@@ -29,6 +31,20 @@ public class DepthFirstOrder {
         }
     }
 
+    public DepthFirstOrder(EdgeWeightedDigraph g){
+        this.pre = new LinkedListQueue<>();
+        this.post = new LinkedListQueue<>();
+        this.reversePost = new LinkedListStack<>();
+        int V = g.V();
+        marked = new boolean[V];
+
+        for(int i = 0; i < V; i++){
+            if(!marked[i]){
+                dfs(g, i);
+            }
+        }
+    }
+
     private void dfs(Digraph G, int v){
         this.pre.enqueue(v);
 
@@ -42,6 +58,22 @@ public class DepthFirstOrder {
         this.post.enqueue(v);
         this.reversePost.push(v);
     }
+
+    private void dfs(EdgeWeightedDigraph g, int v){
+        this.pre.enqueue(v);
+
+        marked[v] = true;
+        for(DirectedEdge e: g.adj(v)){
+            int w = e.to();
+            if(!marked[w]){
+                dfs(g, w);
+            }
+        }
+        
+        this.post.enqueue(v);
+        this.reversePost.push(v);
+    }
+
 
     public Iterable<Integer> pre(){
         return this.pre;

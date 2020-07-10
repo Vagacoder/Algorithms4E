@@ -129,7 +129,7 @@ public class DijkstraSP {
         //     StdOut.println();
         // }
 
-        // * self tester
+        // * tester #1
         String filename = "data/tinyEWDG.txt";
         EdgeWeightedDigraph g = new EdgeWeightedDigraph(new In(filename));
         int s = 0;
