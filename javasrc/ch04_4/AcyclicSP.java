@@ -1,19 +1,25 @@
 package javasrc.ch04_4;
 
 /*
- * Algorithm 4.10 Shortest Paths in Edge-Weighted DATGs. P.660
+ * Algorithm 4.10 Shortest Paths in Edge-Weighted DAGs. P.660
  * 
  * Proposition S. By relaxing vertices in topological order, we can solve the 
  * single-source shortest-paths problem for edge-weighted DAGs in time proportional 
  * to E + V.
  * 
- * 
+ * Proposition T. We can solve the longest-paths problem in edge-weighted DAGs in
+ * time proportional to E + V.
+ * Algorithm: Create a copy of the given edge-weighted DAG that is identical to 
+ * the original, except that all edge weights are negated. Then the shortest path 
+ * in this copy is the longest path in the original.
  * 
 
+ 
  ? Sample file: tinyEWDAG.txt, P.659
 
  */
 
+import java.util.Stack;
 import lib.*;
 
 public class AcyclicSP {
@@ -57,8 +63,15 @@ public class AcyclicSP {
     }
 
     public Iterable<DirectedEdge> pathTo(int v){
-        // TODO
-        return null;
+        if(!hasPathTo(v)){
+            return null;
+        }
+
+        Stack<DirectedEdge> path = new Stack<>();
+        for(DirectedEdge e = edgeTo[v]; e!=null; e=edgeTo[e.from()]){
+            path.push(e);
+        }
+        return path;
     }
 
 
@@ -66,6 +79,19 @@ public class AcyclicSP {
         String filename = "data/tinyEWDAG.txt";
         EdgeWeightedDigraph g = new EdgeWeightedDigraph(new In(filename));
         AcyclicSP asp = new AcyclicSP(g, 5);
+        StdOut.println("From 5 to 0");
+        for(DirectedEdge e: asp.pathTo(0)){
+            StdOut.println(e.toString());
+        }
+        StdOut.println("From 5 to 2");
+        for(DirectedEdge e: asp.pathTo(2)){
+            StdOut.println(e.toString());
+        }
+        StdOut.println("From 5 to 6");
+        for(DirectedEdge e: asp.pathTo(6)){
+            StdOut.println(e.toString());
+        }
+
     }
 
 }

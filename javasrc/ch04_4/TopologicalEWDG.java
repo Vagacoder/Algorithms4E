@@ -21,6 +21,10 @@ public class TopologicalEWDG {
         }
     }
 
+    public boolean hasOrder(){
+        return this.order != null;
+    }
+
     public Iterable<Integer> order(){
         return this.order;
     }

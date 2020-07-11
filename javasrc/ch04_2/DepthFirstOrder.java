@@ -4,6 +4,8 @@ package javasrc.ch04_2;
 * Depth-first search vertex ordering in a digraph. P.580
 * 
 * This is a helper class. Useful for Strong Connection.
+*
+* Add support for Edge-weighted directe graph (chapter 4.4 Shortest Paths)
 */
 
 import javasrc.ch01_3.LinkedListQueue;
@@ -31,6 +33,7 @@ public class DepthFirstOrder {
         }
     }
 
+    // * for chapter 4.4, Edge-weighted directed graph
     public DepthFirstOrder(EdgeWeightedDigraph g){
         this.pre = new LinkedListQueue<>();
         this.post = new LinkedListQueue<>();
