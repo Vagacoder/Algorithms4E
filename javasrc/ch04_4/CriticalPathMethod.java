@@ -1,7 +1,7 @@
 package javasrc.ch04_4;
 
 /*
- * Critical path method for parallel precedence-constrained job scheduling. P.665 
+ * CPM: Critical Path Method for parallel precedence-constrained job scheduling. P.665 
  * 
  * Proposition U. The critical path method solves the parallel precedence constrained 
  * scheduling problem in linear time.
@@ -13,7 +13,7 @@ package javasrc.ch04_4;
 
 import lib.*;
 
-public class CPM {
+public class CriticalPathMethod {
 
     public static void main(String[] args){
         int N = StdIn.readInt();

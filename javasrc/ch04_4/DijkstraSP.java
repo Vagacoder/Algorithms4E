@@ -28,7 +28,10 @@ package javasrc.ch04_4;
  * source shortest paths problem in an edge-weighted digraph with E edges and V 
  * vertices.
 
- ? sample file tinyEWDG.txt (tinyEWD.txt in textbook), P.653
+ ? sample file:
+ ? 1. tinyEWDG.txt (tinyEWD.txt in textbook), P.653
+ ? 2. tinyEWDGn.txt (an edge weighted digraph with NEGATIVE edges), P.668
+ ? 3. tinyEWDGnc.txt (an edge weighted digraph has CYCLE with NEGATIVE edges), P.669
 
 */
 
@@ -130,11 +133,48 @@ public class DijkstraSP {
         // }
 
         // * tester #1
+        StdOut.println("1. tinyEWDG.txt no negative edge");
         String filename = "data/tinyEWDG.txt";
         EdgeWeightedDigraph g = new EdgeWeightedDigraph(new In(filename));
         int s = 0;
         DijkstraSP dsp = new DijkstraSP(g, s);
 
+        for(int i = 0; i < g.V(); i++){
+            StdOut.print(s + " to " + i);
+            StdOut.printf(" (%4.2f): ", dsp.distTo(i));
+            if(dsp.hasPathTo(i)){
+                for(DirectedEdge e: dsp.pathTo(i)){
+                    StdOut.print(e + "   ");
+                }
+            }
+            StdOut.println();
+        }
+
+        // * tester #2 
+        StdOut.println("\n2. tinyEWDGn.txt with 3 negative edges");
+        filename = "data/tinyEWDGn.txt";
+        g = new EdgeWeightedDigraph(new In(filename));
+        s = 0;
+        dsp = new DijkstraSP(g, s);
+        for(int i = 0; i < g.V(); i++){
+            StdOut.print(s + " to " + i);
+            StdOut.printf(" (%4.2f): ", dsp.distTo(i));
+            if(dsp.hasPathTo(i)){
+                for(DirectedEdge e: dsp.pathTo(i)){
+                    StdOut.print(e + "   ");
+                }
+            }
+            StdOut.println();
+        }
+
+        // * tester #3 
+        // ! This one DOES NOT work, since Dijkstra algorithm will keep spinning 
+        // ! at the cycle with negative edge.
+        StdOut.println("\n3. tinyEWDGnc.txt with a negative edge cycle");
+        filename = "data/tinyEWDGnc.txt";
+        g = new EdgeWeightedDigraph(new In(filename));
+        s = 0;
+        dsp = new DijkstraSP(g, s);
         for(int i = 0; i < g.V(); i++){
             StdOut.print(s + " to " + i);
             StdOut.printf(" (%4.2f): ", dsp.distTo(i));
