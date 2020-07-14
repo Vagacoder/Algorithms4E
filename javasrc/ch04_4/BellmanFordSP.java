@@ -130,13 +130,22 @@ public class BellmanFordSP {
         int s = 0;
         BellmanFordSP bfsp = new BellmanFordSP(g, s);
 
-        for(int i = 0; i < g.V(); i++){
-            StdOut.print(s + " to " + i);
-            StdOut.printf(" (%4.2f): ", bfsp.distTo(i));
-            if(bfsp.hasPathTo(i)){
-                for(DirectedEdge e: bfsp.pathTo(i)){
-                    StdOut.print(e + "  ");
+        if(!bfsp.hasNegativeCycle()){
+            StdOut.println("Shortest paths:");
+            for(int i = 0; i < g.V(); i++){
+                StdOut.print(s + " to " + i);
+                StdOut.printf(" (%4.2f): ", bfsp.distTo(i));
+                if(bfsp.hasPathTo(i)){
+                    for(DirectedEdge e: bfsp.pathTo(i)){
+                        StdOut.print(e + "   ");
+                    }
                 }
+                StdOut.println();
+            }
+        }else{
+            StdOut.println("Negative cycle:");
+            for(DirectedEdge e: bfsp.negativeCycle()){
+                StdOut.print(e + "   ");
             }
             StdOut.println();
         }
@@ -147,13 +156,48 @@ public class BellmanFordSP {
         g = new EdgeWeightedDigraph(new In(filename));
         s = 0;
         bfsp = new BellmanFordSP(g, s);
-        for(int i = 0; i < g.V(); i++){
-            StdOut.print(s + " to " + i);
-            StdOut.printf(" (%4.2f): ", bfsp.distTo(i));
-            if(bfsp.hasPathTo(i)){
-                for(DirectedEdge e: bfsp.pathTo(i)){
-                    StdOut.print(e + "   ");
+        if(!bfsp.hasNegativeCycle()){
+            StdOut.println("Shortest paths:");
+            for(int i = 0; i < g.V(); i++){
+                StdOut.print(s + " to " + i);
+                StdOut.printf(" (%4.2f): ", bfsp.distTo(i));
+                if(bfsp.hasPathTo(i)){
+                    for(DirectedEdge e: bfsp.pathTo(i)){
+                        StdOut.print(e + "   ");
+                    }
                 }
+                StdOut.println();
+            }
+        }else{
+            StdOut.println("Negative cycle:");
+            for(DirectedEdge e: bfsp.negativeCycle()){
+                StdOut.print(e + "   ");
+            }
+            StdOut.println();
+        }
+
+        // * tester #3 
+        StdOut.println("\n3. tinyEWDGnc.txt with a negative cycle");
+        filename = "data/tinyEWDGnc.txt";
+        g = new EdgeWeightedDigraph(new In(filename));
+        s = 0;
+        bfsp = new BellmanFordSP(g, s);
+        if(!bfsp.hasNegativeCycle()){
+            StdOut.println("Shortest paths:");
+            for(int i = 0; i < g.V(); i++){
+                StdOut.print(s + " to " + i);
+                StdOut.printf(" (%4.2f): ", bfsp.distTo(i));
+                if(bfsp.hasPathTo(i)){
+                    for(DirectedEdge e: bfsp.pathTo(i)){
+                        StdOut.print(e + "   ");
+                    }
+                }
+                StdOut.println();
+            }
+        }else{
+            StdOut.println("Negative cycle:");
+            for(DirectedEdge e: bfsp.negativeCycle()){
+                StdOut.print(e + "   ");
             }
             StdOut.println();
         }
