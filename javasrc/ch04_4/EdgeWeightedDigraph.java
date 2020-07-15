@@ -5,6 +5,9 @@ package javasrc.ch04_4;
 
  ? sample file tinyEWDG.txt (tinyEWD.txt in textbook), P.653
 
+ * 4.4.2 Provide implementations of the constructor EdgeWeightedDigraph(In in) 
+ * and the method toString() for EdgeWeightedDigraph.
+ * 
 */
 
 import javasrc.ch01_3.BagX;
@@ -63,6 +66,16 @@ public class EdgeWeightedDigraph {
             }
         }
         return result;
+    }
+
+    // * 4.4.2
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for(DirectedEdge e: this.edges()){
+            sb.append(e.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     public static void main(String[] args){

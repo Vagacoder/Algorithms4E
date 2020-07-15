@@ -1,7 +1,7 @@
 package javasrc.ch04_4;
 
 /*
- * Algorithm 4.9 Dijkstra's Shortedt-Paths Algorithm. P.655
+ * Algorithm 4.9 Dijkstra's Shortest-Paths Algorithm. P.655
  * 
  * Proposition P. (shortest-paths optimality conditions) Let G be an edge-weighted
  * digraph, with s a source vertex in G and distTo[] a vertex-indexed array of 
@@ -27,6 +27,10 @@ package javasrc.ch04_4;
  * to V and time proportional to E log V (in the worst case) to solve the single-
  * source shortest paths problem in an edge-weighted digraph with E edges and V 
  * vertices.
+  
+ ! This Dijkstra algorithm allows a vertex to be enqueued more than ONCE, and it 
+ ! is correct in the presence of NEGATIVE edge weights (but no negative cycles), 
+ ! but its running time is exponential in the worst case.
 
  ? sample file:
  ? 1. tinyEWDG.txt (tinyEWD.txt in textbook), P.653
