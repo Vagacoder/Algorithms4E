@@ -3,7 +3,11 @@ package javasrc.ch04_4;
 /* 
  * Derived from ch4.2/DirectedCycle.java. P.577
  * by changing from 'Digraph' to 'EdgeWeightedDigraph'
- * 
+ *
+ * 4.4.12 Adapt the DirectedCycle and Topological classes from Section 4.2 to use
+ * the EdgeWeightedDigraph and DirectedEdge APIs of this section, thus implementing
+ * EdgeWeightedDirectedCycle and Topological classes.
+ *
 
  ? Sample file: data/tinyEWDG1.txt (edge-weighted digraph with cycle);
 

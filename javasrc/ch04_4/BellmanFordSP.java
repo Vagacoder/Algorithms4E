@@ -27,8 +27,8 @@ package javasrc.ch04_4;
  */
 
 import java.util.Stack;
- import javasrc.ch01_3.LinkedListQueue;
- import lib.*;
+import javasrc.ch01_3.LinkedListQueue;
+import lib.*;
 
 public class BellmanFordSP {
    

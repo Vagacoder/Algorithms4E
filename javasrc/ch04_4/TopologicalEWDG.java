@@ -3,6 +3,11 @@ package javasrc.ch04_4;
 /*
 * Derived from Algorithm 4.5 (Topological for directed graph) at P.581 
 * by changeing parameter from 'Digraph' to 'EdgeWeightedDigraph'
+*
+* 4.4.12 Adapt the DirectedCycle and Topological classes from Section 4.2 to use
+* the EdgeWeightedDigraph and DirectedEdge APIs of this section, thus implementing
+* EdgeWeightedDirectedCycle and Topological classes.
+*
 */
 
 import javasrc.ch04_2.DepthFirstOrder;
