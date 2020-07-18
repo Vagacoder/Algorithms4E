@@ -140,7 +140,7 @@ public class DijkstraSP {
         StdOut.println("1. tinyEWDG.txt no negative edge");
         String filename = "data/tinyEWDG.txt";
         EdgeWeightedDigraph g = new EdgeWeightedDigraph(new In(filename));
-        int s = 0;
+        int s = 3;
         DijkstraSP dsp = new DijkstraSP(g, s);
 
         for(int i = 0; i < g.V(); i++){
