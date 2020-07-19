@@ -7,7 +7,11 @@ package javasrc.ch04_4;
 * 4.4.12 Adapt the DirectedCycle and Topological classes from Section 4.2 to use
 * the EdgeWeightedDigraph and DirectedEdge APIs of this section, thus implementing
 * EdgeWeightedDirectedCycle and Topological classes.
-*
+
+ ? Sample file: 
+ ? tinyEWDAG.txt, P.659
+ ? tinyEWDAGn.txt, modified from tinyEWDAG, 6->4 -0.93
+
 */
 
 import javasrc.ch04_2.DepthFirstOrder;
@@ -18,7 +22,6 @@ public class TopologicalEWDG {
     private Iterable<Integer> order;
 
     public TopologicalEWDG(EdgeWeightedDigraph g){
-        // TODO
         EdgeWeightedDirectedCycle cycleFinder = new EdgeWeightedDirectedCycle(g);
         if(!cycleFinder.hasCycle()){
             DepthFirstOrder dfo = new DepthFirstOrder(g);
@@ -48,11 +51,25 @@ public class TopologicalEWDG {
             StdOut.println(v);
         }
 
-        filename = "data/tinyEWDG.txt";
+        filename = "data/tinyEWDGn.txt";
         StdOut.println("\n2. testing " + filename);
         ewdg = new EdgeWeightedDigraph(new In(filename));
         top = new TopologicalEWDG(ewdg);
         StdOut.println("Is it a DAG: " + top.isDAG());
 
+        filename = "data/tinyEWDG.txt";
+        StdOut.println("\n3. testing " + filename);
+        ewdg = new EdgeWeightedDigraph(new In(filename));
+        top = new TopologicalEWDG(ewdg);
+        StdOut.println("Is it a DAG: " + top.isDAG());
+
+        filename = "data/tinyEWDAGn.txt";
+        StdOut.println("\n4. testing " + filename);
+        ewdg = new EdgeWeightedDigraph(new In(filename));
+        top = new TopologicalEWDG(ewdg);
+        StdOut.println("Is it a DAG: " + top.isDAG());
+        for(int v : top.order()){
+            StdOut.println(v);
+        }
     }
 }

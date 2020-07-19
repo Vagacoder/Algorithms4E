@@ -9,7 +9,10 @@ package javasrc.ch04_4;
  * EdgeWeightedDirectedCycle and Topological classes.
  *
 
- ? Sample file: data/tinyEWDG1.txt (edge-weighted digraph with cycle);
+ ? Sample file: 
+ ? tinyEWDG1.txt (edge-weighted digraph with cycle);
+ ? tinyEWDAG.txt, P.659
+ ? tinyEWDAGn.txt, modified from tinyEWDAG, 6->4 -0.93
 
 */
 
@@ -65,13 +68,29 @@ public class EdgeWeightedDirectedCycle {
     }
 
     public static void main(String[] args){
-        String filename = "data/tinyEWDG1.txt";
+        // * test 1
+        StdOut.println("1. test tinyEWDAG.txt, no cycle");
+        String filename = "data/tinyEWDAG.txt";
         EdgeWeightedDigraph ewdg = new EdgeWeightedDigraph(new In(filename));
         EdgeWeightedDirectedCycle cycle = new EdgeWeightedDirectedCycle(ewdg);
+        StdOut.println("Is there cycle: " + cycle.hasCycle());
+        
+        // * test 2
+        StdOut.println("\n2. test tinyEWDG1.txt, with cycle");
+        filename = "data/tinyEWDG1.txt";
+        ewdg = new EdgeWeightedDigraph(new In(filename));
+        cycle = new EdgeWeightedDirectedCycle(ewdg);
         StdOut.println("Is there cycle: " + cycle.hasCycle());
         for(DirectedEdge e: cycle.cycle()){
             StdOut.println(e.toString());
         }
+
+        // * test 3
+        StdOut.println("\n3. test tinyEWDAGn.txt, no cycle");
+        filename = "data/tinyEWDAGn.txt";
+        ewdg = new EdgeWeightedDigraph(new In(filename));
+        cycle = new EdgeWeightedDirectedCycle(ewdg);
+        StdOut.println("Is there cycle: " + cycle.hasCycle());
     }
 
 }

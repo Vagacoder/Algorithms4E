@@ -13,9 +13,10 @@ package javasrc.ch04_4;
  * the original, except that all edge weights are negated. Then the shortest path 
  * in this copy is the longest path in the original.
  * 
-
  
- ? Sample file: tinyEWDAG.txt, P.659
+ ? Sample file: 
+ ? tinyEWDAG.txt, P.659
+ ? tinyEWDAGn.txt, modified from tinyEWDAG, 6->4 -0.93
 
  */
 
@@ -76,20 +77,58 @@ public class AcyclicSP {
 
 
     public static void main(String[] args){
+        // * tester #1
+        StdOut.println("1. tinyEWDAG.txt no negative edge, no cycle");
         String filename = "data/tinyEWDAG.txt";
         EdgeWeightedDigraph g = new EdgeWeightedDigraph(new In(filename));
-        AcyclicSP asp = new AcyclicSP(g, 5);
-        StdOut.println("From 5 to 0");
-        for(DirectedEdge e: asp.pathTo(0)){
-            StdOut.println(e.toString());
+        int s = 5;
+        AcyclicSP asp = new AcyclicSP(g, s);
+
+        for(int i = 0; i < g.V(); i++){
+            StdOut.print(s + " to " + i);
+            StdOut.printf(" (%4.2f): ", asp.distTo(i));
+            if(asp.hasPathTo(i)){
+                for(DirectedEdge e: asp.pathTo(i)){
+                    StdOut.print(e + "   ");
+                }
+            }
+            StdOut.println();
         }
-        StdOut.println("From 5 to 2");
-        for(DirectedEdge e: asp.pathTo(2)){
-            StdOut.println(e.toString());
+        
+        // * tester #2
+        StdOut.println("2. tinyEWDAGn.txt with negative edge");
+        filename = "data/tinyEWDAGn.txt";
+        g = new EdgeWeightedDigraph(new In(filename));
+        s = 5;
+        asp = new AcyclicSP(g, s);
+
+        for(int i = 0; i < g.V(); i++){
+            StdOut.print(s + " to " + i);
+            StdOut.printf(" (%4.2f): ", asp.distTo(i));
+            if(asp.hasPathTo(i)){
+                for(DirectedEdge e: asp.pathTo(i)){
+                    StdOut.print(e + "   ");
+                }
+            }
+            StdOut.println();
         }
-        StdOut.println("From 5 to 6");
-        for(DirectedEdge e: asp.pathTo(6)){
-            StdOut.println(e.toString());
+
+        // * tester #3
+        StdOut.println("3. tinyEWDG.txt no negative edge, with cycle, will fail");
+        filename = "data/tinyEWDG.txt";
+        g = new EdgeWeightedDigraph(new In(filename));
+        s = 0;
+        asp = new AcyclicSP(g, s);
+
+        for(int i = 0; i < g.V(); i++){
+            StdOut.print(s + " to " + i);
+            StdOut.printf(" (%4.2f): ", asp.distTo(i));
+            if(asp.hasPathTo(i)){
+                for(DirectedEdge e: asp.pathTo(i)){
+                    StdOut.print(e + "   ");
+                }
+            }
+            StdOut.println();
         }
 
     }
