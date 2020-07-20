@@ -1,5 +1,6 @@
 package javasrc.ch04_4;
 
+
 /*
 * Official Dijkstra's Shortest Path algorithm, from website
 */
@@ -56,8 +57,8 @@ package javasrc.ch04_4;
  *  @author Kevin Wayne
  */
 
+import javasrc.ch01_3.LinkedListStackX;
 import javasrc.ch02_4.IndexMinPQ;
-import java.util.Stack;
 import lib.*;
 
 public class DijkstraSPx {
@@ -155,7 +156,7 @@ public class DijkstraSPx {
         validateVertex(v);
         if (!hasPathTo(v))
             return null;
-        Stack<DirectedEdge> path = new Stack<DirectedEdge>();
+            LinkedListStackX<DirectedEdge> path = new LinkedListStackX<DirectedEdge>();
         for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
             path.push(e);
         }

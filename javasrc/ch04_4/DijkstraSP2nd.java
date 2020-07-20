@@ -1,18 +1,18 @@
 package javasrc.ch04_4;
 
 /*
- * 4.4.7 Develop a version of DijkstraSP that supports a client method that returns 
+* 4.4.7 Develop a version of DijkstraSP that supports a client method that returns 
  * a second shortest path from s to t in an edge-weighted digraph (and returns 
  * null if there is only one shortest path from s to t).
   
  ? sample file:
  ? 1. tinyEWDG.txt (tinyEWD.txt in textbook), P.653
-
+ 
  ! this algorithm does not guarantee SECOND SHORTEST path
-
+ 
  */
 
-import java.util.Stack;
+import javasrc.ch01_3.LinkedListStackX;
 import javasrc.ch02_4.IndexMinPQ;
 import lib.*;
 
@@ -94,7 +94,7 @@ public class DijkstraSP2nd {
             return null;
         }
 
-        Stack<DirectedEdge> path = new Stack<>();
+        LinkedListStackX<DirectedEdge> path = new LinkedListStackX<>();
         for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
             path.push(e);
         }
@@ -106,7 +106,7 @@ public class DijkstraSP2nd {
             return null;
         }
 
-        Stack<DirectedEdge> path = new Stack<>();
+        LinkedListStackX<DirectedEdge> path = new LinkedListStackX<>();
         
         // int vMinDiff = v;
         // double minDiff = this.diff[v];

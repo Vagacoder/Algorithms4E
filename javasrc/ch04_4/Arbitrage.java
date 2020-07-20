@@ -26,7 +26,7 @@ public class Arbitrage {
     public static void main(String[] args){
         // int V = StdIn.readInt();
 
-        String filename = "data/rates.txt";
+        String filename = "data/rates1.txt";
         In in = new In(filename);
         int V = Integer.parseInt(in.readLine());
 
@@ -45,16 +45,31 @@ public class Arbitrage {
             }
         }
 
-        BellmanFordSP bfsp = new BellmanFordSP(g, 0);
-        if(bfsp.hasNegativeCycle()){
-            double stake = 1000.0;
-            for(DirectedEdge e : bfsp.negativeCycle()){
-                StdOut.printf("%10.5f %s ", stake, name[e.from()]);
-                stake *= Math.exp(-e.weight());
-                StdOut.printf("= %10.5f %s\n", stake, name[e.to()]);
+        // BellmanFordSP bfsp = new BellmanFordSP(g, 0);
+        // if(bfsp.hasNegativeCycle()){
+        //     double stake = 1000.0;
+        //     for(DirectedEdge e : bfsp.negativeCycle()){
+        //         StdOut.printf("%10.5f %s ", stake, name[e.from()]);
+        //         stake *= Math.exp(-e.weight());
+        //         StdOut.printf("= %10.5f %s\n", stake, name[e.to()]);
+        //     }
+        // }else{
+        //     StdOut.println("No arbitrage opportunity");
+        // }
+
+        for(int i = 0; i < V; i++){
+            StdOut.println("For " + name[i] + ": ");
+            BellmanFordSP bfsp = new BellmanFordSP(g, i);
+            if(bfsp.hasNegativeCycle()){
+                double stake = 1000.0;
+                for(DirectedEdge e : bfsp.negativeCycle()){
+                    StdOut.printf("%10.5f %s ", stake, name[e.from()]);
+                    stake *= Math.exp(-e.weight());
+                    StdOut.printf("= %10.5f %s\n", stake, name[e.to()]);
+                }
+            }else{
+                StdOut.println("No arbitrage opportunity");
             }
-        }else{
-            StdOut.println("No arbitrage opportunity");
         }
     }
 }

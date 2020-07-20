@@ -1,8 +1,8 @@
 package javasrc.ch04_4;
 
 /*
- * Algorithm 4.9 Dijkstra's Shortest-Paths Algorithm. P.655
- * 
+* Algorithm 4.9 Dijkstra's Shortest-Paths Algorithm. P.655
+* 
  * Proposition P. (shortest-paths optimality conditions) Let G be an edge-weighted
  * digraph, with s a source vertex in G and distTo[] a vertex-indexed array of 
  * path lengths in G such that, for all v reachable from s, the value of distTo[v] 
@@ -15,7 +15,7 @@ package javasrc.ch04_4;
  
  ? Initialize distTo[s] to 0 and all other distTo[] values to infinity, and proceed as follows: 
  ?      Relax any edge in G, continuing until no edge is eligible. 
-
+ 
  * For all vertices w reachable from s, the value of distTo[w] after this computation
  * is the length of a shortest path from s to w (and edgeTo[w] is the last edge 
  * on such a path).
@@ -37,15 +37,15 @@ package javasrc.ch04_4;
  ? 2. tinyEWDGn.txt (an edge weighted digraph with NEGATIVE edges), P.668
  ? 3. tinyEWDGnc.txt (an edge weighted digraph has CYCLE with NEGATIVE edges), P.669
  ? 4. tinyEWDGnConvert.txt (from tinyEWDGn.txt, for strawman I P.688)
-
+ 
 */
 
-import java.util.Stack;
+import javasrc.ch01_3.LinkedListStackX;
 import javasrc.ch02_4.IndexMinPQ;
 import lib.*;
 
 public class DijkstraSP {
-
+    
     private DirectedEdge[] edgeTo;
     private double[] distTo;
     private IndexMinPQ<Double> pq;
@@ -112,7 +112,7 @@ public class DijkstraSP {
             return null;
         }
 
-        Stack<DirectedEdge> path = new Stack<>();
+        LinkedListStackX<DirectedEdge> path = new LinkedListStackX<>();
         for(DirectedEdge e = edgeTo[v]; e!=null; e=edgeTo[e.from()]){
             path.push(e);
         }

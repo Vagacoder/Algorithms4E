@@ -1,8 +1,8 @@
 package javasrc.ch04_4;
 
 /*
- * Algorithm 4.10 Shortest Paths in Edge-Weighted DAGs. P.660
- * 
+* Algorithm 4.10 Shortest Paths in Edge-Weighted DAGs. P.660
+* 
  * Proposition S. By relaxing vertices in topological order, we can solve the 
  * single-source shortest-paths problem for edge-weighted DAGs in time proportional 
  * to E + V.
@@ -17,10 +17,10 @@ package javasrc.ch04_4;
  ? Sample file: 
  ? tinyEWDAG.txt, P.659
  ? tinyEWDAGn.txt, modified from tinyEWDAG, 6->4 -0.93
-
+ 
  */
 
-import java.util.Stack;
+import javasrc.ch01_3.LinkedListStackX;
 import lib.*;
 
 public class AcyclicSP {
@@ -68,7 +68,7 @@ public class AcyclicSP {
             return null;
         }
 
-        Stack<DirectedEdge> path = new Stack<>();
+        LinkedListStackX<DirectedEdge> path = new LinkedListStackX<>();
         for(DirectedEdge e = edgeTo[v]; e!=null; e=edgeTo[e.from()]){
             path.push(e);
         }

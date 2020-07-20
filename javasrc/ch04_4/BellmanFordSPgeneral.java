@@ -1,7 +1,8 @@
 package javasrc.ch04_4;
 
+
 /*
- * Bellman-Ford Algorithm, General. P.671
+* Bellman-Ford Algorithm, General. P.671
  *  
  * Proposition X. (bellman-Ford algorithm) The following method solves the single-
  * source shortest-paths problem from a given source s for any edge-weighted 
@@ -15,7 +16,7 @@ package javasrc.ch04_4;
  ! (1) Initialize distTo[s] to 0 and all other distTo[] values to infinity. 
  ! (2) Then, considering the digraph’s edges in any order, relax all edges. 
  ! (3) Make V such passes.
-
+ 
  ? sample file:
  ? 1. tinyEWDG.txt (tinyEWD.txt in textbook), P.653
  ? 2. tinyEWDGn.txt (an edge weighted digraph with NEGATIVE edges), P.668
@@ -23,7 +24,7 @@ package javasrc.ch04_4;
  
  */
 
-import java.util.Stack;
+import javasrc.ch01_3.LinkedListStackX;
 import lib.*;
 
 public class BellmanFordSPgeneral {
@@ -98,7 +99,7 @@ public class BellmanFordSPgeneral {
             return null;
         }
 
-        Stack<DirectedEdge> path = new Stack<>();
+        LinkedListStackX<DirectedEdge> path = new LinkedListStackX<>();
         for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
             path.push(e);
         }

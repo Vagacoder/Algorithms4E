@@ -26,8 +26,8 @@ package javasrc.ch04_4;
 
  */
 
-import java.util.Stack;
 import javasrc.ch01_3.LinkedListQueue;
+import javasrc.ch01_3.LinkedListStackX;
 import lib.*;
 
 public class BellmanFordSP {
@@ -106,7 +106,7 @@ public class BellmanFordSP {
             return null;
         }
 
-        Stack<DirectedEdge> path = new Stack<>();
+        LinkedListStackX<DirectedEdge> path = new LinkedListStackX<>();
         for(DirectedEdge e = edgeTo[v]; e!=null; e=edgeTo[e.from()]){
             path.push(e);
         }

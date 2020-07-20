@@ -1,29 +1,29 @@
 package javasrc.ch04_4;
 
 /* 
- * Derived from ch4.2/DirectedCycle.java. P.577
- * by changing from 'Digraph' to 'EdgeWeightedDigraph'
+* Derived from ch4.2/DirectedCycle.java. P.577
+* by changing from 'Digraph' to 'EdgeWeightedDigraph'
  *
  * 4.4.12 Adapt the DirectedCycle and Topological classes from Section 4.2 to use
  * the EdgeWeightedDigraph and DirectedEdge APIs of this section, thus implementing
  * EdgeWeightedDirectedCycle and Topological classes.
  *
-
+ 
  ? Sample file: 
  ? tinyEWDG1.txt (edge-weighted digraph with cycle);
  ? tinyEWDAG.txt, P.659
  ? tinyEWDAGn.txt, modified from tinyEWDAG, 6->4 -0.93
+ 
+ */
 
-*/
-
-import java.util.Stack;
+import javasrc.ch01_3.LinkedListStackX;
 import lib.*;
 
 public class EdgeWeightedDirectedCycle {
     
     private boolean[] marked;
     private DirectedEdge[] edgeTo;
-    private Stack<DirectedEdge> cycle;
+    private LinkedListStackX<DirectedEdge> cycle;
     private boolean[] onStack;
 
     public EdgeWeightedDirectedCycle(EdgeWeightedDigraph g){
@@ -49,11 +49,11 @@ public class EdgeWeightedDirectedCycle {
                 this.edgeTo[w] = e;
                 dfs(g, w);
             }else if(onStack[w]){
-                cycle = new Stack<DirectedEdge>();
+                cycle = new LinkedListStackX<DirectedEdge>();
+                cycle.push(e);
                 for(int x = v; x!= w; x=edgeTo[x].from()){
                     cycle.push(edgeTo[x]);
                 }
-                cycle.push(e);
             }
         }
         this.onStack[v] = false;

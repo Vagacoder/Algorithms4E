@@ -1,7 +1,7 @@
 package javasrc.ch04_4;
 
 /*
- * Longest Paths of Edge-weighted directed graph. P.661
+* Longest Paths of Edge-weighted directed graph. P.661
  * 
  * Derived from Algorithm 4.10 Shortest Paths in Edge-Weighted DAGs. P.660
  * 
@@ -49,7 +49,7 @@ package javasrc.ch04_4;
  * @author Kevin Wayne
  */
 
-import java.util.Stack;
+import javasrc.ch01_3.LinkedListStackX;
 import lib.*;
 
 public class AcyclicLP {
@@ -133,7 +133,7 @@ public class AcyclicLP {
         validateVertex(v);
         if (!hasPathTo(v))
             return null;
-        Stack<DirectedEdge> path = new Stack<DirectedEdge>();
+            LinkedListStackX<DirectedEdge> path = new LinkedListStackX<DirectedEdge>();
         for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()]) {
             path.push(e);
         }
