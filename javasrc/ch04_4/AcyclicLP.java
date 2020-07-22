@@ -6,6 +6,10 @@ package javasrc.ch04_4;
  * Derived from Algorithm 4.10 Shortest Paths in Edge-Weighted DAGs. P.660
  * 
  * Official implementation from website.
+ * 
+ * Proposition T. We can solve the longest-paths problem in edge-weighted DAGs 
+ * in time proportional to E + V.
+ * 
  */
 
 /******************************************************************************
