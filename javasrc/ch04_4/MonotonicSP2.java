@@ -8,10 +8,8 @@ package javasrc.ch04_4;
  * Hint : Relax edges in ascending order always NOT in queue and find a best path; 
  * then relax edges in descending order and find a best path.
 
- ! Wrong understanding on problem description. The weight of edges are increasing
- ! or descreasing alone the path, one egde by another.
- 
- !See MonotonicSP2.java
+ ! The weight of edges are increasing or descreasing alone the path, one egde by 
+ ! another.
 
  ? sample file:
  ? 1. tinyEWDG.txt (tinyEWD.txt in textbook), P.653
@@ -21,14 +19,13 @@ package javasrc.ch04_4;
 import javasrc.ch01_3.LinkedListStackX;
 import lib.*;
 
-public class MonotonicSP {
-
+public class MonotonicSP2 {
     private double[] distToA;
     private double[] distToD;
     private DirectedEdge[] edgeToA;
     private DirectedEdge[] edgeToD;
 
-    public MonotonicSP(EdgeWeightedDigraph g, int s) {
+    public MonotonicSP2(EdgeWeightedDigraph g, int s) {
         int V = g.V();
         this.distToA = new double[V];
         this.distToD = new double[V];
@@ -52,10 +49,12 @@ public class MonotonicSP {
         }
     }
 
+    // *
     private void relaxA(DirectedEdge e) {
         int v = e.from();
         int w = e.to();
-        if (e.weight() >= 0) {
+
+        if (edgeToA[v] == null || e.weight() >= edgeToA[v].weight()) {
             double newDistToW = distToA[v] + e.weight();
             if (distToA[w] > newDistToW) {
                 distToA[w] = newDistToW;
@@ -67,7 +66,8 @@ public class MonotonicSP {
     private void relaxD(DirectedEdge e) {
         int v = e.from();
         int w = e.to();
-        if (e.weight() <= 0) {
+
+        if (edgeToD[v] == null || e.weight() <= edgeToD[v].weight()) {
             double newDistToW = distToD[v] + e.weight();
             if (distToD[w] > newDistToW) {
                 distToD[w] = newDistToW;
@@ -76,7 +76,7 @@ public class MonotonicSP {
         }
     }
 
-    public boolean hasPathToA(int v){
+    public boolean hasPathToA(int v) {
         return this.distToA[v] < Double.POSITIVE_INFINITY;
     }
 
@@ -84,7 +84,7 @@ public class MonotonicSP {
         return this.distToA[v];
     }
 
-    public boolean hasPathToD(int v){
+    public boolean hasPathToD(int v) {
         return this.distToD[v] < Double.POSITIVE_INFINITY;
     }
 
@@ -93,7 +93,7 @@ public class MonotonicSP {
     }
 
     public Iterable<DirectedEdge> pathToA(int v) {
-        if(!hasPathToA(v)){
+        if (!hasPathToA(v)) {
             return null;
         }
 
@@ -105,7 +105,7 @@ public class MonotonicSP {
     }
 
     public Iterable<DirectedEdge> pathToD(int v) {
-        if(!hasPathToD(v)){
+        if (!hasPathToD(v)) {
             return null;
         }
 
@@ -122,7 +122,7 @@ public class MonotonicSP {
         String filename = "data/tinyEWDG.txt";
         EdgeWeightedDigraph g = new EdgeWeightedDigraph(new In(filename));
         int s = 0;
-        MonotonicSP mpg = new MonotonicSP(g, s);
+        MonotonicSP2 mpg = new MonotonicSP2(g, s);
 
         StdOut.println("1.1. Shortest Ascending paths:");
         for (int i = 0; i < g.V(); i++) {
@@ -137,64 +137,6 @@ public class MonotonicSP {
         }
 
         StdOut.println("1.2. Shortest Descending paths:");
-        for (int i = 0; i < g.V(); i++) {
-            StdOut.print(s + " to " + i);
-            StdOut.printf(" (%4.2f): ", mpg.distToD(i));
-            if (mpg.hasPathToD(i)) {
-                for (DirectedEdge e : mpg.pathToD(i)) {
-                    StdOut.print(e + "   ");
-                }
-            }
-            StdOut.println();
-        }
-
-        // * tester #2 
-        StdOut.println("\n2. tinyEWDGn.txt with 3 negative edges");
-        filename = "data/tinyEWDGn.txt";
-        g = new EdgeWeightedDigraph(new In(filename));
-        s = 0;
-        mpg = new MonotonicSP(g, s);
-
-        StdOut.println("2.1. Shortest Ascending paths from 0:");
-        for (int i = 0; i < g.V(); i++) {
-            StdOut.print(s + " to " + i);
-            StdOut.printf(" (%4.2f): ", mpg.distToA(i));
-            if (mpg.hasPathToA(i)) {
-                for (DirectedEdge e : mpg.pathToA(i)) {
-                    StdOut.print(e + "   ");
-                }
-            }
-            StdOut.println();
-        }
-
-        StdOut.println("2.2. Shortest Descending paths from 0:");
-        for (int i = 0; i < g.V(); i++) {
-            StdOut.print(s + " to " + i);
-            StdOut.printf(" (%4.2f): ", mpg.distToD(i));
-            if (mpg.hasPathToD(i)) {
-                for (DirectedEdge e : mpg.pathToD(i)) {
-                    StdOut.print(e + "   ");
-                }
-            }
-            StdOut.println();
-        }
-
-        s = 6;
-        mpg = new MonotonicSP(g, s);
-
-        StdOut.println("2.3. Shortest Ascending paths from 6:");
-        for (int i = 0; i < g.V(); i++) {
-            StdOut.print(s + " to " + i);
-            StdOut.printf(" (%4.2f): ", mpg.distToA(i));
-            if (mpg.hasPathToA(i)) {
-                for (DirectedEdge e : mpg.pathToA(i)) {
-                    StdOut.print(e + "   ");
-                }
-            }
-            StdOut.println();
-        }
-
-        StdOut.println("2.4. Shortest Descending paths from 6:");
         for (int i = 0; i < g.V(); i++) {
             StdOut.print(s + " to " + i);
             StdOut.printf(" (%4.2f): ", mpg.distToD(i));

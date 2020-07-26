@@ -29,6 +29,6 @@ public class DirectedEdge {
     }
 
     public String toString(){
-        return String.format("%d->%d %.2f", from, to, weight);
+        return String.format("%d->%d %.4f", from, to, weight);
     }
 }
