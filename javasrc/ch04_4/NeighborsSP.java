@@ -2,13 +2,13 @@ package javasrc.ch04_4;
 
 
 /*
-* 4.4.36 Neighbors. Develop an SP client that finds all vertices within a given 
-* distance d of a given vertex in a given edge-weighted digraph. The running 
-* time of your method should be proportional to the number of vertices and edges 
+ * 4.4.36 Neighbors. Develop an SP client that finds all vertices within a given 
+ * distance d of a given vertex in a given edge-weighted digraph. The running 
+ * time of your method should be proportional to the number of vertices and edges 
  * in the subgraph induced by those vertices and the edges incident to them, plus 
  * V (to initialize data structures).
  
- 
+ ? Algorithm: when calculate distTo[w], compare it with the given maximum distance
  
  */
 
