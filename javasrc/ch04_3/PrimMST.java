@@ -52,17 +52,17 @@ public class PrimMST {
 
     public PrimMST(EdgeWeightedGraph g){
         this.edgeTo = new Edge[g.V()];
-        this.distTo = new double[g.V()];
         this.marked = new boolean[g.V()];
-
+        this.pq = new IndexMinPQ<>(g.V());
+        this.distTo = new double[g.V()];
+        
         for(int v = 0; v < g.V(); v++){
             distTo[v] = Double.POSITIVE_INFINITY;
         }
 
-        this.pq = new IndexMinPQ<>(g.V());
-
         distTo[0] = 0.0;
         pq.insert(0, 0.0);
+        
         while(!pq.isEmpty()){
             visit(g, pq.delMin());
         }
