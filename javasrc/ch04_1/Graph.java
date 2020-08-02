@@ -150,7 +150,7 @@ public class Graph {
         return 2.0 * G.E() / G.V();
     }
 
-    public static int numberOfSlefLoops(Graph G) {
+    public static int numberOfSelfLoops(Graph G) {
         int count = 0;
         for (int v = 0; v < G.V(); v++) {
             for (int w : G.adj(v)) {

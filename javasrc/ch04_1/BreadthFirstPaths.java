@@ -20,7 +20,10 @@ import javasrc.ch01_3.LinkedListQueue;
 public class BreadthFirstPaths extends Paths{
     
     private boolean[] marked;       // Is a shortest path to this vertex know?
-    private int[] edgeTo;           // last vertex on known path to this vertex
+    
+    // * last vertex on known path to this vertex
+    // * edgeTo[] remembers paths from source to every reachable vertices
+    private int[] edgeTo;
     private final int s;
 
     public BreadthFirstPaths(Graph G, int s){

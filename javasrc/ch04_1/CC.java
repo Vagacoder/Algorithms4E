@@ -14,13 +14,17 @@ import lib.*;
  * the largest component, and the number of components of size less than 10. 
  * Find the eccentricity, diameter, radius, a center, and the girth of the largest 
  * component in the graph. Does it contain Kevin Bacon?
- *
+
+ ? Sample file:
+ ? data/tinyG.txt
+
  */
 
 public class CC {
 
     private boolean[] marked;
-    private int[] componentId;      // * original name: id
+     // * original name: id
+    private int[] componentId;     
     private int count;
 
     public CC(Graph G){

@@ -7,7 +7,8 @@ import lib.*;
  * Algorithm 4.4 Reachability in digraphs. P.571
  * 
  * Proposition D. DFS marks all the vertices in a digraph reachable from a given 
- * set of sources in time proportional to the sum of the outdegrees of the vertices marked.
+ * set of sources in time proportional to the sum of the outdegrees of the vertices 
+ * marked.
  * 
  */
 

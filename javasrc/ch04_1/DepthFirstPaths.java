@@ -11,13 +11,20 @@ import java.util.Stack;
  * proportional to the sum of their degrees. DFS allows us to provide clients 
  * with a path from a given source to any marked vertex in time proportional its 
  * length.
- * 
+ 
+ ! The result of the search is a tree rooted at the source; edgeTo[] is a parent-
+ ! link representation of that tree. 
+
  */
 
 public class DepthFirstPaths extends Paths {
 
-    private boolean[] marked; // has dfs() been called for this vertex?
-    private int[] edgeTo; // last vertex on known path to this vertex
+    // * has dfs() been called for this vertex?
+    private boolean[] marked; 
+
+    // * last vertex on known path to this vertex
+    // * edgeTo[] remembers paths from source to every reachable vertices
+    private int[] edgeTo; 
     private final int s;
 
     public DepthFirstPaths(Graph G, int s) {
