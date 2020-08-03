@@ -40,7 +40,10 @@ public class CC {
 
     private void dfs(Graph G, int v){
         marked[v] = true;
+
+        // ! all vertices visited in same call stack of dfs have same id.
         componentId[v] = count;
+        
         for(int w : G.adj(v)){
             if(!marked[w]){
                 dfs(G, w);

@@ -24,8 +24,8 @@ import lib.*;
  
  ! Proposition E. A digraph has a topological order if and only if it is a DAG. P.578
  
- * Proposition F. Reverse postorder in a DAG is a topological sort. P.582
- * 
+ ! Proposition F. Reverse postorder in a DAG is a topological sort. P.582
+  
  * Proposition G. With DFS, we can topologically sort a DAG in time proportional to V+E.
  * 
  */

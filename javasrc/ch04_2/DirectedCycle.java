@@ -13,13 +13,18 @@ public class DirectedCycle{
     private boolean[] marked;
     private int[] edgeTo;
     private Stack<Integer> cycle;
-    private boolean[] onStack;      // * vertices on recursive call stack
 
+    // ! Key difference between Cycle.java and DirectedCycle.java is onStack[]
+    // * vertices on recursive call stack
+    private boolean[] onStack;      
+
+    // * this constructor is almost same as Cycle.java, except one additional onStack[]
     public DirectedCycle(Digraph G){
         int V = G.V();
         onStack = new boolean[V];
         edgeTo = new int[V];
         marked = new boolean[V];
+
         for (int v = 0; v< V; v++){
             if(!marked[v]){
                 dfs(G, v);
@@ -29,7 +34,9 @@ public class DirectedCycle{
 
     // ! onStack [] marks whether current vertex is on recursove call stack
     private void dfs(Digraph G, int v){
+        // * in recursive calling stack
         onStack[v] = true;
+
         marked[v] = true;
         for(int w: G.adj(v)){
             if(this.hasCycle()){
@@ -46,6 +53,8 @@ public class DirectedCycle{
                 cycle.push(v);
             }
         }
+
+        // * out recursive calling stack
         onStack[v] = false;
     }
 

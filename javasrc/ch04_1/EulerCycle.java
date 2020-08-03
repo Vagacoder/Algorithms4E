@@ -12,6 +12,9 @@ package javasrc.ch04_1;
  * 
  * To test Hamilton cycle, just check whether intance variable cycle contain all
  * vertieces and only one of any vertex.
+  
+ ! Need better algorithm 
+ 
  */
 
 import java.util.ArrayList;

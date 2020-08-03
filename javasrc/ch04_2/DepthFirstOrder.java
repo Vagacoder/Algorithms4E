@@ -62,6 +62,7 @@ public class DepthFirstOrder {
         this.reversePost.push(v);
     }
 
+    // * for chapter 4.4, Edge-weighted directed graph
     private void dfs(EdgeWeightedDigraph g, int v){
         this.pre.enqueue(v);
 

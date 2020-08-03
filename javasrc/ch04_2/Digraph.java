@@ -91,6 +91,7 @@ public class Digraph {
             }
         }
 
+        // * basic operation
         adj[v].add(w);
         this.E++;
     }
