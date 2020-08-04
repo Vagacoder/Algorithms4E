@@ -5,7 +5,7 @@ import lib.*;
 /*
  * Algorithm 4.6 Kosaraju-Sharir algorithm for Strong Component. P.587
  
- ! Detailed explaination is on P.588
+ ! Detailed explaination is on P.588. Schema at P.589.
   
  * Postorder Lemma. Let C be a strong component in a digraph G and let v be any 
  * vertex not in C. If there is an edge e pointing from any vertex in C to v, 

@@ -23,7 +23,7 @@ import javasrc.ch04_1.BreadthFirstPaths;
 import javasrc.ch04_1.BreadthFirstPathsX;
 import lib.*;
 
-/**
+/*
  *  The {@code DirectedEulerianCycle} class represents a data type
  *  for finding an Eulerian cycle or path in a digraph.
  *  An <em>Eulerian cycle</em> is a cycle (not necessarily simple) that
@@ -48,6 +48,7 @@ import lib.*;
  *  @author Kevin Wayne
  *  @author Nate Liu
  */
+
 public class DirectedEulerianCycleX {
     private LinkedListStack<Integer> cycle = null;  // Eulerian cycle; null if no such cylce
 
@@ -58,26 +59,26 @@ public class DirectedEulerianCycleX {
      */
     public DirectedEulerianCycleX(Digraph G) {
 
-        // must have at least one edge
+        // * must have at least one edge
         if (G.E() == 0) return;
 
-        // necessary condition: indegree(v) = outdegree(v) for each vertex v
-        // (without this check, DFS might return a path instead of a cycle)
+        // ! necessary condition: indegree(v) = outdegree(v) for each vertex v
+        // ! (without this check, DFS might return a path instead of a cycle)
         for (int v = 0; v < G.V(); v++)
             if (G.outdegree(v) != G.indegree(v))
                 return;
 
-        // create local view of adjacency lists, to iterate one vertex at a time
+        // * create local view of adjacency lists, to iterate one vertex at a time
         Iterator<Integer>[] adj = (Iterator<Integer>[]) new Iterator[G.V()];
         for (int v = 0; v < G.V(); v++)
             adj[v] = G.adj(v).iterator();
 
-        // initialize stack with any non-isolated vertex
+        // * initialize stack with any non-isolated vertex
         int s = nonIsolatedVertex(G);
         LinkedListStack<Integer> stack = new LinkedListStack<Integer>();
         stack.push(s);
 
-        // greedily add to putative cycle, depth-first search style
+        // ! greedily add to putative cycle, depth-first search style
         cycle = new LinkedListStack<Integer>();
         while (!stack.isEmpty()) {
             int v = stack.pop();
@@ -85,11 +86,11 @@ public class DirectedEulerianCycleX {
                 stack.push(v);
                 v = adj[v].next();
             }
-            // add vertex with no more leaving edges to cycle
+            // ! add vertex with no more leaving edges to cycle
             cycle.push(v);
         }
 
-        // check if all edges have been used
+        // * check if all edges have been used
         // (in case there are two or more vertex-disjoint Eulerian cycles)
         if (cycle.size() != G.E() + 1)
             cycle = null;
@@ -117,7 +118,7 @@ public class DirectedEulerianCycleX {
         return cycle != null;
     }
 
-    // returns any non-isolated vertex; -1 if no such vertex
+    // * returns any non-isolated vertex; -1 if no such vertex
     private static int nonIsolatedVertex(Digraph G) {
         for (int v = 0; v < G.V(); v++)
             if (G.outdegree(v) > 0)
@@ -132,29 +133,29 @@ public class DirectedEulerianCycleX {
      *
      **************************************************************************/
 
-    // Determines whether a digraph has an Eulerian cycle using necessary
-    // and sufficient conditions (without computing the cycle itself):
-    //    - at least one edge
-    //    - indegree(v) = outdegree(v) for every vertex
-    //    - the graph is connected, when viewed as an undirected graph
-    //      (ignoring isolated vertices)
+    // ! Determines whether a digraph has an Eulerian cycle using necessary
+    // ! and sufficient conditions (without computing the cycle itself):
+    // ?   - at least one edge
+    // ?   - indegree(v) = outdegree(v) for every vertex
+    // ?   - the graph is connected, when viewed as an undirected graph
+    // ?     (ignoring isolated vertices)
     private static boolean satisfiesNecessaryAndSufficientConditions(Digraph G) {
 
-        // Condition 0: at least 1 edge
+        // ? Condition 0: at least 1 edge
         if (G.E() == 0) return false;
 
-        // Condition 1: indegree(v) == outdegree(v) for every vertex
+        // ? Condition 1: indegree(v) == outdegree(v) for every vertex
         for (int v = 0; v < G.V(); v++)
             if (G.outdegree(v) != G.indegree(v))
                 return false;
 
-        // Condition 2: graph is connected, ignoring isolated vertices
+        // ? Condition 2: graph is connected, ignoring isolated vertices
         Graph H = new Graph(G.V());
         for (int v = 0; v < G.V(); v++)
             for (int w : G.adj(v))
                 H.addEdge(v, w);
         
-        // check that all non-isolated vertices are conneted
+        // ? check that all non-isolated vertices are conneted
         int s = nonIsolatedVertex(G);
         BreadthFirstPathsX bfs = new BreadthFirstPathsX(H, s);
         for (int v = 0; v < G.V(); v++)
