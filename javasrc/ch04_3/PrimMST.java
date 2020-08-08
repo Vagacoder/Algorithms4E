@@ -36,7 +36,7 @@ import lib.*;
 public class PrimMST {
 
     // ! Note: this.pq and this.edgeTo[] are working together, each provides a 
-    // ! part of functions we need
+    // ! part of functions we need, they are replacing <Edge>mst in Prim lazy.
 
     // * eligible crossing edges. This stores only which vertex to (from mst)
     // * but providing ability to find min distance.
@@ -91,6 +91,8 @@ public class PrimMST {
                     pq.insert(w, distTo[w]);
                 }
             }
+            // * if distance from v to w is larger the stored min distance to w
+            // * do nothing.
         }
     }
 
