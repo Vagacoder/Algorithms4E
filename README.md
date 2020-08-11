@@ -3,9 +3,10 @@
 ![Coursework](https://img.shields.io/badge/Algorithm-Coursework-green)
 [![Princeton](https://img.shields.io/badge/Textbook-Princeton-orange)](https://algs4.cs.princeton.edu/home/)
 
-### Exercises and practicing projectes
+## Exercises and practicing projectes
 #### using java and python
 
+## Update logs
 #### 2019-11-05, 2019-12-06
 1. How to complie .java file in command line:
 1.1. in **Windows shell**, 
