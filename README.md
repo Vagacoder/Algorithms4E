@@ -1,4 +1,8 @@
 # Algorithms 4th Edition
+[![Algorithms4E](https://img.shields.io/badge/Algorithm-Algorithms4E-red)](https://github.com/Vagacoder/Algorithms4E)
+![Coursework](https://img.shields.io/badge/Algorithm-Coursework-green)
+[![Princeton](https://img.shields.io/badge/Textbook-Princeton-orange)](https://algs4.cs.princeton.edu/home/)
+
 ### Exercises and practicing projectes
 #### using java and python
 
