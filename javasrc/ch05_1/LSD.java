@@ -49,7 +49,7 @@ public class LSD{
             // ! Note the size of count is R + 1
             int[] count = new int[R+1];
 
-            // * 1. Compute freqiency counts
+            // * 1. Compute frequency counts
             for(int i = 0; i < N; i++){
                 count[a[i].charAt(d) + 1]++;
             }
