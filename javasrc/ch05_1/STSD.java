@@ -14,25 +14,84 @@ import javasrc.ch03_1.SequentialSearchST;
 import lib.*;
 
 public class STSD {
-    
-    public static void sort(String[] a){
+
+    public static void sort(String[] a, int W) {
 
         int n = a.length;
-        SequentialSearchST<String, Integer> st = new SequentialSearchST<>();
+        int R = 256;
+        String[] aux = new String[n];
+        // SequentialSearchST<String, Integer> aux = new SequentialSearchST<>();
 
-        // * 1. compute frequency counts
-        for(int i =0; i<n; i++){
-            String s = a[i];
-            if(st.contains(s)){
-                st.put(s, st.get(s) + 1);
-            }else{
-                st.put(s, 1);
+        // * sort the strings W times
+        for (int d = W - 1; d >= 0; d--) {
+
+            // * initial symbol table for count, R+1 counts
+            SequentialSearchST<Integer, Integer> count = new SequentialSearchST<>();
+            for (int r = 0; r < R+1; r++) {
+                count.put(r, 0);
             }
+
+            // * 1. Computer frequency counts
+            for (int i = 0; i < n; i++) {
+                int charInt = a[i].charAt(d) + 1;
+                Integer freq = count.get(charInt);
+                count.put((charInt), freq + 1);
+            }
+
+            // * 2. Transform counts to indeces
+            for (int r = 0; r < R; r++) {
+                Integer freqAtR = count.get(r);
+                Integer freqAtRplusOne = count.get(r + 1);
+                count.put((r + 1), freqAtRplusOne + freqAtR);
+            }
+
+            // * 3. Distribute
+            for (int i = 0; i < n; i++) {
+                int charInt = a[i].charAt(d);
+                int newIndex = count.get(charInt);
+                aux[newIndex] = a[i];
+                newIndex++;
+                count.put(charInt, newIndex);
+            }
+
+            // * 4. Copy back
+            for (int i = 0; i < n; i++) {
+                a[i] = aux[i];
+            }
+
+        }
+    }
+
+    public static void main(String[] args) {
+        // * test #1
+        StdOut.println("1. test words3.txt");
+        String filename = "data/words3.txt";
+        String[] input = new In(filename).readAllStrings();
+        StdOut.println("Before sort");
+        for (String s : input) {
+            StdOut.println(s);
         }
 
-        int[] indices = new int[n];
-        // * 2. transform counts to indices
-        
-    }
+        STSD.sort(input, input[0].length());
+        StdOut.println("\nAfter sort");
+        for (String s : input) {
+            StdOut.println(s);
+        }
+
+        // * test #2
+        StdOut.println("\n2. test plates.txt");
+        filename = "data/plates.txt";
+        input = new In(filename).readAllStrings();
+        StdOut.println("Before sort");
+        for(String s: input){
+            StdOut.println(s);
+        }
+
+        STSD.sort(input, input[0].length());
+        StdOut.println("\nAfter sort");
+        for(String s: input){
+            StdOut.println(s);
+        }
+}
 
 }
