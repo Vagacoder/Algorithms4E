@@ -51,7 +51,7 @@ public class Quick3String {
             }
         }
 
-        // ! here, a[low ... lt -1] < v = a[lt ... gt] < a[gt+1 ... hihg]
+        // ! here, a[low ... lt-1] < v = a[lt ... gt] < a[gt+1 ... high]
         // * sort these 3 parts
         sort(a, low, lt-1, d);
         if(v >= 0){
