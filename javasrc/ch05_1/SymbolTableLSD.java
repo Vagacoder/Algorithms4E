@@ -13,7 +13,7 @@ package javasrc.ch05_1;
 import javasrc.ch03_1.SequentialSearchST;
 import lib.*;
 
-public class STSD {
+public class SymbolTableLSD {
 
     public static void sort(String[] a, int W) {
 
@@ -72,7 +72,7 @@ public class STSD {
             StdOut.println(s);
         }
 
-        STSD.sort(input, input[0].length());
+        SymbolTableLSD.sort(input, input[0].length());
         StdOut.println("\nAfter sort");
         for (String s : input) {
             StdOut.println(s);
@@ -87,7 +87,7 @@ public class STSD {
             StdOut.println(s);
         }
 
-        STSD.sort(input, input[0].length());
+        SymbolTableLSD.sort(input, input[0].length());
         StdOut.println("\nAfter sort");
         for(String s: input){
             StdOut.println(s);

@@ -28,6 +28,10 @@ package javasrc.ch05_1;
  ? data/plates.txt
  ? data/words3.txt 
 
+
+ * 5.1.8 Give the number of characters examined by MSD string sort and 3-way string
+ * quicksort for a file of N keys a, aa, aaa, aaaa, aaaaa, . . .
+
 */
 
 import javasrc.ch02_1.Insertion;
@@ -46,6 +50,11 @@ public class MSD {
     // * auxiliary array for distribution
     private static String[] aux;
 
+
+    // * 5.1.8 
+    private static int charExamCount = 0;
+
+
     // ! Important helper to replace regular string.charAt()
     private static int charAt(String s, int d) {
         if (d < s.length()) {
@@ -56,6 +65,10 @@ public class MSD {
     }
 
     public static void sort(String[] a) {
+        
+        // * 5.1.8
+        charExamCount = 0;
+
         int N = a.length;
         aux = new String[N];
         sort(a, 0, N - 1, 0);
@@ -74,6 +87,9 @@ public class MSD {
 
         for (int i = low; i <= high; i++) {
             count[charAt(a[i], d) + 2]++;
+            
+            // * 5.1.8
+            charExamCount++;
         }
 
         // * Transform counts to indeces
@@ -105,6 +121,13 @@ public class MSD {
             }
         }
     }
+
+
+    // * 5.1.8
+    public static int getCharExamCount(){
+        return charExamCount;
+    }
+
 
     // * helper
     private static boolean less(String s1, String s2, int d) {
@@ -174,5 +197,13 @@ public class MSD {
         for (String s : input) {
             StdOut.println(s);
         }
+
+        // * 5.1.8
+        StdOut.println("\n3. test plates.txt");
+        filename = "data/for5_1_8.txt";
+        input = new In(filename).readAllStrings();
+
+        MSD.sort(input);
+        StdOut.println("Exam char:" + MSD.getCharExamCount());
     }
 }
