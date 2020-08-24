@@ -87,7 +87,7 @@ public class Count {
         // * test #1 data/abra.txt
         StdOut.println("1. test data/abra.txt, radix is ABCDR");
         String filename = "data/abra.txt";
-        Alphabet alphabet = new Alphabet("ABCDR");
+        AlphabetX alphabet = new AlphabetX("ABCDR");
         int r = alphabet.radix();
         int[] count = new int[r];
         In in = new In(filename);
@@ -103,7 +103,7 @@ public class Count {
         // * test #2 data/abra.txt
         StdOut.println("\n2. test data/pi.txt, radix is 0123456789");
         filename = "data/pi.txt";
-        alphabet = new Alphabet("0123456789");
+        alphabet = new AlphabetX("0123456789");
         r = alphabet.radix();
         count = new int[r];
         in = new In(filename);
