@@ -194,6 +194,15 @@ public class TrieST<Value> {
     }
 
     public static void main(String[] args){
+        TrieST<Integer> trie = new TrieST<>();
+        String[] strs = {"this", "is", "a", "good", "day", "to", "die"};
 
+        for (int i = 0; i < strs.length; i++){
+            trie.put(strs[i], i);
+        }
+
+        for (int i =0; i < strs.length; i++){
+            StdOut.println(trie.get(strs[i]));
+        }
     }
 }
