@@ -14,7 +14,7 @@ import javasrc.ch01_3.LinkedListQueue;
  * Proposition H. The average number of nodes examined for search miss in a trie
  * built from N random keys over an alphabet of size R is ~log R N .
  * 
- * Proposition i. The number of links in a trie is between RN and RNw, where w is
+ * Proposition I. The number of links in a trie is between RN and RNw, where w is
  * the average key length.
  * 
  */
@@ -22,6 +22,9 @@ import javasrc.ch01_3.LinkedListQueue;
 import lib.*;
 
 public class TrieST<Value> {
+
+    // ? radix
+    private static int R = 256;
 
     // ? Node class
     private static class Node {
@@ -31,8 +34,6 @@ public class TrieST<Value> {
         private Node[] next = new Node[R];
     }
 
-    // ? radix
-    private static int R = 256;
     private Node root = new Node();
 
     public Value get(String key) {

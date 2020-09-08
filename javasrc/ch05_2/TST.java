@@ -6,10 +6,13 @@ package javasrc.ch05_2;
  * Proposition J. The number of links in a TST built from N string keys of average
  * length w is between 3N and 3Nw.
  * 
- * Proposition k. A search miss in a TST built from N random string keys requires
+ * Proposition K. A search miss in a TST built from N random string keys requires
  * ~ln N character compares, on the average. A search hit or an insertion in a 
  * TST uses ~ln N + L character compares, where L is the length of the search key.
  * 
+ * Proposition L. A search or an insertion in a TST built from N random string 
+ * keys with no external one-way branching and R t-way branching at the root 
+ * requires roughly lnN - t*lnR character compares, on the average.
  * 
  */
 
