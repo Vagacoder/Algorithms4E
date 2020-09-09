@@ -1,13 +1,11 @@
 package javasrc.ch05_2;
 
-import edu.princeton.cs.algs4.StdOut;
-import javasrc.ch01_3.LinkedListQueue;
-
 /*
- *  5.2.5 Develop nonrecursive versions of TrieST and TST.
- * 
- */
+*  5.2.5 Develop nonrecursive versions of TrieST and TST.
+* 
+*/
 
+import javasrc.ch01_3.LinkedListQueue;
 import lib.*;
 
 public class TrieSTnoRecursive<Value> {
@@ -110,7 +108,80 @@ public class TrieSTnoRecursive<Value> {
         }
     }
 
-    // TODO: longest prefix of , delete
+    public Iterable<String> keysThatMatch(String pattern){
+        LinkedListQueue<String> q = new LinkedListQueue<>();
+        collect(root, "", pattern, q);
+        return q;
+    }
+
+    private void collect(Node x, String pre, String pattern, LinkedListQueue<String>q){
+        int d = pre.length();
+        if(x == null){
+            return;
+        }
+        if(d == pattern.length() && x.val != null){
+            q.enqueue(pre);
+        }
+        if(d == pattern.length()){
+            return;
+        }
+
+        char next = pre.charAt(d);
+        for(char c = 0; c <R; c++){
+            if(next == '.' || next ==c){
+                collect(x.next[c], pre + c, pattern, q);
+            }
+        }
+    }
+
+    public String longestPrefixOf(String s){
+        int length = search(root, s, 0, 0);
+        return s.substring(0, length);
+    }
+
+    private int search(Node x, String s, int d, int length){
+        if(x == null){
+            return length;
+        }
+        if(x.val != null){
+            length = d;
+        }
+        if(d == s.length()){
+            return length;
+        }
+        char c = s.charAt(d);
+        return search(x.next[c], s, d+1, length);
+
+    }
+
+    public void delete(String key){
+        root = delete(root, key, 0);
+    }
+
+    private Node delete(Node x, String key, int d){
+        if(x == null){
+            return null;
+        }
+
+        if(d == key.length()){
+            x.val = null;
+        }else{
+            char c = key.charAt(d);
+            x.next[c] = delete(x.next[c], key, d+1);
+        }
+
+        if(x.val != null){
+            return x;
+        }
+
+        for(char c=0; c < R; c++){
+            if(x.next[c] != null){
+                return x;
+            }
+        }
+
+        return null;
+    }
 
     public static void main(String[] args){
         TrieSTnoRecursive<Integer> trie = new TrieSTnoRecursive<>();

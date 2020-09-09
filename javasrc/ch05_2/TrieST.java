@@ -44,6 +44,7 @@ public class TrieST<Value> {
         return (Value) x.val;
     }
 
+    // * when x = root, key = "", d = 0, this method returns root
     private Node get(Node x, String key, int d) {
         // ? return node associated with key in the subtrie rooted at x
         if (x == null) {
@@ -95,6 +96,12 @@ public class TrieST<Value> {
 
     // * 3 methods for collecting keys
     public Iterable<String> keys(){
+
+        // * another implementation
+        // LinkedListQueue<String> q = new LinkedListQueue<>();
+        // collect(root, "", q);
+        // return q;
+
         return keysWithPrefix("");
     }
 
@@ -123,7 +130,7 @@ public class TrieST<Value> {
         return q;
     }
 
-    private void collect(Node x, String pre, String pat, LinkedListQueue q){
+    private void collect(Node x, String pre, String pat, LinkedListQueue<String> q){
         int d = pre.length();
         if(x == null){
             return;
@@ -202,8 +209,23 @@ public class TrieST<Value> {
             trie.put(strs[i], i);
         }
 
+        // * 1, test get()
+        StdOut.println("1. get index");
         for (int i =0; i < strs.length; i++){
-            StdOut.println(trie.get(strs[i]));
+            StdOut.printf("key: %s, value: %d\n", strs[i], trie.get(strs[i]));
+            // StdOut.println(trie.get(strs[i]));
+        }
+
+        // * 2, test keys()
+        StdOut.println("\n2. keys()");
+        for (String key: trie.keys()){
+            StdOut.println(key);
+        }
+
+        // * 3, test keysThatMatch()
+        StdOut.println("\n3. keysThatMatch()");
+        for(String key: trie.keysThatMatch("d..")){
+            StdOut.println(key);
         }
     }
 }
