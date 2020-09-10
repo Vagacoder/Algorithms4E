@@ -65,11 +65,12 @@ public class TSTnoRecursive<Value> {
             if(d > length){
                 break;
             }
-            if(d == length - 1){
+            
+            char c = key.charAt(d);
+            
+            if(d == length - 1 && c == cur.c){
                 return cur.val;
             }
-
-            char c = key.charAt(d);
 
             if(c < cur.c){
                 cur = cur.left;
@@ -94,10 +95,23 @@ public class TSTnoRecursive<Value> {
             tst.put(strs[i], i);
         }
 
-        StdOut.println();
-
         for (int i =0; i < strs.length; i++){
             StdOut.println(tst.get(strs[i]));
         }
+
+        Integer s1 = tst.get("iss");
+        if(s1 != null){
+            StdOut.println(s1);
+        }else{
+            StdOut.println("Not found in trie!");
+        }
+
+        Integer s2 = tst.get("g");
+        if(s2 != null){
+            StdOut.println(s2);
+        }else{
+            StdOut.println("Not found in trie!");
+        }
+
     }
 }
