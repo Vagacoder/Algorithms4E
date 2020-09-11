@@ -14,6 +14,10 @@ package javasrc.ch05_2;
  * keys with no external one-way branching and R t-way branching at the root 
  * requires roughly lnN - t*lnR character compares, on the average.
  * 
+ * 5.2.7 Empty string in TSTs. The code in TST does not handle the empty string 
+ * properly. Explain the problem and suggest a correction.
+ * 
+ * 
  */
 
 import lib.*;
@@ -40,6 +44,12 @@ public class TST<Value> {
         if (x == null) {
             return null;
         }
+
+        // * 5.2.7 Dealing with empty string
+        if (d == key.length()){
+            return x;
+        }
+
         char c = key.charAt(d);
         if (c < x.c) {
             return get(x.left, key, d);
@@ -57,6 +67,13 @@ public class TST<Value> {
     }
 
     private Node put(Node x, String key, Value val, int d){
+        
+        // * 5.2.7 Dealing with empty string
+        if ( d == key.length()){
+            x.val = val;
+            return x;
+        }
+
         char c = key.charAt(d);
         if(x == null){
             x = new Node();
@@ -76,7 +93,7 @@ public class TST<Value> {
 
     public static void main(String[] args){
         TST<Integer> tst = new TST<>();
-        String[] strs = {"this", "is", "a", "good", "day", "to", "die"};
+        String[] strs = {"this", "is", "a", "good", "day", "to", "die", ""};
 
         for (int i = 0; i < strs.length; i++){
             tst.put(strs[i], i);

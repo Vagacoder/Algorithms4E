@@ -17,6 +17,9 @@ import javasrc.ch01_3.LinkedListQueue;
  * Proposition I. The number of links in a trie is between RN and RNw, where w is
  * the average key length.
  * 
+ * 5.2.8 Ordered operations for tries. Implement the floor(), ceiling(), rank(), 
+ * and select() (from our standard ordered ST API from Chapter 3) for TrieST.
+ * 
  */
 
 import lib.*;
@@ -28,7 +31,7 @@ public class TrieST<Value> {
 
     // ? Node class
     private static class Node {
-        // ? The value in Node has to be an Object because Java does not support 
+        // ? The value in Node has to be an Object because Java does not support
         // ? arrays of generics; we cast values back to Value in get().
         private Object val;
         private Node[] next = new Node[R];
@@ -50,52 +53,52 @@ public class TrieST<Value> {
         if (x == null) {
             return null;
         }
-        if (d == key.length()){
+        if (d == key.length()) {
             return x;
         }
         char c = key.charAt(d);
-        return get(x.next[c], key, d+1);
+        return get(x.next[c], key, d + 1);
     }
 
-    public void put(String key, Value val){
+    public void put(String key, Value val) {
         root = put(this.root, key, val, 0);
     }
 
-    private Node put(Node x, String key, Value val, int d){
+    private Node put(Node x, String key, Value val, int d) {
         // ? Change value associated with key if in subtrie rooted at x
-        if (x == null){
+        if (x == null) {
             x = new Node();
         }
-        if ( d == key.length()){
+        if (d == key.length()) {
             x.val = val;
             return x;
         }
         char c = key.charAt(d);
-        x.next[c] = put(x.next[c], key, val, d+1);
+        x.next[c] = put(x.next[c], key, val, d + 1);
         return x;
     }
 
     // ! Lazy implementation, SHOULD AVOID due to poor performance
-    public int sizeLazy(){
+    public int sizeLazy() {
         return sizeLazy(this.root);
     }
 
-    private int sizeLazy(Node x){
-        if(x == null){
+    private int sizeLazy(Node x) {
+        if (x == null) {
             return 0;
         }
         int count = 0;
-        if(x.val != null){
+        if (x.val != null) {
             count++;
         }
-        for(char c= 0; c < R; c++){
+        for (char c = 0; c < R; c++) {
             count += sizeLazy(x.next[c]);
         }
         return count;
     }
 
     // * 3 methods for collecting keys
-    public Iterable<String> keys(){
+    public Iterable<String> keys() {
 
         // * another implementation
         // LinkedListQueue<String> q = new LinkedListQueue<>();
@@ -105,127 +108,176 @@ public class TrieST<Value> {
         return keysWithPrefix("");
     }
 
-    public Iterable<String> keysWithPrefix(String pre){
+    public Iterable<String> keysWithPrefix(String pre) {
         LinkedListQueue<String> q = new LinkedListQueue<>();
         collect(get(root, pre, 0), pre, q);
         return q;
     }
 
-    private void collect(Node x, String pre, LinkedListQueue<String> q){
-        if(x == null){
+    private void collect(Node x, String pre, LinkedListQueue<String> q) {
+        if (x == null) {
             return;
         }
-        if(x.val != null){
+        if (x.val != null) {
             q.enqueue(pre);
         }
-        for(char c = 0; c < R; c++){
+        for (char c = 0; c < R; c++) {
             collect(x.next[c], pre + c, q);
         }
     }
 
     // * Wildcard match
-    public Iterable<String> keysThatMatch(String pat){
+    public Iterable<String> keysThatMatch(String pat) {
         LinkedListQueue<String> q = new LinkedListQueue<>();
         collect(root, "", pat, q);
         return q;
     }
 
-    private void collect(Node x, String pre, String pat, LinkedListQueue<String> q){
+    private void collect(Node x, String pre, String pat, LinkedListQueue<String> q) {
         int d = pre.length();
-        if(x == null){
+        if (x == null) {
             return;
         }
-        if(d == pat.length() && x.val != null){
+        if (d == pat.length() && x.val != null) {
             q.enqueue(pre);
         }
 
         // ! Note, we do not need consider keys longer than the pattern
-        if(d == pat.length()){
+        if (d == pat.length()) {
             return;
         }
 
         char next = pat.charAt(d);
-        for(char c = 0; c < R; c++){
-            if(next == '.' || next == c){
+        for (char c = 0; c < R; c++) {
+            if (next == '.' || next == c) {
                 collect(x.next[c], pre + c, pat, q);
             }
         }
     }
 
     // * Longest prefix
-    public String longestPrefixOf(String s){
+    public String longestPrefixOf(String s) {
         int length = search(root, s, 0, 0);
         return s.substring(0, length);
     }
 
-    private int search(Node x, String s, int d, int length){
-        if(x == null) {
+    private int search(Node x, String s, int d, int length) {
+        if (x == null) {
             return length;
         }
-        if(x.val != null){
+        if (x.val != null) {
             length = d;
         }
-        if(d == s.length()){
+        if (d == s.length()) {
             return length;
         }
         char c = s.charAt(d);
-        return search(x.next[c], s, d+1, length);
+        return search(x.next[c], s, d + 1, length);
     }
 
     // * Delete
-    public void delete(String key){
+    public void delete(String key) {
         root = delete(root, key, 0);
     }
 
-    private Node delete(Node x, String key, int d){
-        if(x == null){
+    private Node delete(Node x, String key, int d) {
+        if (x == null) {
             return null;
         }
-        if(d == key.length()){
+        if (d == key.length()) {
             x.val = null;
-        }else{
+        } else {
             char c = key.charAt(d);
-            x.next[c] = delete(x.next[c], key, d+1);
+            x.next[c] = delete(x.next[c], key, d + 1);
         }
 
-        if(x.val != null){
+        if (x.val != null) {
             return x;
         }
-        
+
         // * check if all links are null, if yes, return null for parent node checking
-        for(char c = 0; c < R; c++){
-            if(x.next[c] != null){
+        for (char c = 0; c < R; c++) {
+            if (x.next[c] != null) {
                 return x;
             }
         }
         return null;
     }
 
-    public static void main(String[] args){
-        TrieST<Integer> trie = new TrieST<>();
-        String[] strs = {"this", "is", "a", "good", "day", "to", "die"};
+    // * 5.2.8 implement rank()
+    public int rank(String key) {
+        // TODO
 
-        for (int i = 0; i < strs.length; i++){
+        LinkedListQueue<String> q = new LinkedListQueue<>();
+        collectRank(this.root, "", key, q);
+
+        return q.size();
+    }
+
+    private boolean collectRank(Node x, String pre, String key, LinkedListQueue<String> q) {
+        if (x == null) {
+            return false;
+        }
+        if (x.val != null) {
+            q.enqueue(pre);
+            if(pre.equals(key)){
+                return true;
+            }
+        }
+        
+        // ! Note, we do not need consider keys longer than the key
+        // int d = pre.length();
+        // if (d == key.length()) {
+        //     return false;
+        // }
+
+        for (char c = 0; c < R; c++) {
+            // int i = c;
+            boolean found = collectRank(x.next[c], pre + c, key, q);
+            if (found) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        TrieST<Integer> trie = new TrieST<>();
+        String[] strs = { "this", "is", "a", "good", "day", "to", "die" };
+
+        for (int i = 0; i < strs.length; i++) {
             trie.put(strs[i], i);
         }
 
         // * 1, test get()
         StdOut.println("1. get index");
-        for (int i =0; i < strs.length; i++){
+        for (int i = 0; i < strs.length; i++) {
             StdOut.printf("key: %s, value: %d\n", strs[i], trie.get(strs[i]));
             // StdOut.println(trie.get(strs[i]));
         }
 
         // * 2, test keys()
         StdOut.println("\n2. keys()");
-        for (String key: trie.keys()){
+        for (String key : trie.keys()) {
             StdOut.println(key);
         }
 
         // * 3, test keysThatMatch()
         StdOut.println("\n3. keysThatMatch()");
-        for(String key: trie.keysThatMatch("d..")){
+        for (String key : trie.keysThatMatch("d..")) {
             StdOut.println(key);
         }
+
+        // * 4, test rank()
+        StdOut.println("\n4. rank()");
+        StdOut.println(trie.rank("a"));
+        StdOut.println(trie.rank("day"));
+        StdOut.println(trie.rank("die"));
+        StdOut.println(trie.rank("good"));
+        StdOut.println(trie.rank("is"));
+        StdOut.println(trie.rank("this"));
+        StdOut.println(trie.rank("to"));
+        StdOut.println(trie.rank("b"));
     }
 }

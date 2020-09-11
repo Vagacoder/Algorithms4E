@@ -121,6 +121,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     }
 
     // ! Important method, need fully understand it
+    // ! Binary search. P.380 and P.381
     public int rank(Key key) {
         int low = 0, high = this.size - 1;
         while (low <= high) {
