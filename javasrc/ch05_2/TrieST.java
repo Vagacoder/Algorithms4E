@@ -1,11 +1,9 @@
 package javasrc.ch05_2;
 
-import javasrc.ch01_3.LinkedListQueue;
-
 /*
- * Algorithm 5.4 Trie Symbol Table. P.737
- * 
- * Proposition F. The linked structure (shape) of a trie is independent of the 
+* Algorithm 5.4 Trie Symbol Table. P.737
+* 
+* Proposition F. The linked structure (shape) of a trie is independent of the 
  * key insertion/deletion order: there is a unique trie for any given set of keys.
  * 
  * Proposition G. The number of array accesses when searching in a trie or inserting
@@ -21,6 +19,9 @@ import javasrc.ch01_3.LinkedListQueue;
  * and select() (from our standard ordered ST API from Chapter 3) for TrieST.
  * 
  */
+
+import javasrc.ch03_1.BinarySearchST;
+import javasrc.ch01_3.LinkedListQueue;
 
 import lib.*;
 
@@ -204,14 +205,16 @@ public class TrieST<Value> {
         return null;
     }
 
-    // * 5.2.8 implement rank()
+    // * 5.2.8 implement rank(): number of keys less than key
+    // * implementation #1 not perfect, can get correct rank for key which is in 
+    // * Trie, but can NOT get correct rank for key which is not in Trie.
     public int rank(String key) {
         // TODO
 
         LinkedListQueue<String> q = new LinkedListQueue<>();
         collectRank(this.root, "", key, q);
 
-        return q.size();
+        return q.size()-1;
     }
 
     private boolean collectRank(Node x, String pre, String key, LinkedListQueue<String> q) {
@@ -225,12 +228,6 @@ public class TrieST<Value> {
             }
         }
         
-        // ! Note, we do not need consider keys longer than the key
-        // int d = pre.length();
-        // if (d == key.length()) {
-        //     return false;
-        // }
-
         for (char c = 0; c < R; c++) {
             // int i = c;
             boolean found = collectRank(x.next[c], pre + c, key, q);
@@ -241,6 +238,40 @@ public class TrieST<Value> {
 
         return false;
     }
+
+    // * implementation #2 
+    public int rank2(String key) {
+        int size = this.sizeLazy();
+        BinarySearchST<String, Integer> st = new BinarySearchST<>(size);
+
+        for(String k: this.keys()){
+            st.put(k, 0);
+        }
+        return st.rank(key);
+    }
+
+    // * 5.2.8 floor(): largest key less than or equal to key
+    public String floor(String key){
+        int size = this.sizeLazy();
+        BinarySearchST<String, Integer> st = new BinarySearchST<>(size);
+
+        for(String k: this.keys()){
+            st.put(k, 0);
+        }
+        return st.floor(key);
+    }
+
+    // * 5.2.8 ceiling(): smallest key greater than or equal to key
+    public String ceiling(String key){
+        int size = this.sizeLazy();
+        BinarySearchST<String, Integer> st = new BinarySearchST<>(size);
+
+        for(String k: this.keys()){
+            st.put(k, 0);
+        }
+        return st.ceiling(key);
+    }
+
 
     public static void main(String[] args) {
         TrieST<Integer> trie = new TrieST<>();
@@ -271,13 +302,13 @@ public class TrieST<Value> {
 
         // * 4, test rank()
         StdOut.println("\n4. rank()");
-        StdOut.println(trie.rank("a"));
-        StdOut.println(trie.rank("day"));
-        StdOut.println(trie.rank("die"));
-        StdOut.println(trie.rank("good"));
-        StdOut.println(trie.rank("is"));
-        StdOut.println(trie.rank("this"));
-        StdOut.println(trie.rank("to"));
-        StdOut.println(trie.rank("b"));
+        StdOut.println(trie.rank2("a"));
+        StdOut.println(trie.rank2("day"));
+        StdOut.println(trie.rank2("die"));
+        StdOut.println(trie.rank2("good"));
+        StdOut.println(trie.rank2("is"));
+        StdOut.println(trie.rank2("this"));
+        StdOut.println(trie.rank2("to"));
+        StdOut.println(trie.rank2("b"));
     }
 }

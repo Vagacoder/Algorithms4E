@@ -120,6 +120,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         this.size++;
     }
 
+    // * number of keys less than key
     // ! Important method, need fully understand it
     // ! Binary search. P.380 and P.381
     public int rank(Key key) {
@@ -152,6 +153,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         return keys[k];
     }
 
+    // * smallest key greater than or equal to key
     // * be careful with border case 
     public Key ceiling(Key key) {
         int i = rank(key);
@@ -162,6 +164,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         }
     }
     
+    // * largest key less than or equal to key
     // * be careful with border case 
     public Key floor(Key key) {
         int i = rank(key);

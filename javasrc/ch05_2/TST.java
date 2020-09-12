@@ -1,5 +1,7 @@
 package javasrc.ch05_2;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
  * Algorithm 5.5 TST (Ternary Search Trie) Symbol Table. P.747 
  * 
@@ -17,6 +19,9 @@ package javasrc.ch05_2;
  * 5.2.7 Empty string in TSTs. The code in TST does not handle the empty string 
  * properly. Explain the problem and suggest a correction.
  * 
+ * 5.2.9 Extended operations for TSTs. Implement keys() and the extended operations 
+ * introduced in this section—longestPrefixOf(), keysWithPrefix(), and keysThatMatch()
+ * —for TST.
  * 
  */
 
@@ -89,6 +94,25 @@ public class TST<Value> {
             x.val = val;
         }
         return x;
+    }
+
+    // TODO
+    public Iterable<String> keys(){
+
+        return null;
+    }
+
+    // TODO
+    public Iterable<String> keysWithPrefix(String prefix){
+
+        return null;
+    }
+    
+    // TODO
+    private void collect(Node x, String prefix, LinkedListQueue<String> q){
+
+
+        
     }
 
     public static void main(String[] args){
