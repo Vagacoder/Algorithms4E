@@ -96,29 +96,92 @@ public class TST<Value> {
         return x;
     }
 
-    // TODO
     public Iterable<String> keys(){
-
-        return null;
+        return keysWithPrefix("");
     }
 
-    // TODO
     public Iterable<String> keysWithPrefix(String prefix){
-
-        return null;
+        LinkedListQueue<String> q = new LinkedListQueue<>();
+        collect(get(this.root, prefix, 0), prefix, q);
+        return q;
     }
-    
-    // TODO
+
     private void collect(Node x, String prefix, LinkedListQueue<String> q){
+        if(x == null){
+            return;
+        }
+        if(x.val != null){
+            q.enqueue(prefix + x.c);
+        }
+        collect(x.left, prefix, q);
+        collect(x.right, prefix, q);
+        collect(x.mid, prefix + x.c, q);
+    }
 
+    public String longestPrefixOf(String s){
+        int length = search(root, s, 0, 0);
+        return s.substring(0, length);
+    }
 
+    private int search(Node x, String s, int d, int length){
+        if(x == null){
+            return length;
+        }
+        if(x.val != null){
+            length = d;
+        }
+        if(d == s.length()){
+            return length;
+        }
+        char c= s.charAt(d);
+        if(c < x.c){
+            return search(x.left, s, d, length);
+        }else if(c > x.c){
+            return search(x.right, s, d, length);
+        }else{
+            length++;
+            return search(x.mid,s, d+1, length);
+        }
+    }
+
+    // TODO not working
+    public Iterable<String> keysThatMatch(String pattern){
+        LinkedListQueue<String> q = new LinkedListQueue<>();
+        collect(root, "", pattern, q);
+        return q;
+    }
+
+    private void collect(Node x, String prefix, String pattern, LinkedListQueue<String> q){
+        if(x == null){
+            return;
+        }
+        int d = prefix.length();
+        if(d == pattern.length() && x.val != null){
+            q.enqueue(prefix);
+        }
+
+        if ( d== pattern.length()){
+            return;
+        }
         
+        char c = pattern.charAt(d);
+        if( c == '.'||c < x.c){
+            collect(x.left, prefix, pattern, q);
+        }
+        if( c == '.'|| c > x.c){
+            collect(x.right, prefix, pattern, q);
+        }
+        if( c == '.'||c == x.c){
+            collect(x.mid, prefix+c, pattern, q);
+        }
     }
 
     public static void main(String[] args){
         TST<Integer> tst = new TST<>();
         String[] strs = {"this", "is", "a", "good", "day", "to", "die", ""};
 
+        // * test put and get
+        StdOut.println("1. test put() and get()");
         for (int i = 0; i < strs.length; i++){
             tst.put(strs[i], i);
         }
@@ -127,5 +190,29 @@ public class TST<Value> {
             StdOut.println(tst.get(strs[i]));
         }
 
+        // * test keys()
+        StdOut.println("\n2. test keys()");
+        for(String key: tst.keys()){
+            StdOut.println(key);
+        }
+
+        // * test longestPrefixOf()
+        StdOut.println("\n3. test longestPrefixOf()");
+        StdOut.println(tst.longestPrefixOf(""));
+        StdOut.println(tst.longestPrefixOf("a"));
+        StdOut.println(tst.longestPrefixOf("about"));
+        StdOut.println(tst.longestPrefixOf("d"));
+        StdOut.println(tst.longestPrefixOf("dayofgodd"));
+        StdOut.println(tst.longestPrefixOf("g"));
+        StdOut.println(tst.longestPrefixOf("goodman"));
+        StdOut.println(tst.longestPrefixOf("i"));
+        StdOut.println(tst.longestPrefixOf("is"));
+        StdOut.println(tst.longestPrefixOf("isthisok"));
+
+        // * test keysThatMatch
+        StdOut.println("\n4. test keysThatMatch");
+        for(String key: tst.keysThatMatch("day")){
+            StdOut.println(key);
+        }
     }
 }
