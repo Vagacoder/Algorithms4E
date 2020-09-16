@@ -18,6 +18,10 @@ package javasrc.ch05_2;
  * 5.2.8 Ordered operations for tries. Implement the floor(), ceiling(), rank(), 
  * and select() (from our standard ordered ST API from Chapter 3) for TrieST.
  * 
+ * 5.2.10 Size. Implement very eager size() (that keeps in each node the number 
+ * of keys in its subtree) for TrieST and TST.
+ * 
+ * 
  */
 
 import javasrc.ch03_1.BinarySearchST;
@@ -39,6 +43,9 @@ public class TrieST<Value> {
     }
 
     private Node root = new Node();
+
+    // * 5.2.10
+    private int n = 0;
 
     public Value get(String key) {
         Node x = get(this.root, key, 0);
@@ -71,12 +78,20 @@ public class TrieST<Value> {
             x = new Node();
         }
         if (d == key.length()) {
+
+            // * 5.2.10
+            this.n++;
             x.val = val;
             return x;
         }
         char c = key.charAt(d);
         x.next[c] = put(x.next[c], key, val, d + 1);
         return x;
+    }
+
+    // * 5.2.10
+    public int size(){
+        return this.n;
     }
 
     // ! Lazy implementation, SHOULD AVOID due to poor performance
@@ -187,6 +202,9 @@ public class TrieST<Value> {
         }
         if (d == key.length()) {
             x.val = null;
+
+            // * 5.2.10
+            this.n--;
         } else {
             char c = key.charAt(d);
             x.next[c] = delete(x.next[c], key, d + 1);
