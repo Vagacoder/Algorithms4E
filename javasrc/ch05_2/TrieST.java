@@ -210,6 +210,8 @@ public class TrieST<Value> {
             x.next[c] = delete(x.next[c], key, d + 1);
         }
 
+        // ! After deleting, check val and links in next[],
+        // ! delete this Node if val is null and all links are null.
         if (x.val != null) {
             return x;
         }
