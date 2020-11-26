@@ -1,7 +1,7 @@
 package javasrc.ch05_3;
 
 /*
- * Brute-force substring search. P.760
+ * Brute-force substring search. P.760 and P.761
  * 
  * 
  */
@@ -28,7 +28,7 @@ public class BruteForce {
         return N;
     }
 
-    // * this method is a bridge to KMP algorithm
+    // * this method is a bridge to KMP algorithm, P.761
     public static int search2(String pattern, String txt) {
         int i;
         int j;
