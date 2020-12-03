@@ -1,14 +1,12 @@
 package javasrc.ch05_3;
 
-import edu.princeton.cs.algs4.StdOut;
-
 /*
- * Algorithm 5.6 Knuth-Morris-Pratt substring search. P.768
- * 
- * Proposition N. Knuth-Morris-Pratt substring search accesses no more than M + N 
- * characters to search for a pattern of length M in a text of length N.
- * 
- */
+* Algorithm 5.6 Knuth-Morris-Pratt substring search. P.768
+* 
+* Proposition N. Knuth-Morris-Pratt substring search accesses no more than M + N 
+* characters to search for a pattern of length M in a text of length N.
+* 
+*/
 
  import lib.*;
 
@@ -24,7 +22,8 @@ public class KMP {
         this.dfa = new int[R][M];
         this.dfa[pattern.charAt(0)][0] = 1;
 
-        for (int X = 0, j = 1; j < M; j++){
+        int X = 0;
+        for (int j = 1; j < M; j++){
             for (int c = 0; c < R; c++){
                 dfa[c][j] = dfa[c][X];
             }
@@ -51,7 +50,8 @@ public class KMP {
     }
     
     public static void main(String[] args){
-        String pattern = "AACAA";
+        // String pattern = "AACAA";
+        String pattern = "ABABAC";
         String txt = "AAVRAACADABRAACAADABRA";
         KMP kmp = new KMP(pattern);
         StdOut.println("text:    " + txt);
