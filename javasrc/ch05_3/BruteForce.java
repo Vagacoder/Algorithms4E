@@ -14,7 +14,7 @@ public class BruteForce {
         int M = pattern.length();
         int N = txt.length();
 
-        for (int i = 0; i < N - M; i++) {
+        for (int i = 0; i <= N - M; i++) {
             int j;
             for (j = 0; j < M; j++) {
                 if (txt.charAt(i + j) != pattern.charAt(j)) {
@@ -51,9 +51,9 @@ public class BruteForce {
     }
 
     public static void main(String[] args) {
-        String text = "This is a good day to die.";
-        String pattern = "is";
-        int index = search(text, pattern);
+        String text = "This is a good day to die";
+        String pattern = "die";
+        int index = search(pattern, text);
         StdOut.printf("Index of pattern \"%s\" at: %d", pattern, index);
         StdOut.println();
     }

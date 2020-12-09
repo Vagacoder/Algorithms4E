@@ -40,11 +40,21 @@ public class RabinKarp {
 
     // * Ex 5.3.33
     private long longRandomPrime() {
-        return 0;
+        return 277;
     }
 
-    // * Monte Carlo
-    public boolean check(int i){
+    // * Monte Carlo / Las Vegas
+    public boolean check(int i, String txt){
+        // * Monte Carlo
+        // return true;
+
+        // * Las Vegas
+        for (int j = i; j < i+this.M+1; j++){
+            if (txt.charAt(j) != this.pattern.charAt(j-i)){
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -60,14 +70,14 @@ public class RabinKarp {
     private int search(String txt){
         int N = txt.length();
         long txtHash = hash(txt, this.M);
-        if (this.patHash == txtHash && check(0)){
+        if (this.patHash == txtHash && check(0, txt)){
             return 0;
         }
         for (int i = this.M; i < N; i++){
             txtHash = (txtHash + this.Q - RM * txt.charAt(i-M) % Q) % Q;
             txtHash = (txtHash*R + txt.charAt(i)) % Q;
             if (this.patHash == txtHash){
-                if (check(i-M+1)){
+                if (check(i-M+1, txt)){
                     return i-M+1;
                 }
             }
