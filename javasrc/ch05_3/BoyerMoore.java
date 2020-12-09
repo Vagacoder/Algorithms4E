@@ -54,8 +54,10 @@ public class BoyerMoore {
     }
 
     public static void main(String[] args) {
-        String pattern = "AACAA";
+        // String pattern = "AACAA";
         // String pattern = "ABABAC";
+        // String pattern = "AABAABAABCDACAB";
+        String pattern = "ABRACADABRA";
         String txt = "AAVRAACADABRAACAADABRA";
         BoyerMoore bm = new BoyerMoore(pattern);
         StdOut.println("text:    " + txt);

@@ -1,11 +1,15 @@
 package javasrc.ch05_3;
 
 /*
-* Algorithm 5.6 Knuth-Morris-Pratt substring search. P.768
-* 
-* Proposition N. Knuth-Morris-Pratt substring search accesses no more than M + N 
-* characters to search for a pattern of length M in a text of length N.
-* 
+ * Algorithm 5.6 Knuth-Morris-Pratt substring search. P.768
+ * 
+ * Proposition N. Knuth-Morris-Pratt substring search accesses no more than M + N 
+ * characters to search for a pattern of length M in a text of length N.
+ * 
+ * 5.3.8 Add to KMP a count() method to count occurrences and a searchAll() 
+ * method to print all occurrences.
+ * 
+ * 
 */
 
  import lib.*;
@@ -47,6 +51,23 @@ public class KMP {
         }else{
             return N;
         }
+    }
+
+    public int count(String txt){
+        int count = 0;
+        int N = txt.length();
+        int M = this.pattern.length();
+        int i = 0;
+        int j = 0;
+
+        while (i < N){
+            
+
+
+            i++;
+        }
+
+        return count;
     }
     
     public static void main(String[] args){
