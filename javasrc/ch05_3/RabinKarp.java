@@ -1,5 +1,7 @@
 package javasrc.ch05_3;
 
+import java.util.ArrayList;
+
 /*
  * Algorithm 5.8 Rabin-Karp fingerprint substring search. P.777
  * 
@@ -7,6 +9,8 @@ package javasrc.ch05_3;
  * time and extremely likely to be correct, and the Las Vegas version of Rabin-
  * Karp sub-string search is correct and extremely likely to be linear-time.
  * 
+ * Ex 5.3.10 Add to RabinKarp a count() method to count occurrences and a searchAll()
+ * method to print all occurrences.
  *  
  */
 
@@ -49,7 +53,7 @@ public class RabinKarp {
         // return true;
 
         // * Las Vegas
-        for (int j = i; j < i+this.M+1; j++){
+        for (int j = i; j < i+this.M; j++){
             if (txt.charAt(j) != this.pattern.charAt(j-i)){
                 return false;
             }
@@ -85,7 +89,99 @@ public class RabinKarp {
         return N;
     }
 
-    public static void main(String[] args){
+    // * 5.3.10
+    public int count(String txt){
+        int count = 0;
+        int N = txt.length();
+        long txtHash = hash(txt, this.M);
+        if (this.patHash == txtHash && check(0, txt)){
+            count ++;
+        }
+        for (int i = this.M; i < N; i++){
+            txtHash = (txtHash + this.Q - this.RM * txt.charAt(i-M) % this.Q) % this.Q;
+            txtHash = (txtHash * this.R + txt.charAt(i)) % this.Q;
+            if (this.patHash == txtHash){
+                if (check(i-M+1, txt)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 
+    // * 5.3.10
+    public ArrayList<Integer> searchAll(String txt){
+        ArrayList<Integer> result = new ArrayList<>();
+        int N = txt.length();
+        long txtHash = hash(txt, this.M);
+        if (this.patHash == txtHash && check(0, txt)){
+            result.add(0);
+        }
+        for (int i= this.M; i < N; i++){
+            txtHash = (txtHash + this.Q - this.RM * txt.charAt(i-M) % this.Q) % this.Q;
+            txtHash = (txtHash * this.R + txt.charAt(i)) % this.Q;
+            if (this.patHash == txtHash){
+                if(check(i-M+1, txt)){
+                    result.add(i-M+1);
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args){
+        String pattern = "AACAA";
+        // String pattern = "ABABAC";
+        String txt = "AAVRAACADABRAACAADABRA";
+        RabinKarp rk = new RabinKarp(pattern);
+        StdOut.println("text:    " + txt);
+        int offset = rk.search(txt);
+        StdOut.print("pattern: ");
+        for(int i = 0; i < offset; i++){
+            StdOut.print(" ");
+        }
+        StdOut.println(pattern);
+        StdOut.println();
+
+        txt = "This is a good day to die, a day.";
+        pattern = "a";
+        rk = new RabinKarp(pattern);
+        int occurency = rk.count(txt);
+        StdOut.println(occurency);
+
+        txt = "Nice weekend is joyful.";
+        pattern = "a";
+        rk = new RabinKarp(pattern);
+        occurency = rk.count(txt);
+        StdOut.println(occurency);
+
+        txt = "Wonderful daaaay.";
+        pattern = "a";
+        rk = new RabinKarp(pattern);
+        occurency = rk.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(rk.searchAll(txt));
+
+        pattern = "aa";
+        rk = new RabinKarp(pattern);
+        occurency = rk.count(txt);
+        StdOut.println(occurency);
+
+        pattern = "aaa";
+        rk = new RabinKarp(pattern);
+        occurency = rk.count(txt);
+        StdOut.println(occurency);
+
+        pattern = "aaaa";
+        rk = new RabinKarp(pattern);
+        occurency = rk.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(rk.searchAll(txt));
+
+        pattern = "aaaaa";
+        rk = new RabinKarp(pattern);
+        occurency = rk.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(rk.searchAll(txt));
     }
 }

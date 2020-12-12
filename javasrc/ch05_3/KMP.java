@@ -1,5 +1,7 @@
 package javasrc.ch05_3;
 
+import java.util.ArrayList;
+
 /*
  * Algorithm 5.6 Knuth-Morris-Pratt substring search. P.768
  * 
@@ -53,21 +55,43 @@ public class KMP {
         }
     }
 
+    // * 5.3.8.
     public int count(String txt){
         int count = 0;
-        int N = txt.length();
-        int M = this.pattern.length();
         int i = 0;
         int j = 0;
+        int N = txt.length();
+        int M = this.pattern.length();
 
         while (i < N){
-            
+            j = dfa[txt.charAt(i)][j];
+            if (j == M){
+                count ++;
+                j--;
+            }
+            i++;
+        }
+        return count;
+    }
 
+    // * 5.3.8.
+    public ArrayList<Integer> searchAll(String txt){ 
+        ArrayList<Integer> result = new ArrayList<>();
+        int i = 0;
+        int j = 0;
+        int N = txt.length();
+        int M = this.pattern.length();
 
+        while (i < N){
+            j = dfa[txt.charAt(i)][j];
+            if (j == M){
+                result.add(i-M+1);
+                j--;
+            }
             i++;
         }
 
-        return count;
+        return result;
     }
     
     public static void main(String[] args){
@@ -82,5 +106,47 @@ public class KMP {
             StdOut.print(" ");
         }
         StdOut.println(pattern);
+        StdOut.println();
+
+        txt = "This is a good day to die, a day.";
+        pattern = "a";
+        kmp = new KMP(pattern);
+        int occurency = kmp.count(txt);
+        StdOut.println(occurency);
+
+        txt = "Nice weekend is joyful.";
+        pattern = "a";
+        kmp = new KMP(pattern);
+        occurency = kmp.count(txt);
+        StdOut.println(occurency);
+
+        txt = "Wonderful daaaay.";
+        pattern = "a";
+        kmp = new KMP(pattern);
+        occurency = kmp.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(kmp.searchAll(txt));
+
+        pattern = "aa";
+        kmp = new KMP(pattern);
+        occurency = kmp.count(txt);
+        StdOut.println(occurency);
+
+        pattern = "aaa";
+        kmp = new KMP(pattern);
+        occurency = kmp.count(txt);
+        StdOut.println(occurency);
+
+        pattern = "aaaa";
+        kmp = new KMP(pattern);
+        occurency = kmp.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(kmp.searchAll(txt));
+
+        pattern = "aaaaa";
+        kmp = new KMP(pattern);
+        occurency = kmp.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(kmp.searchAll(txt));
     }
 }

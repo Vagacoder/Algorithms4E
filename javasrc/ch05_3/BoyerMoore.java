@@ -1,12 +1,17 @@
 package javasrc.ch05_3;
 
+import java.util.ArrayList;
+
 /*
  * Algorithm 5.7 Boyer-Moore Substring Search (mismatched character heuristic). P.772
  * 
  * Property O. On typical inputs, substring search with the Boyer-Moore mismatched
  * character heuristic uses ~N/M character compares to search for a pattern of length
  * M in a text of length N.
-
+ * 
+ * Ex 5.3.9 Add to BoyerMoore a count() method to count occurrences and a searchAll()
+ * method to print all occurrences.
+ * 
  */
 
 import lib.*;
@@ -53,6 +58,64 @@ public class BoyerMoore {
         return N;
     }
 
+    // * 5.3.9
+    public int count(String txt){
+        int count = 0;
+        int N = txt.length();
+        int M = this.pattern.length();
+        int i = 0;
+
+        while (i <= N-M){
+            int skip = 0;
+
+            for (int j = M -1; j >=0; j--){
+                if (this.pattern.charAt(j) != txt.charAt(i+j)){
+                    skip = j - right[txt.charAt(i+j)];
+                    if (skip < 1){
+                        skip = 1;
+                    }
+                    break;
+                }
+            }
+            if(skip == 0){
+                count ++;
+                skip = 1;
+            }
+            i += skip;
+        }
+        return count;
+    }
+
+    //  * 5.3.9.
+    public ArrayList<Integer> searchAll(String txt){
+        ArrayList<Integer> result = new ArrayList<>();
+        int N = txt.length();
+        int M = this.pattern.length();
+        int i = 0;
+
+        while (i <= N-M){
+            int skip = 0;
+
+            for (int j = M -1; j >=0; j--){
+                if (txt.charAt(i+j) != this.pattern.charAt(j)){
+                    skip = j - right[txt.charAt(i+j)];
+                    if (skip < 1){
+                        skip = 1;
+                    }
+                    break;
+                }
+            }
+
+            if (skip == 0){
+                result.add(i);
+                skip = 1;
+            }
+            i += skip;
+        }
+        return result;
+    }
+
+
     public static void main(String[] args) {
         // String pattern = "AACAA";
         // String pattern = "ABABAC";
@@ -67,6 +130,49 @@ public class BoyerMoore {
             StdOut.print(" ");
         }
         StdOut.println(pattern);
+        StdOut.println();
+
+        txt = "This is a good day to die, a day.";
+        pattern = "a";
+        bm = new BoyerMoore(pattern);
+        int occurency = bm.count(txt);
+        StdOut.println(occurency);
+
+        txt = "Nice weekend is joyful.";
+        pattern = "a";
+        bm = new BoyerMoore(pattern);
+        occurency = bm.count(txt);
+        StdOut.println(occurency);
+
+        txt = "Wonderful daaaay.";
+        pattern = "a";
+        bm = new BoyerMoore(pattern);
+        occurency = bm.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(bm.searchAll(txt));
+
+        pattern = "aa";
+        bm = new BoyerMoore(pattern);
+        occurency = bm.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(bm.searchAll(txt));
+
+        pattern = "aaa";
+        bm = new BoyerMoore(pattern);
+        occurency = bm.count(txt);
+        StdOut.println(occurency);
+
+        pattern = "aaaa";
+        bm = new BoyerMoore(pattern);
+        occurency = bm.count(txt);
+        StdOut.println(occurency);
+
+        pattern = "aaaaa";
+        bm = new BoyerMoore(pattern);
+        occurency = bm.count(txt);
+        StdOut.println(occurency);
+        StdOut.println(bm.searchAll(txt));
+
     }
 
 }
