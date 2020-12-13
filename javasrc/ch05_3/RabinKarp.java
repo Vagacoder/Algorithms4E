@@ -12,6 +12,10 @@ import java.util.ArrayList;
  * Ex 5.3.10 Add to RabinKarp a count() method to count occurrences and a searchAll()
  * method to print all occurrences.
  *  
+ * Ex 5.3.12 Add the code to check() in RabinKarp (Algorithm 5.8) that turns it 
+ * into a Las Vegas algorithm (check that the pattern matches the text at the 
+ * position given as argument).
+ * 
  */
 
  import lib.*;

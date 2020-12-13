@@ -12,6 +12,13 @@ import java.util.ArrayList;
  * Ex 5.3.9 Add to BoyerMoore a count() method to count occurrences and a searchAll()
  * method to print all occurrences.
  * 
+ * Ex 5.3.11 Construct a worst-case example for the Boyer-Moore implementation in 
+ * Algorithm 5.7 (which demonstrates that it is not linear-time).
+ * 
+ * Ex 5.3.13 In the Boyer-Moore implementation in Algorithm 5.7, show that you 
+ * can set right[c] to the penultimate occurrence of c when c is the last character 
+ * in the pattern.
+ * 
  */
 
 import lib.*;
@@ -173,6 +180,14 @@ public class BoyerMoore {
         StdOut.println(occurency);
         StdOut.println(bm.searchAll(txt));
 
+        // * ex 5.3.11 Worst case
+        txt = "AAAAAAA";
+        pattern = "CAA";
+        bm = new BoyerMoore(pattern);
+        int index = bm.search(txt);
+        StdOut.println("Worst Case:");
+        StdOut.println(index);
     }
+    
 
 }
