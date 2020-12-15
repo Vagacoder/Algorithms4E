@@ -96,7 +96,8 @@ public class KMP {
     
     public static void main(String[] args){
         // String pattern = "AACAA";
-        String pattern = "ABABAC";
+        // String pattern = "ABABAC";
+        String pattern = "ABAABCABAABCB";
         String txt = "AAVRAACADABRAACAADABRA";
         KMP kmp = new KMP(pattern);
         StdOut.println("text:    " + txt);

@@ -19,6 +19,9 @@ import java.util.ArrayList;
  * can set right[c] to the penultimate occurrence of c when c is the last character 
  * in the pattern.
  * 
+ * EX 5.3.19 Construct an example where the Boyer-Moore algorithm (with only the 
+ * mismatched character heuristic) performs poorly.
+ * 
  */
 
 import lib.*;

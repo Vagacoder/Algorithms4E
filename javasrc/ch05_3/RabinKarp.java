@@ -52,7 +52,7 @@ public class RabinKarp {
     }
 
     // * Monte Carlo / Las Vegas
-    public boolean check(int i, String txt){
+    private boolean check(int i, String txt){
         // * Monte Carlo
         // return true;
 
@@ -75,7 +75,7 @@ public class RabinKarp {
         return h;
     }
 
-    private int search(String txt){
+    public int search(String txt){
         int N = txt.length();
         long txtHash = hash(txt, this.M);
         if (this.patHash == txtHash && check(0, txt)){
