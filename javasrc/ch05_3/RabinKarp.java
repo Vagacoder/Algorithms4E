@@ -1,6 +1,8 @@
 package javasrc.ch05_3;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Random;
 
 /*
  * Algorithm 5.8 Rabin-Karp fingerprint substring search. P.777
@@ -48,7 +50,8 @@ public class RabinKarp {
 
     // * Ex 5.3.33
     private long longRandomPrime() {
-        return 277;
+        BigInteger prime = BigInteger.probablePrime(31, new Random());
+        return prime.longValue();
     }
 
     // * Monte Carlo / Las Vegas

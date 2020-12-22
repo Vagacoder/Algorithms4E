@@ -1,6 +1,5 @@
 package javasrc.ch05_3;
 
-
 /*
 * Ex 5.3.20 How would you modify the Rabin-Karp algorithm to determine whether 
 * any of a subset of k patterns (say, all of the same length) is in the text?
@@ -9,8 +8,11 @@ package javasrc.ch05_3;
 * 
 */
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
+
 import lib.*;
 
 
@@ -55,7 +57,8 @@ public class RabinKarpPlus {
 
 
     private long longRandomPrime(){
-        return 277;
+        BigInteger prime = BigInteger.probablePrime(31, new Random());
+        return prime.longValue();
     }
 
     private long hash(String key, int M){
