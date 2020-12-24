@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
  * Algorithm 5.8 Rabin-Karp fingerprint substring search. P.777
  * 
@@ -17,6 +19,10 @@ import java.util.Random;
  * Ex 5.3.12 Add the code to check() in RabinKarp (Algorithm 5.8) that turns it 
  * into a Las Vegas algorithm (check that the pattern matches the text at the 
  * position given as argument).
+ * 
+ * Ex 5.3.24 Find all occurrences. Add a method findAll() to each of the four 
+ * substring search algorithms given in the text that returns an Iterable<Integer> 
+ * that allows clients to iterate through all offsets of the pattern in the text.
  * 
  */
 
@@ -130,6 +136,27 @@ public class RabinKarp {
             if (this.patHash == txtHash){
                 if(check(i-M+1, txt)){
                     result.add(i-M+1);
+                }
+            }
+        }
+        return result;
+    }
+
+    // * 5.3.24
+    public Iterable<Integer> findAll(String txt){
+        LinkedListQueue<Integer> result = new LinkedListQueue<>();
+        int n = txt.length();
+        long txtHash = this.hash(txt, this.M);
+        if (this.patHash == txtHash && check(0, txt)){
+            result.enqueue(0);
+        }
+
+        for(int i = this.M; i < n; i++){
+            txtHash = (txtHash + this.Q - this.RM * txt.charAt(i-M)% this.Q) % this.Q;
+            txtHash = (txtHash * this.R + txt.charAt(i)) % this.Q;
+            if (this.patHash == txtHash){
+                if(check(i-M+1, txt)){
+                    result.enqueue(i-M+1);
                 }
             }
         }

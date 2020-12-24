@@ -2,11 +2,18 @@ package javasrc.ch05_3;
 
 import java.util.ArrayList;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
  * Brute-force substring search. P.760 and P.761
  * 
- * eX 5.3.7 Add to our brute-force implementation of substring search a count() 
+ * Ex 5.3.7 Add to our brute-force implementation of substring search a count() 
  * method to count occurrences and a searchAll() method to print all occurrences.
+ * 
+ * Ex 5.3.24 Find all occurrences. Add a method findAll() to each of the four 
+ * substring search algorithms given in the text that returns an Iterable<Integer> 
+ * that allows clients to iterate through all offsets of the pattern in the text.
+ * 
  * 
  */
 
@@ -54,17 +61,17 @@ public class BruteForce {
         }
     }
 
-    // * 5.3.7 
-    public static int count(String pattern, String txt){
+    // * 5.3.7
+    public static int count(String pattern, String txt) {
         int N = txt.length();
         int M = pattern.length();
         int count = 0;
 
-        for (int i = 0; i <= N-M; i++){
+        for (int i = 0; i <= N - M; i++) {
             int j = 0;
-            while (txt.charAt(i+j) == pattern.charAt(j)){
+            while (txt.charAt(i + j) == pattern.charAt(j)) {
                 j++;
-                if (j==M){
+                if (j == M) {
                     count++;
                     break;
                 }
@@ -75,24 +82,43 @@ public class BruteForce {
     }
 
     // * 5.3.7
-    public static ArrayList<Integer> searchAll(String pattern, String txt){
+    public static ArrayList<Integer> searchAll(String pattern, String txt) {
         int N = txt.length();
         int M = pattern.length();
         ArrayList<Integer> indices = new ArrayList<>();
 
-        for (int i = 0; i <= N-M; i++){
+        for (int i = 0; i <= N - M; i++) {
             int j = 0;
-            while (txt.charAt(i+j) == pattern.charAt(j)){
+            while (txt.charAt(i + j) == pattern.charAt(j)) {
                 j++;
-                if (j==M){
-                    StdOut.println(txt.substring(i, i+M));
+                if (j == M) {
+                    StdOut.println(txt.substring(i, i + M));
                     indices.add(i);
                     break;
                 }
             }
         }
-        
+
         return indices;
+    }
+
+    // * 5.3.24
+    public static Iterable<Integer> findAll(String pattern, String txt) {
+        LinkedListQueue<Integer> result = new LinkedListQueue<>();
+        int n = txt.length();
+        int m = pattern.length();
+
+        for (int i = 0; i <= n - m; i++) {
+            int j = 0;
+            while (txt.charAt(i + j) == pattern.charAt(j)) {
+                j++;
+                if (j == m) {
+                    result.enqueue(i);
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     public static void main(String[] args) {
@@ -122,6 +148,10 @@ public class BruteForce {
         pattern = "re";
         StdOut.println(searchAll(pattern, text));
 
+        for (int i: findAll(pattern, text)){
+            StdOut.printf("index: %d, ", i);
+        }
+        StdOut.println();
 
     }
 

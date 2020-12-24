@@ -2,14 +2,24 @@ package javasrc.ch05_3;
 
 import java.util.ArrayList;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
  * Algorithm 5.6 Knuth-Morris-Pratt substring search. P.768
  * 
  * Proposition N. Knuth-Morris-Pratt substring search accesses no more than M + N 
  * characters to search for a pattern of length M in a text of length N.
  * 
- * 5.3.8 Add to KMP a count() method to count occurrences and a searchAll() 
+ * Ex 5.3.8 Add to KMP a count() method to count occurrences and a searchAll() 
  * method to print all occurrences.
+ * 
+ * Ex 5.3.24 Find all occurrences. Add a method findAll() to each of the four 
+ * substring search algorithms given in the text that returns an Iterable<Integer> 
+ * that allows clients to iterate through all offsets of the pattern in the text.
+ * 
+ * Ex 5.3.25 Streaming. Add a search() method to KMP that takes variable of type 
+ * In as argument, and searches for the pattern in the specified input stream 
+ * without using any extra instance variables. Then do the same for RabinKarp.
  * 
  * 
 */
@@ -55,6 +65,13 @@ public class KMP {
         }
     }
 
+    // * 5.3.25
+    public int search(In in){
+        // TODO
+
+        return -1;
+    }
+
     // * 5.3.8.
     public int count(String txt){
         int count = 0;
@@ -91,6 +108,25 @@ public class KMP {
             i++;
         }
 
+        return result;
+    }
+
+    // * Ex 5.3.24
+    public Iterable<Integer> findAll(String txt){
+        LinkedListQueue<Integer> result = new LinkedListQueue<>();
+        int n = txt.length();
+        int m = this.pattern.length();
+        int i = 0;
+        int j = 0;
+
+        while (i < n) {
+            j = this.dfa[txt.charAt(i)][j];
+            if (j == m){
+                result.enqueue(i-m+1);
+                j--;
+            }
+            i++;
+        }
         return result;
     }
     

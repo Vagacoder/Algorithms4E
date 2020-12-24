@@ -2,6 +2,8 @@ package javasrc.ch05_3;
 
 import java.util.ArrayList;
 
+import javasrc.ch01_3.LinkedListQueue;
+
 /*
  * Algorithm 5.7 Boyer-Moore Substring Search (mismatched character heuristic). P.772
  * 
@@ -21,6 +23,11 @@ import java.util.ArrayList;
  * 
  * EX 5.3.19 Construct an example where the Boyer-Moore algorithm (with only the 
  * mismatched character heuristic) performs poorly.
+ * 
+ * Ex 5.3.24 Find all occurrences. Add a method findAll() to each of the four 
+ * substring search algorithms given in the text that returns an Iterable<Integer> 
+ * that allows clients to iterate through all offsets of the pattern in the text.
+ * 
  * 
  */
 
@@ -125,6 +132,33 @@ public class BoyerMoore {
         return result;
     }
 
+    // * 5.3.24
+    public Iterable<Integer> findAll(String txt){
+        LinkedListQueue<Integer> result = new LinkedListQueue<>();
+        int n = txt.length();
+        int m = this.pattern.length();
+        int i = 0;
+
+        while (i <= n-m){
+            int skip = 0;
+
+            for(int j = m-1; j >= 0; j--){
+                if(txt.charAt(i+j) != this.pattern.charAt(j)){
+                    skip = j - this.right[txt.charAt(i+j)];
+                    if (skip < 1){
+                        skip = 1;
+                    }
+                    break;
+                }
+            }
+            if (skip == 0){
+                result.enqueue(i);;
+                skip = 1;
+            }
+            i += skip;
+        }
+        return result;
+    }
 
     public static void main(String[] args) {
         // String pattern = "AACAA";
@@ -160,6 +194,10 @@ public class BoyerMoore {
         occurency = bm.count(txt);
         StdOut.println(occurency);
         StdOut.println(bm.searchAll(txt));
+        for (int i : bm.findAll(txt)){
+            StdOut.printf("index: %d ", i);
+        }
+        StdOut.println();
 
         pattern = "aa";
         bm = new BoyerMoore(pattern);

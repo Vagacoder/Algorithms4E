@@ -43,9 +43,9 @@ public class Palindrome {
     }
 
     public static long longRandomPrime(){
-        // BigInteger prime = BigInteger.probablePrime(31, new Random());
-        // return prime.longValue();
-        return 277;
+        BigInteger prime = BigInteger.probablePrime(31, new Random());
+        return prime.longValue();
+        // return 277;
     }
 
 
