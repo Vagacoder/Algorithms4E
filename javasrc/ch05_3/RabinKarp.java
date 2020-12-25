@@ -24,6 +24,10 @@ import javasrc.ch01_3.LinkedListQueue;
  * substring search algorithms given in the text that returns an Iterable<Integer> 
  * that allows clients to iterate through all offsets of the pattern in the text.
  * 
+ * Ex 5.3.25 Streaming. Add a search() method to KMP that takes variable of type 
+ * In as argument, and searches for the pattern in the specified input stream 
+ * without using any extra instance variables. Then do the same for RabinKarp.
+ * 
  */
 
  import lib.*;
@@ -100,6 +104,32 @@ public class RabinKarp {
             }
         }
         return N;
+    }
+
+    // * 5.3.25
+    public int search(In in){
+        int count = 0;
+        int m = this.pattern.length();
+        long txtHash = 0;
+        LinkedListQueue<Character> buffer = new LinkedListQueue<>();
+
+        while (!in.isEmpty()){
+            char curChar = in.readChar();
+            count ++;
+            buffer.enqueue(curChar);
+
+            if (count <= m){
+                txtHash = (txtHash*R + curChar) % Q;
+            }else{
+                char preChar = buffer.dequeue();
+                txtHash = (txtHash + this.Q - RM * preChar % Q) % Q;
+                txtHash = (txtHash*R + curChar) % Q;
+            }
+            if (this.patHash == txtHash){
+                return count-m+1;
+            }
+        }
+        return -1;
     }
 
     // * 5.3.10

@@ -67,8 +67,18 @@ public class KMP {
 
     // * 5.3.25
     public int search(In in){
-        // TODO
+        int count = 0;
+        int m = this.pattern.length();
+        int j = 0;
 
+        while (!in.isEmpty()){
+            char curChar = in.readChar();
+            count ++;
+            j = dfa[curChar][j];
+            if (j == m){
+                return count - m;
+            }
+        }
         return -1;
     }
 
