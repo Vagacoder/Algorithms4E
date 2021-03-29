@@ -2,6 +2,10 @@ package javasrc.ch05_4;
 
 /*
  * Algorithm 5.9 Regular Expression Pattern Matching (grep). P.802 and P.799
+ * 
+ * Proposition R. Building the NFA corresponding to an M-character RE takes time 
+ * and space proportional to M in the worst case.
+ * 
  */
 
 import javasrc.ch01_3.LinkedListBag;
@@ -27,7 +31,8 @@ public class NFA {
         this.G = new Digraph(M+1);
 
         for (int i = 0; i < M; i++){
-            // * left parenthesis
+            // * Or expression P. 801
+            // * left pointer
             int lp = i;
             if (this.regexp[i] == '(' || this.regexp[i] == '|'){
                 ops.push(i);
@@ -45,6 +50,7 @@ public class NFA {
                 }
             }
 
+            // * Closure
             // * closure operator (uses 1-character lookahead)
             if (i < M-1 && this.regexp[i+1] == '*') {
                 this.G.addEdge(lp, i+1);
