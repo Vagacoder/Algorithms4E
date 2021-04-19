@@ -3,6 +3,10 @@ package javasrc.ch05_4;
 /*
  * Algorithm 5.9 Regular Expression Pattern Matching (grep). P.802 and P.799
  * 
+ * Proposition Q. Determining whether an N-character text string is recognized by 
+ * the NFA corresponding to an M-character RE takes time proportional to NM in 
+ * the worst case.
+ * 
  * Proposition R. Building the NFA corresponding to an M-character RE takes time 
  * and space proportional to M in the worst case.
  * 
@@ -67,6 +71,7 @@ public class NFA {
 
     public boolean recognizes(String txt){
         LinkedListBag<Integer> pc = new LinkedListBag<>();
+        // ! this.G contains edeges of empty-transition, not match transition
         DirectedDFS dfs = new DirectedDFS(this.G, 0);
         for (int v = 0; v < this.G.V(); v++){
             if (dfs.marked(v)){
@@ -118,8 +123,10 @@ public class NFA {
     }
 
     public static void main(String[] args){
-        String regexp = "(" + args[0] + ")";
-        String txt = args[1];
+        // String regexp = "(" + args[0] + ")";
+        String regexp = "((A*B|AC)D)";
+        // String txt = args[1];
+        String txt = "AABD";
         NFA nfa = new NFA(regexp);
         StdOut.println(nfa.recognizes(txt));
     }

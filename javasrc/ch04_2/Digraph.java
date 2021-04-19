@@ -74,7 +74,7 @@ public class Digraph {
     public void addEdge(int v, int w) {
         adj[v].add(w);
         this.indegree[w]++;
-        E++;
+        this.E++;
     }
 
     // * 4.2.5

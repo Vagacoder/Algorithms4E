@@ -161,3 +161,14 @@ Where :0 would mean the first X server running. If you are running several X ser
     1. Better Comments: very nice colorized comments, all my comments are based on it.
     2. Bracket Pair Colorizer: help to identify bracket pairs.
      
+#### 2021-04-18
+11. New cloned repositary cannot start running/debugging
+For newly cloned repositary, pressing F5 to start running/debugging may get an error:
+`Error: Could not find or load main class XXX`
+`Caused by: java.lang.ClassNotFoundException: XXX`
+
+To fix it, add the line below to `.vscode/settings.json`, create the file/folder if it does not exist:
+
+    `{ "java.project.sourcePaths": ["./"] }`
+
+
