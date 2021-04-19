@@ -56,10 +56,13 @@ public class NFA {
 
             // * Closure
             // * closure operator (uses 1-character lookahead)
+            // * single-character closure: lp = i; closure expression: lp = or 
             if (i < M-1 && this.regexp[i+1] == '*') {
                 this.G.addEdge(lp, i+1);
                 this.G.addEdge(i+1, lp);
             }
+
+            // * for '(', '*', ')', there is always red transition to next
             if (this.regexp[i] == '(' || this.regexp[i] == '*' || this.regexp[i] == ')'){
                 this.G.addEdge(i, i+1);
             }
