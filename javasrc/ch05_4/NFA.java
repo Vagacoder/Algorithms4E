@@ -36,7 +36,7 @@ public class NFA {
 
         for (int i = 0; i < M; i++){
             // * Or expression P. 801
-            // * left pointer
+            // * left parenthesis
             int lp = i;
             if (this.regexp[i] == '(' || this.regexp[i] == '|'){
                 ops.push(i);
@@ -74,7 +74,7 @@ public class NFA {
 
     public boolean recognizes(String txt){
         LinkedListBag<Integer> pc = new LinkedListBag<>();
-        // ! this.G contains edeges of empty-transition, not match transition
+        // ! this.G contains only edeges of empty-transition, no any match transitions
         DirectedDFS dfs = new DirectedDFS(this.G, 0);
         for (int v = 0; v < this.G.V(); v++){
             if (dfs.marked(v)){
@@ -127,7 +127,9 @@ public class NFA {
 
     public static void main(String[] args){
         // String regexp = "(" + args[0] + ")";
-        String regexp = "((A*B|AC)D)";
+        // String regexp = "((A*B|AC)D)";
+        // String regexp = "(A|BC|D)";
+        String regexp = "((((A|B)*|CD*|EFG)*)*)";
         // String txt = args[1];
         String txt = "AABD";
         NFA nfa = new NFA(regexp);
