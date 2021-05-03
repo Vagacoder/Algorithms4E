@@ -21,9 +21,9 @@ public class GREPmatch {
         // StdOut.println("Please enter regex pattern: ");
         // String input = StdIn.readLine();
 
-        String input = "(A|B)(C|D)";
-        // String input = "A(B|C)*D)";
-        // String input = "(A*B|AC)D)";
+        // String input = "(A|B)(C|D)";
+        // String input = "A(B|C)*D";
+        String input = "(A*B|AC)D";
 
         String regexp = "(" + input + ")";
         NFA nfa = new NFA(regexp);
@@ -35,7 +35,7 @@ public class GREPmatch {
         //     }
         // }
 
-        String filename = "";
+        String filename = "data/tinyL.txt";
         File file = new File(filename);
         In in = new In(file);
         while (!in.isEmpty()){
