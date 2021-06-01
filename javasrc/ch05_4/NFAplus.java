@@ -1,15 +1,14 @@
 package javasrc.ch05_4;
 
 /*
- * Algorithm 5.9 Regular Expression Pattern Matching (grep). P.802 and P.799
+ ! This class is copied from NFA.java 
  * 
- * Proposition Q. Determining whether an N-character text string is recognized by 
- * the NFA corresponding to an M-character RE takes time proportional to NM in 
- * the worst case.
+ * 5.4.16 Multiway or. Add multiway or to NFA. Your code should produce the machine
+ * drawn below for the pattern ( . * A B ( ( C | D | E ) F ) * G ) .
  * 
- * Proposition R. Building the NFA corresponding to an M-character RE takes time 
- * and space proportional to M in the worst case.
+ * 5.4.17 Wildcard. Add to NFA the capability to handle wildcards.
  * 
+ * 5.4.18 One or more. Add to NFA the capability to handle the + closure operator.
  */
 
 import javasrc.ch01_3.LinkedListBag;
@@ -19,7 +18,7 @@ import javasrc.ch04_2.DirectedDFS;
 import lib.StdOut;
 
 
-public class NFA {
+public class NFAplus {
 
     // * Match transistions
     private char[] regexp;
@@ -28,29 +27,34 @@ public class NFA {
     // * number of states
     private int M;
 
-    public NFA(String regexp){
+    public NFAplus(String regexp){
         LinkedListStack<Integer> ops = new LinkedListStack<>();
         this.regexp = regexp.toCharArray();
         this.M = regexp.length();
         this.G = new Digraph(M+1);
 
         for (int i = 0; i < M; i++){
-            // * Or expression P. 801
+            // ! Ex 5.4.16 (P. 808), multiple ors
             // * left parenthesis
             int lp = i;
             if (this.regexp[i] == '(' || this.regexp[i] == '|'){
                 ops.push(i);
             } else if (this.regexp[i] == ')'){
+                LinkedListStack<Integer> ors = new LinkedListStack<>();
                 int or = ops.pop();
-                // * 2-way or operator
-                if (this.regexp[or] == '|'){
-                    lp = ops.pop();
-                    this.G.addEdge(lp, or + 1);
+                while (this.regexp[or] != '('){
+                    if (this.regexp[or] == '|'){
+                        ors.push(or);
+                        or = ops.pop();
+                    }else {
+                        assert false;
+                    }
+                }
+                lp = or;
+                while (!ors.isEmpty()){
+                    or = ors.pop();
+                    this.G.addEdge(lp, or+1);
                     this.G.addEdge(or, i);
-                } else if (this.regexp[or] == '('){
-                    lp = or;
-                } else {
-                    assert false;
                 }
             }
 
@@ -127,16 +131,21 @@ public class NFA {
 
     public static void main(String[] args){
         // String regexp = "(" + args[0] + ")";
-        String regexp = "((A*B|AC)D)";
+        // String regexp = "((A*B|AC)D)";
 
-        // ! these two below are using multiway or, see Ex. 5.4.16 (P.808)
-        // ! see
+        // ! these below are using multiway or, for Ex. 5.4.16 (P.808)
         // String regexp = "(A|BC|D)";
+        // String regexp = "(A|AB|D|AABD)";
+        // String regexp = "((A|B|AA|AB)(B|E|F)(C|D|E|F|G))";
+        // String regexp = "((A|B|AA|AB)(|E|F)(C|D|E|F|G))";
         // String regexp = "((((A|B)*|CD*|EFG)*)*)";
+        String regexp = "(.*AB((C|D|E)F)*G)";
 
         // String txt = args[1];
-        String txt = "AABD";
-        NFA nfa = new NFA(regexp);
+        // String txt = "AABD";
+        // String txt = "1123ABCFDFEFG";
+        String txt = "1ABCFDEFG";
+        NFAplus nfa = new NFAplus(regexp);
         StdOut.println(nfa.recognizes(txt));
     }
 }
