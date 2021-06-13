@@ -16,11 +16,12 @@ public class BinaryDump {
         if (args.length > 0){
             width = Integer.parseInt(args[0]);
         }else {
-            width = 10;
+            width = 16;
         }
         int count;
         for (count = 0; !BinaryStdIn.isEmpty(); count++){
             if (width == 0){
+                BinaryStdIn.readBoolean();
                 continue;
             }
             if (count != 0 && count % width == 0){
