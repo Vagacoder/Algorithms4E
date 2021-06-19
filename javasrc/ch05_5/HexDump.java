@@ -1,7 +1,5 @@
 package javasrc.ch05_5;
 
-import edu.princeton.cs.algs4.StdOut;
-
 /*
  * Hex Dump. 
  * 
