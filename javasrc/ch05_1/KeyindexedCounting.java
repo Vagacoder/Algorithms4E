@@ -3,7 +3,9 @@ package javasrc.ch05_1;
 /*
  * Key-indexed counting. P.703
  * 
- * 
+ * Proposition A. Key-indexed counting uses 11N + 4R + 1 array accesses to stably 
+ * sort N items whose keys are integers between 0 and R - 1.
+ *
  */
 
 import lib.*;

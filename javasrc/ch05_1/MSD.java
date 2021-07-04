@@ -34,8 +34,6 @@ package javasrc.ch05_1;
 
 */
 
-import javasrc.ch02_1.Insertion;
-import javasrc.ch02_1.InsertionRange;
 import lib.*;
 
 public class MSD {
@@ -74,9 +72,9 @@ public class MSD {
         sort(a, 0, N - 1, 0);
     }
 
-    // * recursive helper, sort from a[low] to a[high], starting at the dth
-    // character
+    // * recursive helper, sort from a[low] to a[high], starting at the dth character
     private static void sort(String[] a, int low, int high, int d) {
+        // ! base case for recursive calling
         if (high <= low + M) {
             insertionSort(a, low, high, d);
             return;
@@ -84,7 +82,6 @@ public class MSD {
 
         // * Compute frequency counts
         int[] count = new int[R + 2];
-
         for (int i = low; i <= high; i++) {
             count[charAt(a[i], d) + 2]++;
             
