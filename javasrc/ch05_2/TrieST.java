@@ -165,6 +165,7 @@ public class TrieST<Value> {
 
         char next = pat.charAt(d);
         for (char c = 0; c < R; c++) {
+            // * Wildcard match
             if (next == '.' || next == c) {
                 collect(x.next[c], pre + c, pat, q);
             }

@@ -58,9 +58,12 @@ public class KMP {
             j = dfa[txt.charAt(i)][j];
         }
 
+        // * Found
         if (j == M){
             return i - M;
-        }else{
+        }
+        // * Not found
+        else{
             return N;
         }
     }
